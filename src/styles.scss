@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+@import "assets/scss/variables";
+@import "assets/scss/mixins";
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "~font-awesome/css/font-awesome.min.css";
+@import "assets/scss/logo";
+@import "assets/scss/header";
+
+.results{
+  color: $primary;
+  font-size: 1rem;
+}

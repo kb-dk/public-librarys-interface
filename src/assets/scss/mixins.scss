@@ -1,0 +1,128 @@
+/*------------------------------------*\
+    $MIXINS
+\*------------------------------------*/
+
+/* CSS Transition
+	Usage: @include transition(width,0.3s,ease-out);
+ */
+@mixin transition($transition-property, $transition-time, $method) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+
+
+
+@function deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+
+@mixin theme($theme-map) {
+  /*------------------------------------*\
+        Header, hero and mobile nav background
+    \*------------------------------------*/
+  .header-bg-wrapper.theme-bg {
+    background-color: map-get($theme-map, 'primary');
+  }
+
+  @include media-breakpoint-up(lg) {
+    .subpage-header-elements.theme-bg {
+      background-color: map-get($theme-map, 'primary');
+    }
+  }
+
+  .rdl-primary-nav {
+    background-color: map-get($theme-map, 'primary');
+  }
+  .rdl-secondary-nav {
+    background-color: map-get($theme-map, 'secondary');
+  }
+
+  @include media-breakpoint-up(lg) {
+    .rdl-primary-nav,
+    .rdl-secondary-nav {
+      background-color: transparent;
+    }
+  }
+
+
+
+  .header-edge {
+    border-left: 100vw solid map-get($theme-map, 'primary');
+  }
+  .dropdown-edge {
+    border-right: 100vw solid map-get($theme-map, 'primary');
+  }
+  .rdl-left-navigation[data-type="sub-nav"] {
+    background-color: map-get($theme-map, 'primary');
+    #subItems-3.show::after {
+      border-right: 100vw solid map-get($theme-map, 'primary');
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    .rdl-primary-nav::after {
+      border-right: none;
+    }
+    .rdl-secondary-nav::after {
+      border-right: none;
+    }
+    .rdl-left-navigation[data-type="sub-nav"] {
+      background-color: transparent;
+      &::after {
+        border-right: none;
+      }
+    }
+  }
+
+
+  /*------------------------------------*\
+        Blockquote left border
+    \*------------------------------------*/
+  blockquote {
+    &:before {
+      background-color: map-get($theme-map, 'primary');
+    }
+  }
+
+  /*------------------------------------*\
+        Focus spots w. background color
+    \*------------------------------------*/
+  .theme-bg {
+    background-color: map-get($theme-map, 'tertiary');
+  }
+
+
+  /*------------------------------------*\
+        Full width containers
+    \*------------------------------------*/
+  .container-fluid.theme-bg {
+    background-color: map-get($theme-map, 'primary');
+  }
+  .container-fluid.theme-bg-dark {
+    background-color: $primary;
+  }
+
+
+
+
+
+  /*------------------------------------*\
+        Subsites
+    \*------------------------------------*/
+  &.subsite {
+    .header-edge {
+      border-left: 100vw solid $primary;
+    }
+    @include media-breakpoint-up(lg) {
+      .subpage-header-elements.theme-bg {
+        background-color: $primary;
+      }
+    }
+  }
+}

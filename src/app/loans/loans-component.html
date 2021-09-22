@@ -1,0 +1,60 @@
+<div class="container mt-5">
+  <div class='card-body'>
+
+    <div class='row'>
+      <div class="col-md-2">
+        <label for="status">Filter by Lending Request Status: </label>
+      </div>
+      <div class="col-md-4">
+        <select name="status" [(ngModel)]="status" id="status">
+          <option value="All" selected="selected">Alt</option>
+          <option value="Overdue request">Overdue request</option>
+          <option value="Received by partner">Received by partner</option>
+          <option value="Shipped Physically">Shipped Physically</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class='col-md-2'>Søg:</div>
+      <div class='col-md-4'>
+        <input type='text'
+               [(ngModel)]='searchTerm'/>
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-2 results">
+        {{ filteredLoans.length }} Resultater
+      </div>
+    </div>
+
+    <div class='table-responsive mt-5'>
+      <table class='table' *ngIf="filteredAndSearchedLoans.length">
+        <thead>
+        <tr>
+          <th>item barcode</th>
+          <th>title</th>
+          <th>material type</th>
+          <th>lending creation date</th>
+          <th>lending request status</th>
+          <th>link til Primo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let loan of filteredAndSearchedLoans'>
+          <td>{{ loan.ItemBarcode }}</td>
+          <td>{{ loan.Title }}</td>
+          <td>{{ loan.MaterialType }}</td>
+          <td>{{ loan.LendingCreationDate }}</td>
+          <td>{{ loan.LendingRequestStatus}}</td>
+          <td>
+            <a *ngIf="loan.hasOwnProperty('MmsID')" target="_blank"
+               href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>Link
+              to Primo</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

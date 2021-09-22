@@ -1,0 +1,22 @@
+export interface ILoan {
+  LibraryCode: string,
+  PartnerCode: string,
+  ExternalRequestId: string,
+  Author: string | null,
+  LendingCreationDate: string,
+  ActualShippedFormat: string | null,
+  InternalId: string,
+  ItemBarcode: string | null,
+  MmsID: string | null,
+  ItemSentDate: string | null,
+  LendingRequestStatus: string,
+  LocateStatus: string,
+  MaterialType: string,
+  ModificationDate: string,
+  NeededByDate: string | null,
+  ItemReturnDate: string | null,
+  Note: string | null,
+  ISBN: string | null,
+  OverdueSentDate: string | null,
+  Title:string
+}
