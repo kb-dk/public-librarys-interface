@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 
 @Component({
-  selector: 'bci-root',
+  selector: 'public-librarys-interface-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
