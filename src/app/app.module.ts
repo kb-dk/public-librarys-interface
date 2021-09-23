@@ -6,6 +6,7 @@ import { LoansComponent } from "./loans/loans-component";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,14 @@ import { LoginComponent } from './login/login.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot([
+      { path: 'loans', component: LoansComponent },
+      // { path: 'loans/:id', component: LoanDetailComponent },
+      { path: 'login', component: LoginComponent },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      // { path: '**', redirectTo: 'notFoundComponent', pathMatch: 'full' }
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
