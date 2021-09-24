@@ -1,8 +1,12 @@
+<h2 class="row mt-2 mb-4">
+  {{ libraryName }}
+</h2>
 <div class='row'>
-  <div class="col-md-2">
+  <div class="col-md-6"></div>
+  <div class="col-md-3 text-end">
     <label for="status">Filter by Lending Request Status: </label>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <select name="status" [(ngModel)]="status" id="status">
       <option value="All" selected="selected">Alt</option>
       <option *ngFor="let option of allStatuses" [value]=option>{{ option }}</option>
@@ -11,15 +15,16 @@
 </div>
 
 <div class="row mt-3">
-  <div class='col-md-2'>Søg:</div>
-  <div class='col-md-4'>
-    <input type='text'
-           [(ngModel)]='searchTerm'/>
-  </div>
-  <div class="col-md-4"></div>
   <div class="col-md-2 results">
     {{ filteredAndSearchedLoans.length }} Resultater
   </div>
+  <div class="col-md-4"></div>
+  <div class='col-md-3 text-end'>Søg:</div>
+  <div class='col-md-3'>
+    <input class="searchTerm" type='text'
+           [(ngModel)]='searchTerm'/>
+  </div>
+
 </div>
 
 <div class='table-responsive mt-5'>
