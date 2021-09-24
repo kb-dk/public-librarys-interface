@@ -55,7 +55,7 @@ export class LoansComponent implements OnInit, OnDestroy {
     if (searchTerm === '') {
       return this.filteredLoans;
     } else {
-      return this.filteredLoans.filter((loan: ILoan) => Object.values(loan).join(',').indexOf(searchTerm) > -1);
+      return this.filteredLoans.filter((loan: ILoan) => Object.values(loan).join(',').toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1);
     }
   }
 
