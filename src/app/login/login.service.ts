@@ -14,7 +14,6 @@ export class LoginService {
     let loginUrl = 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/checkCreds?libraryNumber='+libraryNumber+'&postcode='+postcode;
     const headers = new HttpHeaders({'Content-Type':'text/plain; charset=utf-8'});
     return this.http.get(loginUrl, {headers: headers, responseType: 'text'}).pipe(
-      tap(data => console.log('All: ', typeof data)),
       catchError(this.handleError)
     );
   }
