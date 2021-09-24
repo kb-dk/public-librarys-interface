@@ -1,18 +1,19 @@
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
-import { catchError, tap } from 'rxjs/operators';
+import {Injectable} from "@angular/core";
+import {Observable, throwError} from "rxjs";
+import {catchError, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  validate(libraryNumber:string, postcode:string) {
-    let loginUrl = 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/checkCreds?libraryNumber='+libraryNumber+'&postcode='+postcode;
-    const headers = new HttpHeaders({'Content-Type':'text/plain; charset=utf-8'});
+  validate(libraryNumber: string, postcode: string) {
+    let loginUrl = 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/checkCreds?libraryNumber=' + libraryNumber + '&postcode=' + postcode;
+    const headers = new HttpHeaders({'Content-Type': 'text/plain; charset=utf-8'});
     return this.http.get(loginUrl, {headers: headers, responseType: 'text'}).pipe(
       catchError(this.handleError)
     );

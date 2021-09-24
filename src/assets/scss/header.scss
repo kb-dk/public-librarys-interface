@@ -1,12 +1,15 @@
 #a11yNav {
   position: absolute;
+
   ul {
     margin: 0;
   }
+
   a {
     display: inline-block;
   }
 }
+
 .global-header {
   display: flex;
   flex-direction: column;
@@ -125,15 +128,18 @@
       border: none;
       background: transparent;
       border-bottom: 2px solid transparent;
+
       &:hover {
         border-bottom: 2px solid $primary;
         transition: border-bottom-color 0.3s ease-in-out;
       }
+
       .material-icons {
         font-size: 1rem;
         padding-left: 4px;
         align-self: center;
       }
+
       &[aria-expanded=true] {
         font-family: 'nowaymedium', sans-serif;
       }
@@ -161,6 +167,7 @@
     .search-button {
       font-size: 1.25rem;
       height: 31px;
+
       .material-icons {
         font-size: 1.25rem;
       }
@@ -173,7 +180,6 @@
     }
   }
 }
-
 
 
 // white columns background for content in header (content is pulled up)
@@ -202,15 +208,18 @@
   padding-top: 8px;
   background: linear-gradient(180deg, #CAF0FE 36px, #002E70 36px, #002E70 107px, #CAF0FE 107px);
 }
+
 .subsite .global-header .logo {
   height: 22px;
   width: 96px;
 }
+
 @media (min-width: 990px) {
   .subsite .global-header .logo {
     background-image: url("../../assets/images/logo-digital.svg");
   }
 }
+
 .subsite .global-header .subsite-logo {
   color: white;
   text-decoration: none;
@@ -219,30 +228,38 @@
   margin-top: 4px;
   margin-bottom: 10px;
 }
+
 .subsite .global-header h1 {
   font-size: calc(1rem + 1vw);
   line-height: calc(1.5rem + 1vw);
   margin-top: 12px;
 }
+
 .subsite .global-header .search-col, .subsite .global-header .burger-col {
   align-self: flex-end;
 }
+
 .subsite .global-header .search-button {
   color: white;
 }
+
 .subsite .global-header .btn.burger,
 .subsite .global-header .search-button {
   margin-bottom: 4px;
 }
+
 .subsite .global-header .rdl-main-search {
   padding: 56px 0 0;
 }
+
 .subsite .global-header .rdl-main-search + .dropdown-edge {
   border-right-color: #CAF0FE;
 }
+
 .subsite .global-header .header-edge {
   border-left: 100vw solid #002E70;
 }
+
 @media (min-width: 990px) {
   .subsite .global-header .header-bg-wrapper.theme-bg {
     background: linear-gradient(180deg, #CAF0FE 36px, #002E70 36px);
@@ -274,6 +291,7 @@
     line-height: 3rem;
   }
 }
+
 @media (min-width: 1150px) {
   .subsite .global-header .subsite-logo {
     margin-top: 24px;
@@ -304,9 +322,11 @@
 .subsite .burger {
   color: white;
 }
+
 .subsite .burger .line {
   background-color: white;
 }
+
 .subsite .burger:hover {
   color: white;
 }
@@ -314,25 +334,31 @@
 .subsite .rdl-primary-nav a {
   color: white;
 }
+
 .subsite .rdl-primary-nav {
   background-color: #002E70;
 }
+
 .subsite .rdl-secondary-nav {
   background-color: #CAF0FE;
 }
+
 @media (min-width: 990px) {
   .subsite .rdl-secondary-nav.no-secondary-nav {
     height: 47px;
   }
 }
+
 @media (min-width: 1150px) {
   .subsite .rdl-secondary-nav.no-secondary-nav {
     height: 71px;
   }
 }
+
 .subsite .rdl-primary-nav .icon-button {
   color: white;
 }
+
 @media (min-width: 990px) {
   .subsite .rdl-primary-nav,
   .subsite .rdl-secondary-nav {
@@ -342,22 +368,27 @@
     border-bottom-color: white;
   }
 }
+
 .subsite .primary.header-edge {
   border-bottom: 20px solid transparent;
   order: 0;
   margin-bottom: 0;
   border-bottom-color: #CAF0FE;
 }
+
 .subsite .dropdown-edge {
   border-right-color: #002E70;
 }
+
 .subsite .rdl-left-navigation[data-type=sub-nav] {
   background-color: #002E70;
 }
+
 .subsite .rdl-left-navigation[data-type=sub-nav] .nav-item,
 .subsite .rdl-left-navigation[data-type=sub-nav] .material-icons {
   color: white;
 }
+
 @media (min-width: 990px) {
   .subsite .rdl-left-navigation[data-type=sub-nav] {
     background-color: transparent;

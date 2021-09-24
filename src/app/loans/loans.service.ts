@@ -1,16 +1,17 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
-import { catchError, tap } from 'rxjs/operators';
-import { ILoan } from "./loan.interface";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Injectable} from "@angular/core";
+import {Observable, throwError} from "rxjs";
+import {catchError, tap} from 'rxjs/operators';
+import {ILoan} from "./loan.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoanService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getLoans(partnerCode:string): Observable<ILoan[]> {
+  getLoans(partnerCode: string): Observable<ILoan[]> {
     let loanUrl = 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/partnerLoans/' + partnerCode;
     return this.http.get<ILoan[]>(loanUrl).pipe(
       catchError(this.handleError)

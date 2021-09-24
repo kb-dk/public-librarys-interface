@@ -14,7 +14,6 @@
 }
 
 
-
 @function deep-get($map, $keys...) {
   @each $key in $keys {
     $map: map-get($map, $key);
@@ -52,7 +51,6 @@
   }
 
 
-
   .header-edge {
     border-left: 100vw solid map-get($theme-map, 'primary');
   }
@@ -61,6 +59,7 @@
   }
   .rdl-left-navigation[data-type="sub-nav"] {
     background-color: map-get($theme-map, 'primary');
+
     #subItems-3.show::after {
       border-right: 100vw solid map-get($theme-map, 'primary');
     }
@@ -74,6 +73,7 @@
     }
     .rdl-left-navigation[data-type="sub-nav"] {
       background-color: transparent;
+
       &::after {
         border-right: none;
       }
@@ -109,9 +109,6 @@
   }
 
 
-
-
-
   /*------------------------------------*\
         Subsites
     \*------------------------------------*/
@@ -119,6 +116,7 @@
     .header-edge {
       border-left: 100vw solid $primary;
     }
+
     @include media-breakpoint-up(lg) {
       .subpage-header-elements.theme-bg {
         background-color: $primary;

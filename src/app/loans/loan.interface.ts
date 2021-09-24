@@ -18,5 +18,5 @@ export interface ILoan {
   Note: string | null,
   ISBN: string | null,
   OverdueSentDate: string | null,
-  Title:string
+  Title: string
 }
