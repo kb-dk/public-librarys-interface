@@ -25,10 +25,9 @@
                   Password:
                 </label>
               </div>
-              <!--<div class="custom-control custom-checkbox mb-3">-->
-              <!--<input id="customCheck1" type="checkbox" checked class="custom-control-input">-->
-              <!--<label for="customCheck1" class="custom-control-label">Remember password</label>-->
-              <!--</div>-->
+              <div *ngIf="loginError" class="alert alert-danger" role="alert">
+              Partner code or password is incorrect.
+              </div>
               <button type="submit"
                       class="btn btn-primary btn-block text-uppercase mb-2 shadow-sm"
                       (click)="checkValidity()"
