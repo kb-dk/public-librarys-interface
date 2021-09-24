@@ -4,7 +4,11 @@
 @import "~font-awesome/css/font-awesome.min.css";
 @import "assets/scss/logo";
 @import "assets/scss/header";
+@import "assets/scss/fonts";
 
+body{
+  font-family: "nowaymedium",sans-serif;
+}
 .results{
   color: $primary;
   font-size: 1rem;
