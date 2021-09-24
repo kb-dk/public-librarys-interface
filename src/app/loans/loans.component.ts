@@ -62,9 +62,9 @@ export class LoansComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.partnerCode = this.route.snapshot.paramMap.get('partnerCode');
     this.libraryName = this.route.snapshot.paramMap.get('libraryName');
-
-    if (this.partnerCode === null) {
+    if (this.partnerCode === null || this.partnerCode === '') {
       this.router.navigate(['login']);
+
     } else {
       this.subscription = this.loanService.getLoans(this.partnerCode).subscribe({
         next: loans => {
@@ -83,6 +83,8 @@ export class LoansComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
