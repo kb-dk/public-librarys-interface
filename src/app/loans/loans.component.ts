@@ -19,7 +19,7 @@ export class LoansComponent implements OnInit, OnDestroy {
   filteredAndSearchedLoans: ILoan[] = [];
   loans: ILoan[] = [];
   subscription!: Subscription;
-
+  spin: boolean = false;
 
   private _status: string = '';
   get status(): string {
@@ -66,6 +66,7 @@ export class LoansComponent implements OnInit, OnDestroy {
       this.router.navigate(['login']);
 
     } else {
+      this.spin = true;
       this.subscription = this.loanService.getLoans(this.partnerCode).subscribe({
         next: loans => {
           this.loans = loans;
@@ -76,8 +77,12 @@ export class LoansComponent implements OnInit, OnDestroy {
           this.searchedLoans = this.loans;
           this.filteredAndSearchedLoans = this.loans;
           this.status = 'All';
+          this.spin = false;
         },
-        error: err => this.errorMessage = err
+        error: err => {
+          this.errorMessage = err;
+          this.spin = false;
+        }
       });
     }
   }
