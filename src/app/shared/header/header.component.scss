@@ -1,0 +1,36 @@
+#mainHeader {
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  position: relative;
+  background: linear-gradient(180deg, #CAF0FE 36px, #002E70 36px, #002E70 107px, #CAF0FE 107px);
+
+  .theme-bg{
+    padding-top: 8px;
+  }
+
+  .logo {
+    display: inline-block;
+    width: 96px;
+    height: 22px;
+    background-image: url('../../../assets/images/logo-digital.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+  }
+
+  .second-header {
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: table;
+    margin-bottom: 5px;
+    margin-top: 12px;
+
+    h1{
+      font-size: 25px;
+      font-weight: 400;
+      font-family: 'noway', sans-serif;
+    }
+  }
+}
