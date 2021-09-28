@@ -48,7 +48,7 @@ export class LoansComponent implements OnInit, OnDestroy {
   }
 
   perfomFilter(values: string[]): ILoan[] {
-    return values.includes('All') ? this.loans : this.loans.filter((loan: ILoan) => values.includes(loan['LendingRequestStatus']));
+    return values.includes('All') ? this.loans : this.loans.filter((loan: ILoan) => loan['LendingRequestStatus'] === null ? false : values.includes(loan['LendingRequestStatus']));
   }
 
   perfomSearch(searchTerm: string): ILoan[] {
