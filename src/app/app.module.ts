@@ -1,34 +1,28 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule} from "@angular/router";
+import {HttpClientModule} from "@angular/common/http";
 
 import {AppComponent} from './app.component';
-import {LoansComponent} from "./loans/loans.component";
-import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from './login/login.component';
-import {RouterModule} from "@angular/router";
-import { FooterComponent } from './shared/footer/footer.component';
-import { HeaderComponent } from './shared/header/header.component';
+import {LoansModule} from './loans/loans.module';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoansComponent,
-    LoginComponent,
-    FooterComponent,
-    HeaderComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: 'loans', component: LoansComponent},
-      // { path: 'loans/:id', component: LoanDetailComponent },
       {path: 'login', component: LoginComponent},
       {path: '', redirectTo: 'login', pathMatch: 'full'},
-      // { path: '**', redirectTo: 'notFoundComponent', pathMatch: 'full' }
-    ])
+      { path: '**', redirectTo: 'login', pathMatch: 'full' }
+    ]),
+    LoansModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
