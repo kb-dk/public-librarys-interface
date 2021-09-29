@@ -52,21 +52,23 @@
       <th>material type</th>
       <th>lending creation date</th>
       <th>lending request status</th>
-      <th>link til Primo</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor='let loan of filteredAndSearchedLoans'>
       <td>{{ loan.ItemBarcode }}</td>
-      <td>{{ loan.Title }}</td>
+      <td>
+        <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
+           href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
+          {{ loan.Title }}
+        </a>
+        <ng-template #elseBlock>
+          {{ loan.Title }}
+        </ng-template>
+      </td>
       <td>{{ loan.MaterialType }}</td>
       <td>{{ loan.LendingCreationDate }}</td>
       <td>{{ loan.LendingRequestStatus}}</td>
-      <td>
-        <a *ngIf="loan.hasOwnProperty('MmsID')" target="_blank"
-           href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>Link
-          to Primo</a>
-      </td>
     </tr>
     </tbody>
   </table>
