@@ -49,23 +49,24 @@
     <tr>
       <th>Danbib bestillingsnummer</th>
       <th>Dato for oprettelse af bestillingen</th>
-      <th>Afleveringsdato</th>
       <th>Udlånsdato</th>
+      <th>Afleveringsdato</th>
       <th>Bestillingens status</th>
       <th>Dato for modtagelse af returneret materiale</th>
+      <th>Hjemkaldelsesdato</th>
       <th>Titel på materialet</th>
       <th>Stregkode på materialet</th>
-      <th>Hjemkaldelsesdato</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor='let loan of filteredAndSearchedLoans'>
       <td>{{ loan.ExternalRequestId }}</td>
       <td>{{ loan.LendingCreationDate }}</td>
-      <td>Due Date</td>
       <td>{{ loan.ItemSentDate }}</td>
+      <td>{{ loan.DueDate }}</td>
       <td>{{ loan.LendingRequestStatus }}</td>
       <td>{{ loan.ItemReturnDate }}</td>
+      <td>{{ loan.OverdueSentDate }}</td>
       <td>
         <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
            href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
@@ -76,7 +77,6 @@
         </ng-template>
       </td>
       <td>{{ loan.ItemBarcode }}</td>
-      <td>{{ loan.OverdueSentDate }}</td>
     </tr>
     </tbody>
   </table>
