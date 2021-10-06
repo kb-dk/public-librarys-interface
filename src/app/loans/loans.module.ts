@@ -4,6 +4,7 @@ import {RouterModule} from "@angular/router";
 import {SharedModule} from '../shared/shared.module';
 import {LoansComponent} from "./loans.component";
 import {LoansResolver} from "./loans.resolver";
+import {LoginGuard} from "../login/login.guard";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {LoansResolver} from "./loans.resolver";
       {
         path: 'loans/:partnerCode',
         component: LoansComponent,
-        resolve: {resolvedLoans: LoansResolver}
+        resolve: {resolvedLoans: LoansResolver},
+        canActivate: [LoginGuard]
       },
     ]),
     SharedModule

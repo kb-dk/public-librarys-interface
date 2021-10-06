@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     if (parseInt(this.partnerCode) >= 100000 && parseInt(this.partnerCode) <= 999999 && parseInt(this.password) >= 1000 && parseInt(this.password) <= 9999) {
       this.loginService.validate(this.partnerCode, this.password).subscribe({
         next: libraryName => {
-          this.router.navigate(['loans', {partnerCode: this.partnerCode, libraryName: libraryName}]);
+          this.router.navigate(['loans', this.partnerCode]);
         },
         error: err => {
           this.errorMessage = err;

@@ -1,7 +1,9 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Router, ActivatedRoute} from '@angular/router';
-import {ILoan, LoansResolved} from "./loan.interface";
 import {Subscription} from "rxjs";
+
+import {ILoan, LoansResolved} from "./loan.interface";
+import {LoginService} from "../login/login.service";
 
 @Component({
   selector: 'loans',
@@ -43,7 +45,11 @@ export class LoansComponent implements OnInit, OnDestroy {
     this.filteredAndSearchedLoans = this.searchedLoans;
   }
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private loginService: LoginService
+  ) {
   }
 
   perfomFilter(values: string[]): ILoan[] {
@@ -75,6 +81,7 @@ export class LoansComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.libraryName = this.loginService.libraryName;
 
     const resolvedLoans: LoansResolved = this.route.snapshot.data['resolvedLoans'];
     this.errorMessage = resolvedLoans.error;
