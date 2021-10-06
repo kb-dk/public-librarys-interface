@@ -14,70 +14,76 @@
   </div>
 </div>
 
-<h2 class="row mt-2 mb-4">
-  {{ libraryName }}
-</h2>
-<div class='row'>
-  <div class="col-md-6"></div>
-  <div class="col-md-3 text-end">
-    <label for="status">Filter by Lending Request Status: </label>
-  </div>
-  <div class="col-md-3">
-    <select name="status" [(ngModel)]="status" id="status">
-      <option value="All" selected="selected">Alt</option>
-      <option *ngFor="let option of allStatuses" [value]=option>{{ option }}</option>
-    </select>
-  </div>
+<div *ngIf="errorMessage else noError" class="alert alert-danger" role="alert">
+  {{ errorMessage }}
 </div>
 
-<div class="row mt-3">
-  <div class="col-md-2 results">
-    {{ filteredAndSearchedLoans.length }} Resultater
-  </div>
-  <div class="col-md-4"></div>
-  <div class='col-md-3 text-end'>Søg:</div>
-  <div class='col-md-3'>
-    <input class="searchTerm" type='text'
-           [(ngModel)]='searchTerm'/>
+<ng-template #noError>
+  <h2 class="row mt-2 mb-4">
+    {{ libraryName }}
+  </h2>
+  <div class='row'>
+    <div class="col-md-6"></div>
+    <div class="col-md-3 text-end">
+      <label for="status">Filter by Lending Request Status: </label>
+    </div>
+    <div class="col-md-3">
+      <select name="status" [(ngModel)]="status" id="status">
+        <option value="All" selected="selected">Alt</option>
+        <option *ngFor="let option of allStatuses" [value]=option>{{ option }}</option>
+      </select>
+    </div>
   </div>
 
-</div>
+  <div class="row mt-3">
+    <div class="col-md-2 results">
+      {{ filteredAndSearchedLoans.length }} Resultater
+    </div>
+    <div class="col-md-4"></div>
+    <div class='col-md-3 text-end'>Søg:</div>
+    <div class='col-md-3'>
+      <input class="searchTerm" type='text'
+             [(ngModel)]='searchTerm'/>
+    </div>
 
-<div class='table-responsive mt-5'>
-  <table class='table'>
-    <thead>
-    <tr>
-      <th>Danbib bestillingsnummer</th>
-      <th>Dato for oprettelse af bestillingen</th>
-      <th>Udlånsdato</th>
-      <th>Afleveringsdato</th>
-      <th>Bestillingens status</th>
-      <th>Dato for modtagelse af returneret materiale</th>
-      <th>Hjemkaldelsesdato</th>
-      <th>Titel på materialet</th>
-      <th>Stregkode på materialet</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor='let loan of filteredAndSearchedLoans'>
-      <td>{{ loan.ExternalRequestId }}</td>
-      <td>{{ loan.LendingCreationDate }}</td>
-      <td>{{ loan.ItemSentDate }}</td>
-      <td>{{ loan.DueDate }}</td>
-      <td>{{ loan.LendingRequestStatus }}</td>
-      <td>{{ loan.ItemReturnDate }}</td>
-      <td>{{ loan.OverdueSentDate }}</td>
-      <td>
-        <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
-           href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
-          {{ loan.Title }}
-        </a>
-        <ng-template #elseBlock>
-          {{ loan.Title }}
-        </ng-template>
-      </td>
-      <td>{{ loan.ItemBarcode }}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+  </div>
+
+  <div class='table-responsive mt-5'>
+    <table class='table'>
+      <thead>
+      <tr>
+        <th>Danbib bestillingsnummer</th>
+        <th>Dato for oprettelse af bestillingen</th>
+        <th>Udlånsdato</th>
+        <th>Afleveringsdato</th>
+        <th>Bestillingens status</th>
+        <th>Dato for modtagelse af returneret materiale</th>
+        <th>Hjemkaldelsesdato</th>
+        <th>Titel på materialet</th>
+        <th>Stregkode på materialet</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor='let loan of filteredAndSearchedLoans'>
+        <td>{{ loan.ExternalRequestId }}</td>
+        <td>{{ loan.LendingCreationDate }}</td>
+        <td>{{ loan.ItemSentDate }}</td>
+        <td>{{ loan.DueDate }}</td>
+        <td>{{ loan.LendingRequestStatus }}</td>
+        <td>{{ loan.ItemReturnDate }}</td>
+        <td>{{ loan.OverdueSentDate }}</td>
+        <td>
+          <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
+             href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
+            {{ loan.Title }}
+          </a>
+          <ng-template #elseBlock>
+            {{ loan.Title }}
+          </ng-template>
+        </td>
+        <td>{{ loan.ItemBarcode }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
