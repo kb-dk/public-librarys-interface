@@ -16,5 +16,13 @@ export interface ILoan {
   Note: string | null,
   ISBN: string | null,
   OverdueSentDate: string | null,
-  Title: string | null
+  Title: string | null,
+  DueDate: string | null,
+  Overdue: boolean | null,
+  ItemPolicy: string | null
+}
+
+export interface LoansResolved {
+  loans: ILoan[] | null;
+  error?: any;
 }
