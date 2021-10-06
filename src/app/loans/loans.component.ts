@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Router, ActivatedRoute} from '@angular/router';
-import {ILoan} from "./loan.interface";
-import {LoanService} from "./loans.service";
+import {ILoan, LoansResolved} from "./loan.interface";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -44,7 +43,7 @@ export class LoansComponent implements OnInit, OnDestroy {
     this.filteredAndSearchedLoans = this.searchedLoans;
   }
 
-  constructor(private loanService: LoanService, private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   perfomFilter(values: string[]): ILoan[] {
@@ -59,31 +58,30 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-    this.partnerCode = this.route.snapshot.paramMap.get('partnerCode');
-    this.libraryName = this.route.snapshot.paramMap.get('libraryName');
-    if (this.partnerCode === null || this.partnerCode === '') {
-      this.router.navigate(['login']);
-
+  onLoansRetrieved(loans: ILoan[] | null) {
+    if (loans === null) {
+      this.loans = [];
     } else {
-      this.spin = true;
-      this.subscription = this.loanService.getLoans(this.partnerCode).subscribe({
-        next: loans => {
-          this.loans = loans;
-          this.filteredLoans = this.loans;
-          this.searchedLoans = this.loans;
-          this.loans = this.perfomFilter(this.allStatuses);
-          this.filteredLoans = this.loans;
-          this.searchedLoans = this.loans;
-          this.filteredAndSearchedLoans = this.loans;
-          this.status = 'All';
-          this.spin = false;
-        },
-        error: err => {
-          this.errorMessage = err;
-          this.spin = false;
-        }
-      });
+      this.loans = loans;
+    }
+
+    this.filteredLoans = this.loans;
+    this.searchedLoans = this.loans;
+    this.loans = this.perfomFilter(this.allStatuses);
+    this.filteredLoans = this.loans;
+    this.searchedLoans = this.loans;
+    this.filteredAndSearchedLoans = this.loans;
+    this.status = 'All';
+  }
+
+  ngOnInit(): void {
+
+    const resolvedLoans: LoansResolved = this.route.snapshot.data['resolvedLoans'];
+    this.errorMessage = resolvedLoans.error;
+    if (this.errorMessage) {
+      console.error(this.errorMessage);
+    } else {
+      this.onLoansRetrieved(resolvedLoans.loans);
     }
   }
 

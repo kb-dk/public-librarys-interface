@@ -3,6 +3,7 @@ import {RouterModule} from "@angular/router";
 
 import {SharedModule} from '../shared/shared.module';
 import {LoansComponent} from "./loans.component";
+import {LoansResolver} from "./loans.resolver";
 
 @NgModule({
   declarations: [
@@ -10,7 +11,11 @@ import {LoansComponent} from "./loans.component";
   ],
   imports: [
     RouterModule.forChild([
-      {path: 'loans', component: LoansComponent},
+      {
+        path: 'loans/:partnerCode',
+        component: LoansComponent,
+        resolve: {resolvedLoans: LoansResolver}
+      },
     ]),
     SharedModule
   ]
