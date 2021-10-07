@@ -100,6 +100,10 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
   }
 
+  sort(field:string){
+    console.log(field);
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
