@@ -26,8 +26,8 @@
     </div>
     <div class="col-md-3">
       <select name="status" [(ngModel)]="status" id="status">
-        <option value="All" selected="selected">Alt</option>
-        <option *ngFor="let option of allStatuses" [value]=option>{{ option }}</option>
+        <option value="All" selected="selected">Alle aktive bestillinger</option>
+        <option *ngFor="let option of distinctStatusesTranslation" [value]=option>{{ option }}</option>
       </select>
     </div>
   </div>

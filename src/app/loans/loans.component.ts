@@ -10,7 +10,8 @@ import {ILoan, LoansResolved} from "./loan.interface";
   styleUrls: ['./loans.component.scss']
 })
 export class LoansComponent implements OnInit, OnDestroy {
-  allStatuses: string[] = ['Being Processed', 'Created lending request', 'Overdue request', 'Recalled item', 'Received by partner', 'Renew requested', 'Shipped Physically', 'Will Supply', 'Shipped Digitally'];
+  statuses: string[] = ['Being Processed', 'Created lending request', 'Overdue request', 'Recalled item', 'Received by partner', 'Renew requested', 'Shipped Physically', 'Will Supply', 'Shipped Digitally'];
+  statusesTranslation: string[] = ['Bestilling modtaget eller reserveret', 'Bestilling oprettet', 'Hjemkaldt', 'Materialet er hjemkaldt', 'Udlånt til biblioteket', 'Forespørgsel om fornyelse', 'Udlånt til biblioteket', 'Materialet er reserveret', 'Materialet er leveret elektronisk'];
   partnerCode: string | null = '';
   errorMessage: string = '';
   filteredLoans: ILoan[] = [];
@@ -19,6 +20,10 @@ export class LoansComponent implements OnInit, OnDestroy {
   loans: ILoan[] = [];
   subscription!: Subscription;
   spin: boolean = false;
+
+  get distinctStatusesTranslation(): string[] {
+    return this.statusesTranslation.filter((item, i, ar) => ar.indexOf(item) === i);
+  }
 
   private _status: string = '';
   get status(): string {
@@ -67,10 +72,10 @@ export class LoansComponent implements OnInit, OnDestroy {
     } else {
       this.loans = loans;
     }
-
     this.filteredLoans = this.loans;
     this.searchedLoans = this.loans;
-    this.loans = this.perfomFilter(this.allStatuses);
+    this.loans = this.perfomFilter(this.statuses);
+    this.translateStatus(this.loans);
     this.filteredLoans = this.loans;
     this.searchedLoans = this.loans;
     this.filteredAndSearchedLoans = this.loans;
@@ -87,9 +92,19 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
   }
 
+  translateStatus(loans:ILoan[]){
+    for ( var i of loans.keys()){
+      if (loans[i].LendingRequestStatus !== null) {
+        loans[i].LendingRequestStatus = this.statusesTranslation[this.statuses.indexOf(loans[i].LendingRequestStatus!)];
+      }
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
+
+
 }
