@@ -100,8 +100,38 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
   }
 
-  sort(field:string){
-    console.log(field);
+  sortArrays(field:keyof ILoan, isDate:boolean){
+    let isDesc : boolean = false;
+    if(document.getElementById(field)!.classList.contains('desc')){
+      console.log('desc');
+
+      isDesc = false;
+      document.getElementById(field)!.classList.remove('desc');
+      document.getElementById(field)!.classList.add('asc');
+    } else {
+      console.log('asc');
+      isDesc = true;
+      document.getElementById(field)!.classList.remove('asc');
+      document.getElementById(field)!.classList.add('desc');
+    }
+
+    [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans] =
+    [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans]
+      .map(array => this.sort(array.slice(0), field, isDate, isDesc));
+  }
+
+  sort(array: any[], field:keyof ILoan, isDate:boolean, isDesc: boolean){
+    if (isDesc){
+      array.sort(function(a,b) {
+        return +new Date(b[field]) - +new Date(a[field]);
+      });
+    }else{
+      array.sort(function(a,b) {
+        return +new Date(a[field]) - +new Date(b[field]);
+      });
+    }
+
+    return array;
   }
 
   ngOnDestroy(): void {
