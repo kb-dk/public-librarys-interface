@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+
 import {LoginService} from "../../login/login.service";
 
 @Component({
@@ -8,14 +10,16 @@ import {LoginService} from "../../login/login.service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor( public loginService: LoginService) {
+  constructor( public loginService: LoginService,
+               private router: Router) {
   }
 
   ngOnInit(): void {
   }
 
   logOut(){
-    console.log('log out');
+    this.loginService.libraryName = '';
+    this.router.navigateByUrl('/login');
   }
 
 }
