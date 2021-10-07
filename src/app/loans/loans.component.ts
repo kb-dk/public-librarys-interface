@@ -3,7 +3,6 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from "rxjs";
 
 import {ILoan, LoansResolved} from "./loan.interface";
-import {LoginService} from "../login/login.service";
 
 @Component({
   selector: 'loans',
@@ -13,7 +12,6 @@ import {LoginService} from "../login/login.service";
 export class LoansComponent implements OnInit, OnDestroy {
   allStatuses: string[] = ['Being Processed', 'Created lending request', 'Overdue request', 'Recalled item', 'Received by partner', 'Renew requested', 'Shipped Physically', 'Will Supply', 'Shipped Digitally'];
   partnerCode: string | null = '';
-  libraryName: string | null = '';
   errorMessage: string = '';
   filteredLoans: ILoan[] = [];
   searchedLoans: ILoan[] = [];
@@ -48,7 +46,6 @@ export class LoansComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private loginService: LoginService
   ) {
   }
 
@@ -81,8 +78,6 @@ export class LoansComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.libraryName = this.loginService.libraryName;
-
     const resolvedLoans: LoansResolved = this.route.snapshot.data['resolvedLoans'];
     this.errorMessage = resolvedLoans.error;
     if (this.errorMessage) {

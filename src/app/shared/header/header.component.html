@@ -1,12 +1,32 @@
-<header id="mainHeader" class="global-header " role="banner">
-  <div class="theme-bg">
+
+<header>
+  <nav class="navbar navbar-brand">
     <div class="container">
-      <div class="row justify-content-between">
-        <div class="col logo-col">
-          <a href="" class="logo"></a>
-          <a href="" class="second-header"><h1>Fjernlåns</h1></a>
+      <div class="small-6 cell">
+        <div class="logo">
+          &nbsp;
         </div>
       </div>
     </div>
-  </div>
+  </nav>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <span class="navbar-brand">Fjernlåns</span>
+
+      <ul *ngIf="loginService.isLoggedIn" class="navbar-nav ml-auto">
+        <li>
+          <div class="dropdown show">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ loginService.libraryName }}
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" (click)="logOut()">Log Out</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </header>
