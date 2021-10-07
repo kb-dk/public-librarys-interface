@@ -63,12 +63,12 @@
       <tbody>
       <tr *ngFor='let loan of filteredAndSearchedLoans'>
         <td>{{ loan.ExternalRequestId }}</td>
-        <td>{{ loan.LendingCreationDate }}</td>
-        <td>{{ loan.ItemSentDate }}</td>
-        <td>{{ loan.DueDate }}</td>
+        <td>{{ loan.LendingCreationDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ loan.ItemSentDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ loan.DueDate | date:'dd/MM/yyyy'}}</td>
         <td>{{ loan.LendingRequestStatus }}</td>
-        <td>{{ loan.ItemReturnDate }}</td>
-        <td>{{ loan.OverdueSentDate }}</td>
+        <td>{{ loan.ItemReturnDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ loan.OverdueSentDate | date:'dd/MM/yyyy' }}</td>
         <td>
           <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
              href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
