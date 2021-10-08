@@ -51,11 +51,11 @@
       <tr>
         <th>Danbib bestillingsnummer</th>
         <th id="LendingCreationDate" class="sortable" (click)="sortArrays('LendingCreationDate', true)">Dato for oprettelse af bestillingen</th>
-        <th>Udlånsdato</th>
-        <th>Afleveringsdato</th>
+        <th id="ItemSentDate" class="sortable" (click)="sortArrays('ItemSentDate', true)">Udlånsdato</th>
+        <th id="DueDate" class="sortable" (click)="sortArrays('DueDate', true)">Afleveringsdato</th>
         <th>Bestillingens status</th>
-        <th>Dato for modtagelse af returneret materiale</th>
-        <th>Hjemkaldelsesdato</th>
+        <th id="ItemReturnDate" class="sortable" (click)="sortArrays('ItemReturnDate', true)">Dato for modtagelse af returneret materiale</th>
+        <th id="OverdueSentDate" class="sortable" (click)="sortArrays('OverdueSentDate', true)">Hjemkaldelsesdato</th>
         <th>Titel på materialet</th>
         <th>Stregkode på materialet</th>
       </tr>
