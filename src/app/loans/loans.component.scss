@@ -7,22 +7,6 @@ table {
   font-family: nowayregular, sans-serif;
 }
 
-.loading-shade {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(214, 214, 214, .5);
-
-  .spinner-container {
-    position: absolute;
-    left: calc(50% - 48px);
-    top: 30%;
-  }
-}
-
 table th.sortable{
   cursor: pointer;
   position: relative;

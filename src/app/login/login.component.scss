@@ -1,4 +1,4 @@
-.form-input, .date-picker {
+.form-input{
   position: relative;
   margin-bottom: 24px;
 }
@@ -43,4 +43,32 @@ h2 {
   margin-bottom: 35px;
   line-height: 1.5rem;
   font-size: 1.375rem;
+}
+
+.loading-shade {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(214, 214, 214, .9);
+
+  .spinner-container {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    color: #002E70;
+    font-family: 'nowaymedium', sans-serif;
+    font-size: 18px;
+    letter-spacing: -0.2px;
+    line-height: 2;
+
+    .spinner{
+      margin-top: 20px;
+    }
+  }
 }

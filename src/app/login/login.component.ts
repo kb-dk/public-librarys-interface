@@ -9,6 +9,8 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
+  spin: boolean = false;
+  libraryName: string = '';
   partnerCode: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -21,6 +23,8 @@ export class LoginComponent implements OnInit {
     if (parseInt(this.partnerCode) >= 100000 && parseInt(this.partnerCode) <= 999999 && parseInt(this.password) >= 1000 && parseInt(this.password) <= 9999) {
       this.loginService.validate(this.partnerCode, this.password).subscribe({
         next: libraryName => {
+          this.libraryName = libraryName;
+          this.spin = true;
           this.router.navigate(['loans', this.partnerCode]);
         },
         error: err => {
