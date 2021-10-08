@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Subscription} from "rxjs";
 
 import {ILoan, LoansResolved} from "./loan.interface";
@@ -49,8 +49,7 @@ export class LoansComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -138,6 +137,8 @@ export class LoansComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+
+
   }
 
 
