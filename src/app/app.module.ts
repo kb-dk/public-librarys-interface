@@ -7,11 +7,13 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {LoansModule} from './loans/loans.module';
 import {SharedModule} from './shared/shared.module';
+import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    PagenotfoundComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +21,8 @@ import {SharedModule} from './shared/shared.module';
     RouterModule.forRoot([
       {path: 'login', component: LoginComponent},
       {path: '', redirectTo: 'login', pathMatch: 'full'},
-      { path: '**', redirectTo: 'login', pathMatch: 'full' }
+      {path: '404', component: PagenotfoundComponent},
+      { path: '**', redirectTo: '/404', pathMatch: 'full' }
     ]),
     LoansModule,
     SharedModule
