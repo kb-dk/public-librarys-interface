@@ -20,9 +20,9 @@ import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.componen
     HttpClientModule,
     RouterModule.forRoot([
       {path: 'login', component: LoginComponent},
-      {path: '', redirectTo: 'login', pathMatch: 'full'},
       {path: '404', component: PagenotfoundComponent},
-      { path: '**', redirectTo: '/404', pathMatch: 'full' }
+      {path: '', redirectTo: 'login', pathMatch: 'full'},
+      {path: '**', redirectTo: '/404', pathMatch: 'full'}
     ]),
     LoansModule,
     SharedModule
