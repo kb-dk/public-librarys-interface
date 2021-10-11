@@ -1,0 +1,33 @@
+@page {
+  size: landscape;
+}
+
+body {
+}
+
+.toolbox, header, .global-footer .container, .sortable:after {
+  display: none;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+  td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: $primary;
+  }
+}
+
+
+
+
+
+

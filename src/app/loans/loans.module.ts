@@ -21,7 +21,7 @@ import {RemoveFirstPartPipe} from "../shared/filters/danbib.filter";
         path: 'loans/:partnerCode',
         component: LoansComponent,
         resolve: {resolvedLoans: LoansResolver},
-        canActivate: [LoginGuard]
+        // canActivate: [LoginGuard]
       },
     ]),
     SharedModule
