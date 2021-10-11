@@ -128,6 +128,10 @@ export class LoansComponent implements OnInit, OnDestroy {
     return array;
   }
 
+  print(){
+    window.print();
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();

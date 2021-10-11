@@ -3,6 +3,10 @@ select,
   width: 100%;
 }
 
+.print.btn{
+  width: 100%;
+}
+
 table {
   font-family: nowayregular, sans-serif;
 }
@@ -16,7 +20,7 @@ table th.sortable{
     position: absolute;
     height: 0;
     width: 0;
-    right: 0;
+    right: 20px;
     bottom: 18px;
 
     border-left: 5px solid transparent;
