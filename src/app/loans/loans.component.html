@@ -21,9 +21,9 @@
       {{ filteredAndSearchedLoans.length }} Resultater
     </div>
     <div class="col-md-4"></div>
-    <div class='col-md-3 text-end'>Søg:</div>
+    <div class='col-md-3 text-end'><label for="searchTerm">Søg:</label></div>
     <div class='col-md-3'>
-      <input class="searchTerm" type='text'
+      <input id="searchTerm" class="searchTerm" type='text'
              [(ngModel)]='searchTerm'/>
     </div>
 
@@ -46,7 +46,7 @@
       </thead>
       <tbody>
       <tr *ngFor='let loan of filteredAndSearchedLoans'>
-        <td>{{ loan.ExternalRequestId }}</td>
+        <td>{{ loan.ExternalRequestId | removeFirstPart }}</td>
         <td>{{ loan.LendingCreationDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ loan.ItemSentDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ loan.DueDate | date:'dd/MM/yyyy'}}</td>

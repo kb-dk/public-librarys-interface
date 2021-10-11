@@ -48,9 +48,7 @@ export class LoansComponent implements OnInit, OnDestroy {
     this.filteredAndSearchedLoans = this.searchedLoans;
   }
 
-  constructor(
-    private route: ActivatedRoute
-  ) {
+  constructor(private route: ActivatedRoute) {
   }
 
   perfomFilter(values: string[]): ILoan[] {
@@ -91,17 +89,17 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
   }
 
-  translateStatus(loans:ILoan[]){
-    for ( var i of loans.keys()){
+  translateStatus(loans: ILoan[]) {
+    for (var i of loans.keys()) {
       if (loans[i].LendingRequestStatus !== null) {
         loans[i].LendingRequestStatus = this.statusesTranslation[this.statuses.indexOf(loans[i].LendingRequestStatus!)];
       }
     }
   }
 
-  sortArrays(field:keyof ILoan, isDate:boolean){
-    let isDesc : boolean = false;
-    if(document.getElementById(field)!.classList.contains('desc')){
+  sortArrays(field: keyof ILoan, isDate: boolean) {
+    let isDesc: boolean = false;
+    if (document.getElementById(field)!.classList.contains('desc')) {
       console.log('desc');
 
       isDesc = false;
@@ -115,17 +113,17 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
 
     [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans] =
-    [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans]
-      .map(array => this.sort(array.slice(0), field, isDate, isDesc));
+      [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans]
+        .map(array => this.sort(array.slice(0), field, isDate, isDesc));
   }
 
-  sort(array: any[], field:keyof ILoan, isDate:boolean, isDesc: boolean){
-    if (isDesc){
-      array.sort(function(a,b) {
+  sort(array: any[], field: keyof ILoan, isDate: boolean, isDesc: boolean) {
+    if (isDesc) {
+      array.sort(function (a, b) {
         return +new Date(b[field]) - +new Date(a[field]);
       });
-    }else{
-      array.sort(function(a,b) {
+    } else {
+      array.sort(function (a, b) {
         return +new Date(a[field]) - +new Date(b[field]);
       });
     }

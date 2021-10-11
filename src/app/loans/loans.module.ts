@@ -5,10 +5,15 @@ import {SharedModule} from '../shared/shared.module';
 import {LoansComponent} from "./loans.component";
 import {LoansResolver} from "./loans.resolver";
 import {LoginGuard} from "../login/login.guard";
+import {RemoveFirstPartPipe} from "../shared/filters/danbib.filter";
 
 @NgModule({
   declarations: [
-    LoansComponent
+    LoansComponent,
+    RemoveFirstPartPipe
+  ],
+  providers: [
+    RemoveFirstPartPipe
   ],
   imports: [
     RouterModule.forChild([
