@@ -9,8 +9,16 @@ import {LoginService} from "../../login/login.service";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  // TODO:check if there is problem with public loginservice and change the accordingly if needed
-  constructor( public loginService: LoginService,
+
+  get isLoggedIn() {
+    return this.loginService.isLoggedIn;
+  }
+
+  get libraryName() {
+    return this.loginService.libraryName;
+  }
+
+  constructor( private loginService: LoginService,
                private router: Router) {
   }
 
