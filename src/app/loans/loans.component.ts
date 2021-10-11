@@ -19,7 +19,6 @@ export class LoansComponent implements OnInit, OnDestroy {
   filteredAndSearchedLoans: ILoan[] = [];
   loans: ILoan[] = [];
   subscription!: Subscription;
-  spin: boolean = false;
 
   get distinctStatusesTranslation(): string[] {
     return this.statusesTranslation.filter((item, i, ar) => ar.indexOf(item) === i);
@@ -32,7 +31,7 @@ export class LoansComponent implements OnInit, OnDestroy {
 
   set status(value: string) {
     this._status = value;
-    this.filteredLoans = this.perfomFilter([this._status.replace('_', ' ')]);
+    this.filteredLoans = this.performFilter([this._status.replace('_', ' ')]);
     this.searchedLoans = this.filteredLoans;
     this.filteredAndSearchedLoans = this.filteredLoans;
   }
@@ -44,18 +43,18 @@ export class LoansComponent implements OnInit, OnDestroy {
 
   set searchTerm(value: string) {
     this._searchTerm = value;
-    this.searchedLoans = this.perfomSearch(this._searchTerm);
+    this.searchedLoans = this.performSearch(this._searchTerm);
     this.filteredAndSearchedLoans = this.searchedLoans;
   }
 
   constructor(private route: ActivatedRoute) {
   }
 
-  perfomFilter(values: string[]): ILoan[] {
+  performFilter(values: string[]): ILoan[] {
     return values.includes('All') ? this.loans : this.loans.filter((loan: ILoan) => loan['LendingRequestStatus'] === null ? false : values.includes(loan['LendingRequestStatus']));
   }
 
-  perfomSearch(searchTerm: string): ILoan[] {
+  performSearch(searchTerm: string): ILoan[] {
     if (searchTerm === '') {
       return this.filteredLoans;
     } else {
@@ -67,11 +66,11 @@ export class LoansComponent implements OnInit, OnDestroy {
     if (loans === null) {
       this.loans = [];
     } else {
-      this.loans = loans;
+      this.loans = this.sort(loans, 'LendingCreationDate', true, 'desc');
     }
     this.filteredLoans = this.loans;
     this.searchedLoans = this.loans;
-    this.loans = this.perfomFilter(this.statuses);
+    this.loans = this.performFilter(this.statuses);
     this.translateStatus(this.loans);
     this.filteredLoans = this.loans;
     this.searchedLoans = this.loans;
@@ -98,27 +97,25 @@ export class LoansComponent implements OnInit, OnDestroy {
   }
 
   sortArrays(field: keyof ILoan, isDate: boolean) {
-    let isDesc: boolean = false;
-    if (document.getElementById(field)!.classList.contains('desc')) {
-      console.log('desc');
-
-      isDesc = false;
-      document.getElementById(field)!.classList.remove('desc');
-      document.getElementById(field)!.classList.add('asc');
-    } else {
-      console.log('asc');
-      isDesc = true;
-      document.getElementById(field)!.classList.remove('asc');
-      document.getElementById(field)!.classList.add('desc');
-    }
+    let sortingOrder: string = LoansComponent.getCurrentSortingOrder(field) === 'desc' ? 'asc' : 'desc';
+    LoansComponent.addAndRemoveSortClasses(field, sortingOrder);
 
     [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans] =
       [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans]
-        .map(array => this.sort(array.slice(0), field, isDate, isDesc));
+        .map(array => this.sort(array.slice(0), field, isDate, sortingOrder));
   }
 
-  sort(array: any[], field: keyof ILoan, isDate: boolean, isDesc: boolean) {
-    if (isDesc) {
+  static getCurrentSortingOrder(field: keyof ILoan): string{
+    return document.getElementById(field)!.classList.contains('desc') ? 'desc' : 'asc';
+  }
+
+  static addAndRemoveSortClasses(field: keyof ILoan, className: string): void{
+    document.querySelectorAll('.sortable').forEach((el) => el.classList.remove('desc', 'asc'));
+    document.getElementById(field)!.classList.add(className);
+  }
+
+  sort(array: any[], field: keyof ILoan, isDate: boolean, sortingOrder: string) {
+    if (sortingOrder === 'desc') {
       array.sort(function (a, b) {
         return +new Date(b[field]) - +new Date(a[field]);
       });
