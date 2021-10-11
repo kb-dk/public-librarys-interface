@@ -6,7 +6,7 @@
   <div class='row'>
     <div class="col-md-6"></div>
     <div class="col-md-3 text-end">
-      <label for="status">Filter by Lending Request Status: </label>
+      <label for="status">Filtering efter bestillingens status:</label>
     </div>
     <div class="col-md-3">
       <select name="status" [(ngModel)]="status" id="status">
@@ -34,12 +34,11 @@
       <thead>
       <tr>
         <th>Danbib bestillingsnummer</th>
-        <th id="LendingCreationDate" class="sortable" (click)="sortArrays('LendingCreationDate', true)">Dato for oprettelse af bestillingen</th>
-        <th id="ItemSentDate" class="sortable" (click)="sortArrays('ItemSentDate', true)">Udlånsdato</th>
-        <th id="DueDate" class="sortable" (click)="sortArrays('DueDate', true)">Afleveringsdato</th>
         <th>Bestillingens status</th>
-        <th id="ItemReturnDate" class="sortable" (click)="sortArrays('ItemReturnDate', true)">Dato for modtagelse af returneret materiale</th>
-        <th id="OverdueSentDate" class="sortable" (click)="sortArrays('OverdueSentDate', true)">Hjemkaldelsesdato</th>
+        <th id="LendingCreationDate" class="sortable" (click)="sortArrays('LendingCreationDate', true)">Bestillings-dato</th>
+        <th id="ItemSentDate" class="sortable" (click)="sortArrays('ItemSentDate', true)">Udlåns-dato</th>
+        <th id="DueDate" class="sortable" (click)="sortArrays('DueDate', true)">Afleverings-dato</th>
+        <th id="OverdueSentDate" class="sortable" (click)="sortArrays('OverdueSentDate', true)">Hjemkaldelses-dato</th>
         <th>Titel på materialet</th>
         <th>Stregkode på materialet</th>
       </tr>
@@ -47,11 +46,10 @@
       <tbody>
       <tr *ngFor='let loan of filteredAndSearchedLoans'>
         <td>{{ loan.ExternalRequestId | removeFirstPart }}</td>
+        <td>{{ loan.LendingRequestStatus }}</td>
         <td>{{ loan.LendingCreationDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ loan.ItemSentDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ loan.DueDate | date:'dd/MM/yyyy'}}</td>
-        <td>{{ loan.LendingRequestStatus }}</td>
-        <td>{{ loan.ItemReturnDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ loan.OverdueSentDate | date:'dd/MM/yyyy' }}</td>
         <td>
           <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
