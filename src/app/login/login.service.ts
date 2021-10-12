@@ -2,6 +2,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable, throwError} from "rxjs";
 import {catchError, tap} from 'rxjs/operators';
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,14 @@ export class LoginService {
   libraryName: string = '';
 
   get isLoggedIn(): boolean {
+    if ((!this.libraryName) && (this.cookieService.check('libraryName'))) {
+      this.libraryName = this.cookieService.get('libraryName');
+    }
     return !!this.libraryName;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private cookieService: CookieService) {
   }
 
   validate(libraryNumber: string, postcode: string) {
@@ -22,6 +27,7 @@ export class LoginService {
     const headers = new HttpHeaders({'Content-Type': 'text/plain; charset=utf-8'});
     return this.http.get(loginUrl, {headers: headers, responseType: 'text'}).pipe(
       tap(data => this.libraryName = data),
+      tap(data => this.cookieService.set('libraryName', data , { expires: 0.1})),
       catchError(this.handleError)
     );
   }
