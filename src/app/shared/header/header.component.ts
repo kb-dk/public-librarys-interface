@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {CookieService} from "ngx-cookie-service";
 
 import {LoginService} from "../../login/login.service";
 
@@ -19,18 +17,14 @@ export class HeaderComponent implements OnInit {
     return this.loginService.libraryName;
   }
 
-  constructor( private loginService: LoginService,
-               private router: Router,
-               private cookieService: CookieService) {
+  constructor( private loginService: LoginService) {
   }
 
   ngOnInit(): void {
   }
 
   logOut(){
-    this.cookieService.deleteAll();
-    this.loginService.libraryName = '';
-    this.router.navigateByUrl('/login');
+    this.loginService.logout();
   }
 
 }

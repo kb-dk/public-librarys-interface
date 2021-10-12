@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Subscription} from "rxjs";
 
 import {ILoan, LoansResolved} from "./loan.interface";
+import {LoginService} from "../login/login.service";
 
 @Component({
   selector: 'loans',
@@ -13,7 +14,6 @@ export class LoansComponent implements OnInit, OnDestroy {
   statuses: string[] = ['Being Processed', 'Created lending request', 'Overdue request', 'Recalled item', 'Received by partner', 'Renew requested', 'Shipped Physically', 'Will Supply', 'Shipped Digitally'];
   statusesTranslation: string[] = ['Bestilling modtaget eller reserveret', 'Bestilling oprettet', 'Hjemkaldt', 'Materialet er hjemkaldt', 'Udlånt til biblioteket', 'Forespørgsel om fornyelse', 'Udlånt til biblioteket', 'Materialet er reserveret', 'Materialet er leveret elektronisk'];
   partnerCode: string | null = '';
-  errorMessage: string = '';
   filteredLoans: ILoan[] = [];
   searchedLoans: ILoan[] = [];
   filteredAndSearchedLoans: ILoan[] = [];
@@ -47,7 +47,8 @@ export class LoansComponent implements OnInit, OnDestroy {
     this.filteredAndSearchedLoans = this.searchedLoans;
   }
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private loginService: LoginService) {
   }
 
   performFilter(values: string[]): ILoan[] {
@@ -80,9 +81,8 @@ export class LoansComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const resolvedLoans: LoansResolved = this.route.snapshot.data['resolvedLoans'];
-    this.errorMessage = resolvedLoans.error;
-    if (this.errorMessage) {
-      console.error(this.errorMessage);
+    if (resolvedLoans.error) {
+      this.loginService.logout();
     } else {
       this.onLoansRetrieved(resolvedLoans.loans);
     }
@@ -105,11 +105,11 @@ export class LoansComponent implements OnInit, OnDestroy {
         .map(array => this.sort(array.slice(0), field, isDate, sortingOrder));
   }
 
-  static getCurrentSortingOrder(field: keyof ILoan): string{
+  static getCurrentSortingOrder(field: keyof ILoan): string {
     return document.getElementById(field)!.classList.contains('desc') ? 'desc' : 'asc';
   }
 
-  static addAndRemoveSortClasses(field: keyof ILoan, className: string): void{
+  static addAndRemoveSortClasses(field: keyof ILoan, className: string): void {
     document.querySelectorAll('.sortable').forEach((el) => el.classList.remove('desc', 'asc'));
     document.getElementById(field)!.classList.add(className);
   }
@@ -128,7 +128,7 @@ export class LoansComponent implements OnInit, OnDestroy {
     return array;
   }
 
-  print(){
+  print() {
     window.print();
   }
 
@@ -136,9 +136,5 @@ export class LoansComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-
-
   }
-
-
 }
