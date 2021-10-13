@@ -1,7 +1,7 @@
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable, throwError} from "rxjs";
-import {catchError, tap} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {ILoan} from "./loan.interface";
 
 @Injectable({
@@ -12,13 +12,13 @@ export class LoanService {
   }
 
   getLoans(partnerCode: string): Observable<ILoan[]> {
-    let loanUrl = 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/partnerLoans/' + partnerCode;
+    let loanUrl = 'https://devel12.statsbiblioteket.dk/librarylending/v1/partnerLoans/' + partnerCode;
     return this.http.get<ILoan[]>(loanUrl).pipe(
-      catchError(this.handleError)
+      catchError(LoanService.handleError)
     );
   }
 
-  private handleError(err: HttpErrorResponse): Observable<never> {
+  static handleError(err: HttpErrorResponse): Observable<never> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     let errorMessage = '';
