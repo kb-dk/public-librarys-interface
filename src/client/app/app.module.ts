@@ -9,6 +9,7 @@ import {LoginComponent} from './login/login.component';
 import {LoansModule} from './loans/loans.module';
 import {SharedModule} from './shared/shared.module';
 import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.component";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.componen
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       {path: 'login', component: LoginComponent},
       {path: '404', component: PagenotfoundComponent},

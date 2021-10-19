@@ -28,7 +28,7 @@ export class LoginService {
   }
 
   validate(libraryNumber: string, postcode: string) {
-    let loginUrl = 'https://devel12.statsbiblioteket.dk/librarylending/v1/checkCreds?libraryNumber=' + libraryNumber + '&postcode=' + postcode;
+    let loginUrl = 'http://localhost:3000/api/v1/login/' + libraryNumber + '/' + postcode;
     const headers = new HttpHeaders({'Content-Type': 'text/plain; charset=utf-8'});
     return this.http.get(loginUrl, {headers: headers, responseType: 'text'}).pipe(
       tap(() => this.libraryNumber = libraryNumber),
