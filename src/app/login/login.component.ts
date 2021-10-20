@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginService} from "./login.service";
 import {Router} from "@angular/router";
 import {FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn} from "@angular/forms";
+import {debounceTime} from "rxjs/operators";
+
+import {LoginService} from "./login.service";
 
 interface ErrorMessages {
   partnerCode: string,
@@ -93,11 +95,19 @@ export class LoginComponent implements OnInit {
     const partnerCodeControl = this.loginForm.controls.partnerCode;
     const passwordControl = this.loginForm.controls.password;
 
-    partnerCodeControl.valueChanges.subscribe(
+    partnerCodeControl.valueChanges
+      .pipe(
+        debounceTime(1000)
+      )
+      .subscribe(
       () => this.setMessage('partnerCode', partnerCodeControl)
     );
 
-    passwordControl.valueChanges.subscribe(
+    passwordControl.valueChanges
+      .pipe(
+        debounceTime(1000)
+      )
+      .subscribe(
       () => this.setMessage('password', passwordControl)
     );
 
