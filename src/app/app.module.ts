@@ -2,7 +2,8 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
-import { CookieService } from 'ngx-cookie-service';
+import {ReactiveFormsModule} from "@angular/forms";
+import {CookieService} from 'ngx-cookie-service';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
@@ -19,6 +20,7 @@ import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.componen
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       {path: 'login', component: LoginComponent},
       {path: '404', component: PagenotfoundComponent},
