@@ -48,11 +48,11 @@ export class LoginComponent implements OnInit {
 
   validationMessages: ValidationMessages = {
     partnerCode: {
-      required: 'Indtast venligst din biblioteksnummer',
+      required: 'Indtast venligst dit biblioteksnummer',
       range: 'Biblioteksnummer skal være 6 cifre'
     },
     password: {
-      required: 'Indtast venligst din adgangskode',
+      required: 'Indtast venligst dit adgangskode',
       range: 'Adgangskode skal være 4 cifre'
     },
     dontExist: 'Biblioteksnummer eller adgangskode er forkert'
