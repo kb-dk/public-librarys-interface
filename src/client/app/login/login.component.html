@@ -13,42 +13,62 @@
 
 
 <div class="row no-gutter">
-
   <div class="col-md-3 d-none d-md-flex"></div>
-
   <div class="col-md-6 bg-light">
     <div class="login d-flex align-items-center py-5">
       <div class="container">
         <div class="row">
           <div class="col-lg-10 col-xl-7 mx-auto">
             <h2>Login</h2>
-            <form>
 
+            <form (ngSubmit)="submit()"
+                  [formGroup]="loginForm"
+            >
               <div class="form-input active ">
-                <input [(ngModel)]="partnerCode" type="text" id="partnerCode" class="form-control" name="partnerCode"
-                       spellcheck="false">
                 <label for="partnerCode" class=" ">
                   Biblioteksnummer
                 </label>
+                <input type="text"
+                       id="partnerCode"
+                       class="form-control"
+                       formControlName="partnerCode"
+                       spellcheck="false"
+                       [ngClass]="{'is-invalid': errorMessage.partnerCode }"
+                />
+                <span class="invalid-feedback">
+                  {{errorMessage.partnerCode}}
+                </span>
               </div>
 
               <div class="form-input active ">
-                <input [(ngModel)]="password" type="password" id="password" class="form-control" name="password"
-                       spellcheck="false">
                 <label for="password" class=" ">
                   Adgangskode
                 </label>
+                <input type="password"
+                       id="password"
+                       class="form-control"
+                       formControlName="password"
+                       spellcheck="false"
+                       [ngClass]="{'is-invalid': errorMessage.password }"
+                />
+                <span class="invalid-feedback">
+                  {{errorMessage.password}}
+                </span>
               </div>
+
               <div *ngIf="loginError" class="alert alert-danger" role="alert">
-                Partner code or password is incorrect.
+                {{errorMessage.dontExist}}
               </div>
+
               <button type="submit"
                       class="btn btn-primary btn-block text-uppercase mb-2 shadow-sm"
-                      (click)="checkValidity()"
+                      [disabled]="!loginForm.valid"
               >
                 Log in
               </button>
+
             </form>
+
           </div>
         </div>
       </div>
