@@ -63,9 +63,7 @@ export class LoginComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
-  checkValidity() {
-    let partnerCode = this.loginForm.controls.partnerCode.value;
-    let password = this.loginForm.controls.password.value;
+  checkValidity(partnerCode:string, password:string) {
 
     this.loginService.validate(partnerCode, password).subscribe({
       next: libraryName => {
@@ -82,7 +80,16 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    this.checkValidity();
+    let partnerCode = this.loginForm.controls.partnerCode.value;
+    let password = this.loginForm.controls.password.value;
+
+    if (parseInt(partnerCode) >= 100000 && parseInt(partnerCode) <= 999999 && parseInt(password) >= 1000 && parseInt(password) <= 9999) {
+      this.checkValidity(partnerCode, password);
+    } else {
+      this.errorMessage.dontExist = this.validationMessages.dontExist;
+      console.error('Error:', this.errorMessage.dontExist);
+      this.loginError = true;
+    }
   }
 
   ngOnInit(): void {
