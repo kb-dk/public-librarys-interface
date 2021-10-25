@@ -30,13 +30,9 @@ export class LoginService {
   validate(libraryNumber: string, postcode: string) {
     console.log(libraryNumber, postcode);
     let loginUrl = 'http://localhost:4000/api/v1/login/';
-    // let loginUrl = 'http://localhost:4000/api/v1/login/' + libraryNumber + '/' + postcode;
     const headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
-    // const options = {
-    //   responseType: 'text' as const,
-    // };
+
     return this.http.post(loginUrl, JSON.stringify({id: libraryNumber, pass: postcode}),{headers: headers, responseType: 'text'}).pipe(
-    // return this.http.get(loginUrl, {headers: headers, responseType: 'text'}).pipe(
       tap(() => this.libraryNumber = libraryNumber),
       tap(data => this.libraryName = data),
       tap(() => this.cookieService.set('libraryNumber', libraryNumber, {expires: 0.1})),
