@@ -4,28 +4,34 @@ const express = require('express');
 const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan');
-const path = require('path');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const favicon = require('serve-favicon');
+const cors = require('cors');
+
+const loans = require('./routes/loans');
+const login = require('./routes/login');
 
 const PORT = process.env.PORT || 8001;
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:4200/'
+}));
+
+app.use(cookieParser());
+
+
 app.use(morgan('tiny'));
 
 app.use(favicon(__dirname + '/../client/favicon.png'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(cookieParser());
-
-app.use(express.static(path.join(__dirname, '../client/')));
-
-app.get('/', (req, res) => {
-  res.send('hello from my app');
-});
 
 app.listen(PORT, ()=>{
-  debug(`listening on port ${chalk.green(PORT)}`);
+  debug(`listening to port ${chalk.green(PORT)}`);
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use('/api/v1/login', login);
+app.use('/api/v1/loans', loans);

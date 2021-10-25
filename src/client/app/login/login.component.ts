@@ -1,8 +1,35 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginService} from "./login.service";
 import {Router} from "@angular/router";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn} from "@angular/forms";
+import {debounceTime} from "rxjs/operators";
+
+import {LoginService} from "./login.service";
+
+interface ErrorMessages {
+  partnerCode: string,
+  password: string,
+  dontExist: string
+}
+
+interface ErrorCodes {
+  required: string,
+  range: string
+}
+
+interface ValidationMessages {
+  partnerCode: ErrorCodes,
+  password: ErrorCodes,
+  dontExist: string
+}
+
+function inputRange(min: number, max: number): ValidatorFn {
+  return (c: AbstractControl): { [key: string]: boolean } | null => {
+    if ((c.value !== null && c.value !== '') && (isNaN(c.value) || c.value < min || c.value > max)) {
+      return {range: true};
+    }
+    return null;
+  };
+}
 
 @Component({
   selector: 'login',
@@ -11,70 +38,97 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 export class LoginComponent implements OnInit {
 
+
+  errorMessage: ErrorMessages = {partnerCode: '', password: '', dontExist: ''};
+
+  loginForm!: FormGroup;
   spin: boolean = false;
   libraryName: string = '';
-  partnerCode: string = '';
-  password: string = '';
-  errorMessage: string = '';
   loginError: boolean = false;
-  form: FormGroup;
+
+  validationMessages: ValidationMessages = {
+    partnerCode: {
+      required: 'Indtast venligst dit biblioteksnummer',
+      range: 'Biblioteksnummer skal være 6 cifre'
+    },
+    password: {
+      required: 'Indtast venligst dit adgangskode',
+      range: 'Adgangskode skal være 4 cifre'
+    },
+    dontExist: 'Biblioteksnummer eller adgangskode er forkert'
+  };
 
   constructor(private loginService: LoginService,
               private router: Router,
-              public fb: FormBuilder,
-              private http: HttpClient) {
-    this.form = this.fb.group({
-      partnerCode: '',
-      password: ''
-    })
+              private formBuilder: FormBuilder) {
   }
 
-  checkValidity() {
-    this.submitForm();
-    // if (parseInt(this.partnerCode) >= 100000 && parseInt(this.partnerCode) <= 999999 && parseInt(this.password) >= 1000 && parseInt(this.password) <= 9999) {
-    //   this.loginService.validate(this.partnerCode, this.password).subscribe({
-    //     next: libraryName => {
-    //       this.libraryName = libraryName;
-    //       this.spin = true;
-    //       this.router.navigate(['loans', this.partnerCode]);
-    //     },
-    //     error: err => {
-    //       this.errorMessage = err;
-    //       this.loginError = true;
-    //     }
-    //   });
-    // } else {
-    //   this.loginError = true;
-    // }
+  checkValidity(partnerCode:string, password:string) {
 
+    this.loginService.validate(partnerCode, password).subscribe({
+      next: libraryName => {
+        this.libraryName = libraryName;
+        this.spin = true;
+        this.router.navigate(['loans', partnerCode]);
+      },
+      error: err => {
+        this.errorMessage.dontExist = this.validationMessages.dontExist;
+        this.loginError = true;
+        console.error(err);
+      }
+    });
   }
 
-  submitForm() {
-    let formData: any = new FormData();
-    formData.set("partnerCode", this.partnerCode);
-    formData.set("password", this.password);
+  submit() {
+    let partnerCode = this.loginForm.controls.partnerCode.value;
+    let password = this.loginForm.controls.password.value;
 
-    // console.log(formData.values(), this.partnerCode, this.password);
-    // for (var value of formData.values()) {
-    //   console.log(value);
-    // }
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-      })
-    };
-
-    const headers = { 'content-type': 'application/json'};
-    const body = { title: 'Angular POST Request Example' };
-
-    this.http.post('http://localhost:3000/api/v1/login', JSON.stringify({"partnerCode": this.partnerCode}), {'headers':headers}).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error)
-    )
+    if (parseInt(partnerCode) >= 100000 && parseInt(partnerCode) <= 999999 && parseInt(password) >= 1000 && parseInt(password) <= 9999) {
+      this.checkValidity(partnerCode, password);
+    } else {
+      this.errorMessage.dontExist = this.validationMessages.dontExist;
+      console.error('Error:', this.errorMessage.dontExist);
+      this.loginError = true;
+    }
   }
 
   ngOnInit(): void {
+
+    this.loginForm = this.formBuilder.group({
+      partnerCode: ['', [Validators.required, inputRange(100000, 999999)]],
+      password: ['', [Validators.required, inputRange(1000, 9999)]]
+    });
+
+    const partnerCodeControl = this.loginForm.controls.partnerCode;
+    const passwordControl = this.loginForm.controls.password;
+
+    partnerCodeControl.valueChanges
+      .pipe(
+        debounceTime(1000)
+      )
+      .subscribe(
+      () => this.setMessage('partnerCode', partnerCodeControl)
+    );
+
+    passwordControl.valueChanges
+      .pipe(
+        debounceTime(1000)
+      )
+      .subscribe(
+      () => this.setMessage('password', passwordControl)
+    );
+
     this.loginService.logout();
   }
 
+  setMessage(controlName: keyof ErrorMessages, c: AbstractControl): void {
+    this.errorMessage[controlName] = '';
+    if ((c.touched || c.dirty) && c.errors) {
+      this.errorMessage[controlName] = Object.keys(c.errors).map(
+        key => {
+          // @ts-ignore
+          return this.validationMessages[controlName][key]
+        }).join(' ');
+    }
+  }
 }
