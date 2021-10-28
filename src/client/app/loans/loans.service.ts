@@ -11,16 +11,9 @@ export class LoanService {
   constructor(private http: HttpClient) {
   }
 
-  // getLoans(partnerCode: string): Observable<ILoan[]> {
-  //   let loanUrl = 'https://devel12.statsbiblioteket.dk/librarylending/v1/partnerLoans/' + partnerCode;
-  //   return this.http.get<ILoan[]>(loanUrl).pipe(
-  //     catchError(LoanService.handleError)
-  //   );
-  // }
-
   getLoans(partnerCode: string):Observable<ILoan[]>{
       let loanUrl = 'http://localhost:4000/api/v1/loans/' + partnerCode;
-      return this.http.get<ILoan[]>(loanUrl).pipe(
+      return this.http.get<ILoan[]>(loanUrl, {withCredentials: true}).pipe(
         catchError(LoanService.handleError)
       );
   }

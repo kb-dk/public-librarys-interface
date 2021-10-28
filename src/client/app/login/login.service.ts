@@ -32,7 +32,7 @@ export class LoginService {
     let loginUrl = 'http://localhost:4000/api/v1/login/';
     const headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
 
-    return this.http.post(loginUrl, JSON.stringify({id: libraryNumber, pass: postcode}),{headers: headers, responseType: 'text'}).pipe(
+    return this.http.post(loginUrl, JSON.stringify({username: libraryNumber, password: postcode}),{headers: headers, responseType: 'text', withCredentials: true}).pipe(
       tap(() => this.libraryNumber = libraryNumber),
       tap(data => this.libraryName = data),
       tap(() => this.cookieService.set('libraryNumber', libraryNumber, {expires: 0.1})),
@@ -42,18 +42,25 @@ export class LoginService {
     );
   }
 
-  logout() {
+  logout(){
     this.isLoggedOut = true;
     this.cookieService.delete('libraryName');
     this.cookieService.delete('libraryNumber');
     this.libraryName = '';
     this.libraryNumber = '';
-    this.router.navigate(['/login']);
+    console.log('logged out');
+    let logoutUrl = 'http://localhost:4000/api/v1/logout';
+    this.http.get(logoutUrl, {withCredentials: true}).pipe(
+      tap(() => console.log('logged out'))
+    ).subscribe(()=>{
+      this.router.navigate(['/login']);
+    },(error)=>{
+      console.log(error);
+    });
   }
 
   static handleError(err: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
-    console.log(err);
     if (err.error instanceof ErrorEvent) {
       // A client-side or network error occurred.
       errorMessage = `An error occurred: ${err.error.message}`;
@@ -61,7 +68,6 @@ export class LoginService {
       // The backend returned an unsuccessful response code.
       errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
     }
-    console.error(errorMessage);
     return throwError(errorMessage);
   }
 
