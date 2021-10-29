@@ -11,6 +11,8 @@ shutdownPort=4206
 debugPort=4276
 appName=interlibraryloans
 
+version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version -Psbprojects-nexus | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }')
+
 (mvn $1 clean package -Psbprojects-nexus -DskipTests=true) || exit 1
 
 TOMCAT_VERSION=9.0.36
@@ -34,7 +36,7 @@ cp -f "$SCRIPT_DIR/conf/local/$appName.xml" "$TOMCAT_HOME/conf/Catalina/localhos
 sleep 5
 
 export JAVA_HOME=${JAVA_HOME:-/usr/lib/jvm/java-11/}
-export JAVA_OPTS="$JAVA_OPTS -Dproject.home=$SCRIPT_DIR"
+export JAVA_OPTS="$JAVA_OPTS -Dproject.home=$SCRIPT_DIR -Dproject.version=$version"
 export JPDA_ADDRESS="0.0.0.0:$debugPort"
 
 exec $TOMCAT_HOME/bin/catalina.sh jpda run

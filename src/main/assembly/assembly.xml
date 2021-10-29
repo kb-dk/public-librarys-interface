@@ -17,7 +17,7 @@
     <files>
         <file>
             <outputDirectory>services</outputDirectory>
-            <source>target/${project.artifactId}.war</source>
+            <source>target/${project.artifactId}-${project.version}.war</source>
         </file>
 
         <file>
