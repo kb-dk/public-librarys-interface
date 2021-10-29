@@ -16,6 +16,7 @@
   <artifactId>librarylending_frontend</artifactId>
   <version>0.1-SNAPSHOT</version>
 
+  <packaging>war</packaging>
 
   <build>
     <plugins>
@@ -39,6 +40,7 @@
               <arguments>install --frozen-lockfile --non-interactive</arguments>
             </configuration>
           </execution>
+          <!--TODO '-'-configuration=test -->
           <execution>
             <id>yarn build</id>
             <goals>
@@ -52,6 +54,44 @@
         <configuration>
           <nodeVersion>v14.17.6</nodeVersion>
           <yarnVersion>v1.13.0</yarnVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <warName>${project.artifactId}</warName>
+
+          <webResources>
+<!--            <resource>
+              <directory>src/main/webapp</directory>
+            </resource>-->
+            <resource>
+              <directory>${project.build.directory}/public-librarys-interface/</directory>
+              <!-- override the destination directory for this resource -->
+<!--              <targetPath>WEB-INF</targetPath>-->
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/main/assembly/assembly.xml</descriptor>
+          </descriptors>
+          <attach>true</attach>
         </configuration>
       </plugin>
     </plugins>
