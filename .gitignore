@@ -1,5 +1,11 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+#IntelijJ idea project files
+*.iml
+*.ipr
+*.ifs
+.idea/
+
 # compiled output
 /dist
 /tmp
