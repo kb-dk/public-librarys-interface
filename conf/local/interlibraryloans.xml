@@ -1,0 +1,13 @@
+<Context docBase="${project.home}/target/interlibraryloans-${project.version}.war">
+
+  <Environment name="interlibraryloans-logback-config"
+               value="conf/local/logback.xml"
+               type="java.lang.String"
+               override="false"/>
+
+  <!-- Note that the application-config is defined using globbing: Multiple config files are merged -->
+  <Environment name="application-config"
+               value="conf/interlibraryloans-*.yaml"
+               type="java.lang.String"
+               override="false"/>
+</Context>
