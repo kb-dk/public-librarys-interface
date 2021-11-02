@@ -1,14 +1,22 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+#IntelijJ idea project files
+*.iml
+*.ipr
+*.ifs
+.idea/
+
 # compiled output
 /dist
 /tmp
 /out-tsc
+/target
 # Only exists if Bazel was run
 /bazel-out
 
 # dependencies
 /node_modules
+/node
 
 # profiling files
 chrome-profiler-events*.json
@@ -40,6 +48,11 @@ yarn-error.log
 testem.log
 /typings
 
+/apache-tomcat-*
+/apache-tomcat-*.tar.gz
+
 # System Files
 .DS_Store
 Thumbs.db
+
+yarn.lock
