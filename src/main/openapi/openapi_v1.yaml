@@ -17,7 +17,7 @@ servers:
 
 paths:
   /checkCreds:
-    get:
+    post:
       tags:
         - '${project.name}'
       summary: 'Check the given credentials to see if they are valid'
