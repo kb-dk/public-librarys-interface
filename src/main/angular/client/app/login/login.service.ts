@@ -31,11 +31,12 @@ export class LoginService {
     let loginUrl = 'api/checkCreds';
     const headers = new HttpHeaders({'Content-Type': 'text/plain; charset=utf-8'});
     return this.http.post(loginUrl,
-      JSON.stringify({username: libraryNumber, password: postcode}),
+      JSON.stringify({libraryNumber: libraryNumber, postcode: postcode}),
       {
       headers: headers,
       responseType: 'text',
-      withCredentials: true
+      withCredentials: true,
+        params: {libraryNumber: libraryNumber, postcode: postcode}
     }).pipe(
       tap(() => this.libraryNumber = libraryNumber),
       tap(data => this.libraryName = data),

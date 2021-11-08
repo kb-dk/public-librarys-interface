@@ -21,21 +21,54 @@ paths:
       tags:
         - '${project.name}'
       summary: 'Check the given credentials to see if they are valid'
-      parameters:
-        - name: libraryNumber
-          in: query
-          description: 'The Library number'
-          required: true
-          example: "775100"
-          schema:
-            type: string
-        - name: postcode
-          in: query
-          description: 'The Library Postcode'
-          required: true
-          example: "8000"
-          schema:
-            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                libraryNumber:
+                  type: string
+                  description: 'The Library number'
+                  example: "775100"
+                postcode:
+                  description: 'The Library Postcode'
+                  example: "8000"
+                  type: string
+              required:
+                - libraryNumber
+                - postcode
+          application/json:
+            schema:
+              type: object
+              properties:
+                libraryNumber:
+                  type: string
+                  description: 'The Library number'
+                  example: "775100"
+                postcode:
+                  description: 'The Library Postcode'
+                  example: "8000"
+                  type: string
+              required:
+                - libraryNumber
+                - postcode
+#      parameters:
+#        - name: libraryNumber
+#          in: query
+#          description: 'The Library number'
+#          required: true
+#          example: "775100"
+#          schema:
+#            type: string
+#        - name: postcode
+#          in: query
+#          description: 'The Library Postcode'
+#          required: true
+#          example: "8000"
+#          schema:
+#            type: string
       operationId: checkCreds
       x-useGenericResponse: false # If enabled the method will return Response
       x-streamingOutput: false # If enabled the method will return StreamingOutput.
