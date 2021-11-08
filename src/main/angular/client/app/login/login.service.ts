@@ -28,9 +28,15 @@ export class LoginService {
   }
 
   validate(libraryNumber: string, postcode: string) {
-    let loginUrl = 'api/checkCreds?libraryNumber=' + libraryNumber + '&postcode=' + postcode;
+    let loginUrl = 'api/checkCreds';
     const headers = new HttpHeaders({'Content-Type': 'text/plain; charset=utf-8'});
-    return this.http.get(loginUrl, {headers: headers, responseType: 'text'}).pipe(
+    return this.http.post(loginUrl,
+      JSON.stringify({username: libraryNumber, password: postcode}),
+      {
+      headers: headers,
+      responseType: 'text',
+      withCredentials: true
+    }).pipe(
       tap(() => this.libraryNumber = libraryNumber),
       tap(data => this.libraryName = data),
       tap(() => this.cookieService.set('libraryNumber', libraryNumber, {expires: 0.1})),

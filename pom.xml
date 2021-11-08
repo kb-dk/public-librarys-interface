@@ -18,6 +18,11 @@
 
     <packaging>war</packaging>
 
+
+    <scm>
+        <developerConnection>scm:git:ssh://git@github.com:kb-dk/public-librarys-interface.git</developerConnection>
+        <connection>scm:git:ssh://git@github.com:kb-dk/public-librarys-interface.git</connection>
+    </scm>
     <properties>
         <!-- Specify java version here, to support forbiddenapis plugin -->
         <maven.compiler.source>11</maven.compiler.source>
