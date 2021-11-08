@@ -14,7 +14,6 @@ servers:
   - url: '/${project.artifactId}/v1'
     description: 'Version 1'
 
-
 paths:
   /checkCreds:
     post:
@@ -24,57 +23,20 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                libraryNumber:
-                  type: string
-                  description: 'The Library number'
-                  example: "775100"
-                postcode:
-                  description: 'The Library Postcode'
-                  example: "8000"
-                  type: string
-              required:
-                - libraryNumber
-                - postcode
           application/json:
             schema:
-              type: object
-              properties:
-                libraryNumber:
-                  type: string
-                  description: 'The Library number'
-                  example: "775100"
-                postcode:
-                  description: 'The Library Postcode'
-                  example: "8000"
-                  type: string
-              required:
-                - libraryNumber
-                - postcode
-#      parameters:
-#        - name: libraryNumber
-#          in: query
-#          description: 'The Library number'
-#          required: true
-#          example: "775100"
-#          schema:
-#            type: string
-#        - name: postcode
-#          in: query
-#          description: 'The Library Postcode'
-#          required: true
-#          example: "8000"
-#          schema:
-#            type: string
+              $ref: '#/components/schemas/CheckCreds'
       operationId: checkCreds
       x-useGenericResponse: false # If enabled the method will return Response
       x-streamingOutput: false # If enabled the method will return StreamingOutput.
       responses:
         '200':
           description: 'OK'
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: JSESSIONID=abcde12345; Path=/; HttpOnly
           content:
             text/plain:
               schema:
@@ -111,6 +73,8 @@ paths:
         - '${project.name}'
       summary: 'Summary TODO'
       operationId: getPartnerLoans
+      security:
+        - cookieAuth: []
       parameters:
         - name: partnerID
           in: path
@@ -147,7 +111,25 @@ paths:
 
 
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+
   schemas:
+    CheckCreds:
+      type: object
+      properties:
+        username:
+          type: string
+          description: 'The Library number'
+          example: "775100"
+        password:
+          description: 'The Library Postcode'
+          example: "8000"
+          type: string
+
     LendingRequestState:
       type: string
       nullable: true

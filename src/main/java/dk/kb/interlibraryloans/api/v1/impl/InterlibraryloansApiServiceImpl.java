@@ -7,10 +7,12 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import dk.kb.interlibraryloans.api.v1.InterlibraryloansApi;
 import dk.kb.interlibraryloans.config.ServiceConfig;
+import dk.kb.interlibraryloans.model.v1.CheckCreds;
 import dk.kb.interlibraryloans.model.v1.LendingRequestState;
 import dk.kb.interlibraryloans.model.v1.LibraryLoan;
 import dk.kb.interlibraryloans.webservice.exception.InternalServiceException;
 import dk.kb.interlibraryloans.webservice.exception.ServiceException;
+import dk.kb.interlibraryloans.webservice.exception.UnauthorizedServiceException;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Request;
@@ -30,6 +33,7 @@ import javax.ws.rs.ext.Providers;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -96,28 +100,19 @@ public class InterlibraryloansApiServiceImpl implements InterlibraryloansApi {
         return client;
     }
     
-    /**
-     * Check the given credentials to see if they are valid
-     *
-     * @param libraryNumber: The Library number
-     * @param postcode:      The Library Postcode
-     * @return <ul>
-     *         <li>code = 200, message = "OK", response = String.class</li>
-     *         <li>code = 404, message = "Library is not found", response = String.class</li>
-     *         <li>code = 400, message = "Postcode is not of valid format", response = String.class</li>
-     *         <li>code = 401, message = "Postcode is not the postcode of the library", response = String.class</li>
-     *         <li>code = 500, message = "Internal Error", response = String.class</li>
-     *         </ul>
-     * @throws ServiceException when other http codes should be returned
-     * @implNote return will always produce a HTTP 200 code. Throw ServiceException if you need to return other
-     *         codes
-     */
+   
     @Override
-    public String checkCreds(String libraryNumber, String postcode) throws ServiceException {
+    public String checkCreds(CheckCreds params) throws ServiceException {
         WebClient client = getWebClient();
-        return client.path("checkCreds")
-                     .query("libraryNumber", libraryNumber)
-                     .query("postcode", postcode).get(String.class);
+        final String result = client.path("checkCreds")
+                               .query("libraryNumber", params.getUsername())
+                               .query("postcode", params.getPassword()).get(String.class);
+        //If we are stil lhere and an exception is not thrown, the username/password combo worked
+        
+        //Create a session and set the libraryNumber as Attribute on this session
+        HttpSession session = httpServletRequest.getSession(true);
+        session.setAttribute("libraryNumber",params.getUsername());
+        return result;
     }
     
     /**
@@ -137,6 +132,12 @@ public class InterlibraryloansApiServiceImpl implements InterlibraryloansApi {
     public List<LibraryLoan> getPartnerLoans(String partnerID,
                                              List<LendingRequestState> lendingRequestState,
                                              OffsetDateTime modifiedAfter) throws ServiceException {
+        //Get the http session, if any
+        HttpSession session = httpServletRequest.getSession(false);
+        if (session == null || !Objects.equals(session.getAttribute("libraryNumber"), partnerID)){
+            //If no session or not a correct session, fail
+            throw new UnauthorizedServiceException("You are not authorized to view the loans of "+partnerID);
+        }
         
         WebClient client = getWebClient();
         
