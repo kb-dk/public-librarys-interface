@@ -1,0 +1,13 @@
+<Context docBase="/home/almalile/services/tomcat-apps/interlibraryloans.war">
+
+  <Environment name="interlibraryloans-logback-config"
+               value="/home/almalile/services/conf/logback.xml"
+               type="java.lang.String"
+               override="false"/>
+
+  <!-- Note that the application-config is defined using globbing: Multiple config files are merged -->
+  <Environment name="application-config"
+               value="/home/almalile/services/conf/interlibraryloans-*.yaml"
+               type="java.lang.String"
+               override="false"/>
+</Context>
