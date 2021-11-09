@@ -19,7 +19,7 @@ tomcatDebugPort=9019
 version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version -Psbprojects-nexus | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }')
 
 #Build
-#(cd "$SCRIPT_DIR/"..; pwd; mvn $1 package -Psbprojects-nexus -DskipTests=true --also-make --projects "$(basename "$SCRIPT_DIR")") || exit 1
+(cd "$SCRIPT_DIR/"..; pwd; mvn $1 package -Psbprojects-nexus -DskipTests=true --also-make --projects "$(basename "$SCRIPT_DIR")") || exit 1
 
 #install
 rsync -av "$SCRIPT_DIR/target/$projectName-${version}.war" "${devel}:services/tomcat-apps/$projectName.war"
