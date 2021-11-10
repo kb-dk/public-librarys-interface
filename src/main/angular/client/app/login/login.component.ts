@@ -8,7 +8,7 @@ import {LoginService} from "./login.service";
 interface ErrorMessages {
   partnerCode: string,
   password: string,
-  dontExist: string
+  doesntExist: string
 }
 
 interface ErrorCodes {
@@ -19,7 +19,7 @@ interface ErrorCodes {
 interface ValidationMessages {
   partnerCode: ErrorCodes,
   password: ErrorCodes,
-  dontExist: string
+  doesntExist: string
 }
 
 function inputRange(min: number, max: number): ValidatorFn {
@@ -39,7 +39,7 @@ function inputRange(min: number, max: number): ValidatorFn {
 export class LoginComponent implements OnInit {
 
 
-  errorMessage: ErrorMessages = {partnerCode: '', password: '', dontExist: ''};
+  errorMessage: ErrorMessages = {partnerCode: '', password: '', doesntExist: ''};
 
   loginForm!: FormGroup;
   spin: boolean = false;
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       required: 'Indtast venligst dit adgangskode',
       range: 'Adgangskode skal være 4 cifre'
     },
-    dontExist: 'Biblioteksnummer eller adgangskode er forkert'
+    doesntExist: 'Biblioteksnummer eller adgangskode er forkert'
   };
 
   constructor(private loginService: LoginService,
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['loans', partnerCode]);
       },
       error: err => {
-        this.errorMessage.dontExist = this.validationMessages.dontExist;
+        this.errorMessage.doesntExist = this.validationMessages.doesntExist;
         this.loginError = true;
         console.error(err);
       }
@@ -86,8 +86,8 @@ export class LoginComponent implements OnInit {
     if (parseInt(partnerCode) >= 100000 && parseInt(partnerCode) <= 999999 && parseInt(password) >= 1000 && parseInt(password) <= 9999) {
       this.checkValidity(partnerCode, password);
     } else {
-      this.errorMessage.dontExist = this.validationMessages.dontExist;
-      console.error('Error:', this.errorMessage.dontExist);
+      this.errorMessage.doesntExist = this.validationMessages.doesntExist;
+      console.error('Error:', this.errorMessage.doesntExist);
       this.loginError = true;
     }
   }
