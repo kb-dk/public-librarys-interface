@@ -20,8 +20,7 @@
 
 
     <scm>
-        <developerConnection>scm:git:ssh://git@github.com:kb-dk/public-librarys-interface.git</developerConnection>
-        <connection>scm:git:ssh://git@github.com:kb-dk/public-librarys-interface.git</connection>
+        <developerConnection>scm:git:git@github.com:kb-dk/public-librarys-interface.git</developerConnection>
     </scm>
     <properties>
         <!-- Specify java version here, to support forbiddenapis plugin -->
