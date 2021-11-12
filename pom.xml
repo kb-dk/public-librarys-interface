@@ -234,6 +234,8 @@
                         </configuration>
                     </execution>
 
+                    <!--ng test is an interactive test, not a unit test so do not run it here-->
+<!--
                     <execution>
                         <id>ng test</id>
                         <phase>test</phase>
@@ -244,6 +246,7 @@
                             <arguments>run-script test</arguments>
                         </configuration>
                     </execution>
+-->
                 </executions>
 
             </plugin>
