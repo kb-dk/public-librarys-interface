@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>dk.statsbiblioteket.sbprojects</groupId>
         <artifactId>sbprojects-parent</artifactId>
         <version>34</version>
-        <relativePath/><!-- override default parentpath of ../pom.xml-->
+        <relativePath /><!-- override default parentpath of ../pom.xml-->
     </parent>
 
 
     <groupId>dk.kb.alma</groupId>
     <artifactId>interlibraryloans</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
     <packaging>war</packaging>
 
 
     <scm>
-        <developerConnection>scm:git:ssh://git@github.com:kb-dk/public-librarys-interface.git</developerConnection>
-        <connection>scm:git:ssh://git@github.com:kb-dk/public-librarys-interface.git</connection>
-    </scm>
+        <developerConnection>scm:git:git@github.com:kb-dk/public-librarys-interface.git</developerConnection>
+      <tag>HEAD</tag>
+  </scm>
     <properties>
         <!-- Specify java version here, to support forbiddenapis plugin -->
         <maven.compiler.source>11</maven.compiler.source>
@@ -94,7 +92,7 @@
                     <generatorName>jaxrs-cxf-extended</generatorName>
                     <inputSpec>${project.build.outputDirectory}/openapi.yaml
                     </inputSpec><!-- Will always be overridden -->
-                    <modelNameSuffix></modelNameSuffix>
+                    <modelNameSuffix />
                     <generateSupportingFiles>false</generateSupportingFiles>
                     <generateApiTests>false</generateApiTests>
                     <generateModelDocumentation>true</generateModelDocumentation>
@@ -234,6 +232,8 @@
                         </configuration>
                     </execution>
 
+                    <!--ng test is an interactive test, not a unit test so do not run it here-->
+<!--
                     <execution>
                         <id>ng test</id>
                         <phase>test</phase>
@@ -244,6 +244,7 @@
                             <arguments>run-script test</arguments>
                         </configuration>
                     </execution>
+-->
                 </executions>
 
             </plugin>

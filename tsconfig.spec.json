@@ -8,8 +8,8 @@
     ]
   },
   "files": [
-    "src/main/angular/test.ts",
-    "src/main/angular/polyfills.ts"
+    "src/test/angular/client/test.ts",
+    "src/main/angular/client/polyfills.ts"
   ],
   "include": [
     "src/main/angular/**/*.spec.ts",
