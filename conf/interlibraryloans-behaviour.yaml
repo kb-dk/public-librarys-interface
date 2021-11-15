@@ -11,4 +11,4 @@
 
 
 libraryloans:
-  address: https://devel12.statsbiblioteket.dk/librarylending/v1/
+  address: http://devel12.statsbiblioteket.dk:9011/librarylending/v1/
