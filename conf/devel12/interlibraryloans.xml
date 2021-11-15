@@ -1,7 +1,7 @@
 <Context docBase="/home/almalile/services/tomcat-apps/interlibraryloans.war">
 
   <Environment name="interlibraryloans-logback-config"
-               value="/home/almalile/services/conf/logback.xml"
+               value="/home/almalile/services/conf/interlibraryloans-logback.xml"
                type="java.lang.String"
                override="false"/>
 
