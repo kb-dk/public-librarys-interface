@@ -12,14 +12,14 @@
 
     <groupId>dk.kb.alma</groupId>
     <artifactId>interlibraryloans</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
 
     <packaging>war</packaging>
 
 
     <scm>
         <developerConnection>scm:git:git@github.com:kb-dk/public-librarys-interface.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>interlibraryloans-1.1</tag>
   </scm>
     <properties>
         <!-- Specify java version here, to support forbiddenapis plugin -->
@@ -429,7 +429,7 @@
         <dependency>
             <groupId>dk.kb.util</groupId>
             <artifactId>kb-util</artifactId>
-            <version>1.4.5-SNAPSHOT</version>
+            <version>1.4.4</version>
         </dependency>
 
         <!-- Unit test -->
