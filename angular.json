@@ -46,7 +46,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/interlibraryloans/",
+              "baseHref": "/laanestatus/",
               "budgets": [
                 {
                   "type": "initial",
