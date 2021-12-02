@@ -2,9 +2,11 @@ package dk.kb.interlibraryloans.webservice;
 
 
 import dk.kb.interlibraryloans.api.v1.impl.LaanestatusJavaApiApiServiceImpl;
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -16,8 +18,11 @@ public class Application_v1 extends javax.ws.rs.core.Application {
         //But for good order, we do not add JacksonJaxbJsonProvider.class anyway
         final var jsonProviderWithFixedOffsetDateTimes =
                 OffsetDateTimeHandler.getJsonProviderWithFixedOffsetDateTimes();
-
-        return Set.of(jsonProviderWithFixedOffsetDateTimes);
+        //TODO get this configurable
+        final var crossOriginResourceSharingFilter = new CrossOriginResourceSharingFilter();
+        crossOriginResourceSharingFilter.setAllowCredentials(true);
+        crossOriginResourceSharingFilter.setAllowOrigins(List.of("http://localhost:4200"));
+        return Set.of(jsonProviderWithFixedOffsetDateTimes, crossOriginResourceSharingFilter);
     }
 
     @Override
