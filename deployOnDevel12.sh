@@ -12,7 +12,7 @@ set -e
 develServer=devel12.statsbiblioteket.dk
 user="almalile" #ALMA LIbrary LEnding
 devel="$user@${develServer}"
-projectName=$(basename "$SCRIPT_DIR")
+projectName=laanestatus
 tomcatHttpPort=9011
 tomcatDebugPort=9019
 

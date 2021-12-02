@@ -9,11 +9,11 @@ pushd $SCRIPT_DIR > /dev/null
 port=4200
 shutdownPort=4206
 debugPort=4276
-appName=interlibraryloans
+appName=laanestatus
 
 version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version -Psbprojects-nexus | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }')
 
-(mvn $1 clean package -Psbprojects-nexus -DskipTests=true) || exit 1
+#(mvn $1 clean package -Psbprojects-nexus -DskipTests=true) || exit 1
 
 TOMCAT_VERSION=9.0.36
 #TOMCAT_VERSION=8.5.51

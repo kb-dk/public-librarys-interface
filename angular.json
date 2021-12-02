@@ -68,7 +68,7 @@
               "outputHashing": "all"
             },
             "test": {
-              "baseHref": "/interlibraryloans/",
+              "baseHref": "/laanestatus/",
               "budgets": [
                 {
                   "type": "initial",
