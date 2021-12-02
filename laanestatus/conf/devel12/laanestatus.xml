@@ -1,0 +1,13 @@
+<Context docBase="/home/almalile/services/tomcat-apps/laanestatus.war">
+
+  <Environment name="laanestatus-logback-config"
+               value="/home/almalile/services/conf/laanestatus-logback.xml"
+               type="java.lang.String"
+               override="false"/>
+
+  <!-- Note that the application-config is defined using globbing: Multiple config files are merged -->
+  <Environment name="application-config"
+               value="/home/almalile/services/conf/laanestatus-*.yaml"
+               type="java.lang.String"
+               override="false"/>
+</Context>
