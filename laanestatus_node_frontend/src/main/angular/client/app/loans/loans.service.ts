@@ -12,7 +12,7 @@ export class LoanService {
   }
 
   getLoans(partnerCode: string): Observable<ILoan[]> {
-    let loanUrl = 'api/partnerLoans/' + partnerCode;
+    let loanUrl = 'http://devel12.statsbiblioteket.dk:9011/laanestatus/api/partnerLoans/' + partnerCode;
     return this.http.get<ILoan[]>(loanUrl).pipe(
       catchError(LoanService.handleError)
     );

@@ -28,7 +28,7 @@ export class LoginService {
     }
 
     validate(libraryNumber: string, postcode: string) {
-        let loginUrl = 'api/checkCreds';
+        let loginUrl = 'http://devel12.statsbiblioteket.dk:9011/laanestatus/api/checkCreds';
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Accept': 'text/plain'
