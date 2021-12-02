@@ -22,6 +22,7 @@ version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpres
 #Build
 (cd "$SCRIPT_DIR/"..; pwd; mvn $1 package -Psbprojects-nexus -DskipTests=true --also-make --projects "$(basename "$SCRIPT_DIR")") || exit 1
 
+set -x
 #install
 rsync -av "$SCRIPT_DIR/target/${projectName}-${version}.war" "${devel}:services/tomcat-apps/${projectName}.war"
 rsync -av "$SCRIPT_DIR/conf" --exclude='*-local.yaml' --exclude "/**/**/" "${devel}:services/"

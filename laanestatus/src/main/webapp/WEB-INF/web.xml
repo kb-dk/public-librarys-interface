@@ -8,15 +8,43 @@
     <display-name>${project.name}</display-name>
 
 
-    <!--Listeners must be defined in the primary web.xml-->
-    <listener>
-        <listener-class>dk.kb.interlibraryloans.webservice.ContextListener</listener-class>
-    </listener>
-
     <!--servlets and filters can be defined in web-fragment.xml-->
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
+    <!--This handles rewriting requests to /index.html-->
+    <filter>
+        <filter-name>RewriteFilter</filter-name>
+        <filter-class>dk.kb.interlibraryloans.webservice.RewriteFilter</filter-class>
+        <init-param>
+            <param-name>rewrite.patterns</param-name>
+            <!-- Values not matched are redirected to index.html            -->
+            <param-value>
+                ^/?$
+                /index\.html <!--do not redirect index.html to itself-->
+                /api <!--The api calls should work normally-->
+                /.+\.js
+                /.+\.ico
+                /.+\.css
+                /.+\.png
+                /.+\.jpg
+                /.+\.woff2
+                /.+\.woff
+                /.+\.ttf
+                /.+\.svg
+                /.+\.png
+            </param-value>
+        </init-param>
+        <init-param>
+            <!--Rewrite it to be "/index.html" -->
+            <param-name>rewrite.replacement</param-name>
+            <param-value>/index.html</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>RewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

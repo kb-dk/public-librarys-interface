@@ -18,7 +18,6 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>laanestatus_java_api</module>
         <module>laanestatus_node_frontend</module>
         <module>laanestatus</module>
     </modules>
