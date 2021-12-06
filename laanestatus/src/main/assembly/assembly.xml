@@ -25,11 +25,6 @@
         </file>
 
         <file>
-            <outputDirectory>services/conf</outputDirectory>
-            <source>conf/${project.artifactId}-behaviour.yaml</source>
-        </file>
-
-        <file>
             <outputDirectory>.</outputDirectory>
             <source>../README.md</source>
         </file>
