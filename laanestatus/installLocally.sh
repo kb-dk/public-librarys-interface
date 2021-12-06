@@ -6,7 +6,7 @@ set -e
 
 pushd $SCRIPT_DIR > /dev/null
 
-port=4210
+port=4200
 shutdownPort=4206
 debugPort=4276
 projectBaseUrl=laanestatus
