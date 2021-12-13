@@ -4,12 +4,13 @@ import {Observable, throwError} from "rxjs";
 import {catchError, tap} from 'rxjs/operators';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoginService {
-
+    private CHECK_CREDS_URL= environment.CHECK_CREDS_URL;
     libraryName: string = '';
     libraryNumber: string = '';
     isLoggedOut: boolean | null = null;
@@ -28,7 +29,7 @@ export class LoginService {
     }
 
     validate(libraryNumber: string, postcode: string) {
-        let loginUrl = 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/checkCreds';
+        let loginUrl = this.CHECK_CREDS_URL;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Accept': 'text/plain'

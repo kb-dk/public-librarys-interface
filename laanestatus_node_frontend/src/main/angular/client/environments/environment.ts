@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  CHECK_CREDS_URL: 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/checkCreds',
+  GET_LOANS_URL: 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/partnerLoans/',
 };
 
 /*

@@ -3,17 +3,19 @@ import {Injectable} from "@angular/core";
 import {Observable, throwError} from "rxjs";
 import {catchError} from 'rxjs/operators';
 import {ILoan} from "./loan.interface";
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoanService {
+  private GET_LOANS_URL= environment.GET_LOANS_URL;
   constructor(private http: HttpClient) {
   }
 
   getLoans(partnerCode: string): Observable<ILoan[]> {
-    let loanUrl = 'http://devel12.statsbiblioteket.dk:9011/librarylending/v1/partnerLoans/' + partnerCode;
-    return this.http.get<ILoan[]>(loanUrl).pipe(
+    let loanUrl = this.GET_LOANS_URL + partnerCode;
+    return this.http.get<ILoan[]>(loanUrl,{withCredentials: true}).pipe(
       catchError(LoanService.handleError)
     );
   }
