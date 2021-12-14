@@ -38,6 +38,9 @@
         <license.url>https://www.apache.org/licenses/LICENSE-2.0.txt</license.url>
 
         <project.package>dk.kb.interlibraryloans</project.package>
+        <angular.environment>test</angular.environment>
+        <!--development is localhost test is devel12, production is production-->
+
     </properties>
 
     <profiles>
@@ -129,7 +132,28 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>angularProd</id>
+            <properties>
+                <angular.environment>production</angular.environment>
+            </properties>
+        </profile>
     </profiles>
 
+    <build>
+        <plugins>
+            <plugin>
+<!--                https://issues.apache.org/jira/browse/MRELEASE-863-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <!--
+                      During release:perform, enable the "angularProd" profile to set the prod urls
+                     -->
+                    <releaseProfiles>angularProd</releaseProfiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
