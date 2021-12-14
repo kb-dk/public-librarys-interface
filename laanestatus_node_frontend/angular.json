@@ -62,7 +62,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/main/angular/client/environments/environment.ts",
-                  "with": "src/main/angular/client/environments/environment.prod.ts"
+                  "with": "conf/environment.production.ts"
                 }
               ],
               "outputHashing": "all"
@@ -81,7 +81,13 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/main/angular/client/environments/environment.ts",
+                  "with": "conf/environment.test.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -89,10 +95,16 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/main/angular/client/environments/environment.ts",
+                  "with": "conf/environment.development.ts"
+                }
+              ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "test"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

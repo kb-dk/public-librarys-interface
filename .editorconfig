@@ -11,6 +11,9 @@ trim_trailing_whitespace = true
 [*.xml]
 indent_size = 4
 
+[*.json]
+indent_size = 2
+
 [*.ts]
 quote_type = single
 
