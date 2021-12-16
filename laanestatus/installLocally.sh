@@ -4,23 +4,36 @@ SCRIPT_DIR=$(dirname "$(readlink -f -- ${BASH_SOURCE[0]})")
 
 set -e
 
-pushd $SCRIPT_DIR > /dev/null
+pushd $SCRIPT_DIR >/dev/null
 
 port=4200
 shutdownPort=4206
 debugPort=4276
 projectBaseUrl=laanestatus
 projectName=$(basename "$SCRIPT_DIR")
+build=fast
 
+echo "Checking version of project"
 version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version -Psbprojects-nexus | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }')
+echo "Project is version $version"
 
-#Fast
-#(mvn $1 package -Psbprojects-nexus -DskipTests=true) || exit 1
-# Extensive
-(cd "$SCRIPT_DIR/"..; pwd; mvn $1 package -Psbprojects-nexus -DskipTests=true --also-make --projects "$(basename "$SCRIPT_DIR")") || exit 1
+
+
+if [ $build == "fast" ]; then
+    #Fast
+    (
+        mvn $1 package -Psbprojects-nexus -DskipTests=true
+    ) || exit 1
+else
+    # Extensive
+    (
+        cd "$SCRIPT_DIR/"..
+        pwd
+        mvn $1 package -Psbprojects-nexus -DskipTests=true --also-make --projects "$(basename "$SCRIPT_DIR")"
+    ) || exit 1
+fi
 
 TOMCAT_VERSION=9.0.36
-
 
 #TOMCAT_VERSION=8.5.51
 wget -N "https://archive.apache.org/dist/tomcat/tomcat-$(echo $TOMCAT_VERSION | cut -d'.' -f1)/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz"
@@ -48,7 +61,3 @@ export JAVA_OPTS="$JAVA_OPTS -Dproject.home=$SCRIPT_DIR -Dproject.version=$versi
 export JPDA_ADDRESS="0.0.0.0:$debugPort"
 
 exec $TOMCAT_HOME/bin/catalina.sh jpda run
-
-
-
-

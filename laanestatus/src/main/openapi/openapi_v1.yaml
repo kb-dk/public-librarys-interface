@@ -1,0 +1,276 @@
+openapi: 3.0.2
+info:
+  version: 'v1'
+  title: '${project.name}'
+  description: |
+    ${project.description}
+  contact:
+    email: '${user.name}@kb.dk'
+  license:
+    name: '${license.name}'
+    url: '${license.url}'
+servers:
+  #  /api must match servlet-mapping in web.xml
+  - url: '/${project.artifactId}/v1'
+    description: 'Version 1'
+
+paths:
+  /checkCreds:
+    post:
+      tags:
+        - '${project.name}'
+      summary: 'Check the given credentials to see if they are valid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckCreds'
+      operationId: checkCreds
+      x-useGenericResponse: false # If enabled the method will return Response
+      x-streamingOutput: false # If enabled the method will return StreamingOutput.
+      responses:
+        '200':
+          description: 'OK'
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: JSESSIONID=abcde12345; Path=/; HttpOnly
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: "The public name of the library"
+        '404':
+          description: 'Library is not found'
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: 'Postcode is not of valid format'
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          description: 'Postcode is not the postcode of the library'
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: 'Internal Error'
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /partnerLoans/{partnerID}:
+    get:
+      tags:
+        - '${project.name}'
+      summary: 'Summary TODO'
+      operationId: getPartnerLoans
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: partnerID
+          in: path
+          description: 'The partner id'
+          required: true
+          schema:
+            type: string
+            example: '775100'
+        - name: lendingRequestState
+          in: query
+          description: 'Only find loans in the given state'
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/LendingRequestState'
+        - name: modifiedAfter
+          in: query
+          description: 'Only return loans modified after this timestamp'
+          required: false
+          schema:
+            type: string
+            format: date-time
+
+      responses:
+        '200':
+          description: 'The list of loans by the partner, subject to the filters given'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LibraryLoan'
+
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+
+  schemas:
+    CheckCreds:
+      type: object
+      properties:
+        username:
+          type: string
+          description: 'The Library number'
+          example: "775100"
+        password:
+          description: 'The Library Postcode'
+          example: "8000"
+          type: string
+
+    LendingRequestState:
+      type: string
+      nullable: true
+      enum:
+        - "Being Processed"
+        - "Cancelled"
+        - "Created lending request"
+        - "Damaged"
+        - "Deleted"
+        - "Expired"
+        - "Locate failed"
+        - "Lost"
+        - "Lost and fee communicated"
+        - "Non expiring"
+        - "None"
+        - "Overdue request"
+        - "Pending Auto Reject"
+        - "Recalled item"
+        - "Received by partner"
+        - "Rejected the borrower request"
+        - "Renew requested"
+        - "Request Completed"
+        - "Returned by partner"
+        - "Shipped Digitally"
+        - "Shipped Physically"
+        - "Will Supply"
+
+    LocateState:
+      type: string
+      nullable: true
+      enum:
+        - "Information Incomplete"
+        - "Locate Failed"
+        - "Locate Not Run"
+        - "Multiple Resources Located"
+        - "No Resources Located"
+        - "Resource Located"
+
+    LibraryLoan:
+      type: object
+      required:
+        - ExternalRequestId
+        - LibraryCode
+      properties:
+        LibraryCode:
+          type: string
+
+        ExternalRequestId:
+          type: string
+
+        Author:
+          type: string
+          nullable: true
+
+        Title:
+          type: string
+          nullable: true
+
+        MaterialType:
+          type: string
+
+        ISBN:
+          type: string
+          nullable: true
+
+        ItemBarcode:
+          type: string
+          nullable: true
+
+        MmsID:
+          type: string
+          nullable: true
+
+        LendingRequestStatus:
+          $ref: '#/components/schemas/LendingRequestState'
+
+        LocateStatus:
+          $ref: '#/components/schemas/LocateState'
+
+        Overdue:
+          type: boolean
+          nullable: true
+          description: "If true, the item is overdue to be returned"
+
+        LendingCreationDate:
+          type: string
+          format: date
+          description: "When the lending request was made"
+
+        ModificationDate:
+          type: string
+          format: date-time
+          nullable: false
+          description: "Last time this lending was updated or changed status"
+
+        NeededByDate:
+          type: string
+          format: date-time
+          description: "When the library needs the item"
+
+        DueDate:
+          type: string
+          format: date
+          nullable: true
+          description: "When we need the item back"
+
+        ItemSentDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: "When the item was shipped"
+
+        OverdueSentDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: "When the item was recalled"
+
+        ItemReturnDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: "When the item was returned"
+
+        Note:
+          type: string
+          nullable: true
+
+        ItemPolicy:
+          type: string
+          nullable: true
+
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
