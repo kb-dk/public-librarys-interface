@@ -20,6 +20,11 @@
     </fileSets>
     <files>
         <file>
+            <outputDirectory>services/conf</outputDirectory>
+            <source>conf/${project.artifactId}-behaviour.yaml</source>
+        </file>
+
+        <file>
             <outputDirectory>services/tomcat-apps</outputDirectory>
             <source>target/${project.artifactId}-${project.version}.war</source>
         </file>
