@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
@@ -106,12 +107,13 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
     public String checkCreds(CheckCreds params) throws ServiceException {
         WebClient client = getWebClient();
         final String result = client.path("checkCreds")
-                               .post(JSON.toJson(params),String.class);
+                                    .type(MediaType.APPLICATION_JSON_TYPE)
+                                    .post(JSON.toJson(params), String.class);
         //If we are stil lhere and an exception is not thrown, the username/password combo worked
 
         //Create a session and set the libraryNumber as Attribute on this session
         HttpSession session = httpServletRequest.getSession(true);
-        session.setAttribute("libraryNumber",params.getUsername());
+        session.setAttribute("libraryNumber", params.getUsername());
         return result;
     }
 
@@ -122,11 +124,11 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
      * @param lendingRequestState: Only find loans in the given state
      * @param modifiedAfter:       Only return loans modified after this timestamp
      * @return <ul>
-     *         <li>code = 200, message = "The list of loans by the partner, subject to the filters given", response = LibraryLoan.class, responseContainer = "List"</li>
-     *         </ul>
+     *     <li>code = 200, message = "The list of loans by the partner, subject to the filters given", response = LibraryLoan.class, responseContainer = "List"</li>
+     *     </ul>
      * @throws ServiceException when other http codes should be returned
      * @implNote return will always produce a HTTP 200 code. Throw ServiceException if you need to return other
-     *         codes
+     *     codes
      */
     @Override
     public List<LibraryLoan> getPartnerLoans(String partnerID,
@@ -134,9 +136,9 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
                                              OffsetDateTime modifiedAfter) throws ServiceException {
         //Get the http session, if any
         HttpSession session = httpServletRequest.getSession(false);
-        if (session == null || !Objects.equals(session.getAttribute("libraryNumber"), partnerID)){
+        if (session == null || !Objects.equals(session.getAttribute("libraryNumber"), partnerID)) {
             //If no session or not a correct session, fail
-            throw new UnauthorizedServiceException("You are not authorized to view the loans of "+partnerID);
+            throw new UnauthorizedServiceException("You are not authorized to view the loans of " + partnerID);
         }
 
         WebClient client = getWebClient();
