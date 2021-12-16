@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>dk.kb.alma</groupId>
         <artifactId>interlibraryloans</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.5</version>
     </parent>
 
 
@@ -73,7 +72,7 @@
                     <generatorName>jaxrs-cxf-extended</generatorName>
                     <inputSpec>${project.build.outputDirectory}/openapi.yaml
                     </inputSpec><!-- Will always be overridden -->
-                    <modelNameSuffix/>
+                    <modelNameSuffix />
                     <generateSupportingFiles>false</generateSupportingFiles>
                     <generateApiTests>false</generateApiTests>
                     <generateModelDocumentation>true</generateModelDocumentation>
