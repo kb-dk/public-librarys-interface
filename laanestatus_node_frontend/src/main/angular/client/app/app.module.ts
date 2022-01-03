@@ -7,19 +7,18 @@ import {CookieService} from 'ngx-cookie-service';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
-import {LoansModule} from './loans/loans.module';
 import {SharedModule} from './shared/shared.module';
 import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.component";
-import {DepotsComponent} from './depots/depots.component';
 import {HomeComponent} from "./home/home.component";
+import {DepotsComponent} from "./depots/depots.component";
+import {LoansModule} from "./loans/loans.module";
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         PagenotfoundComponent,
-        DepotsComponent,
-        HomeComponent
+        HomeComponent,
     ],
     imports: [
         BrowserModule,
@@ -31,8 +30,9 @@ import {HomeComponent} from "./home/home.component";
             {path: '', redirectTo: 'login', pathMatch: 'full'},
             {path: '**', redirectTo: '/404', pathMatch: 'full'}
         ]),
+        SharedModule,
+        DepotsComponent,
         LoansModule,
-        SharedModule
     ],
     providers: [CookieService],
     bootstrap: [AppComponent]
