@@ -10,28 +10,32 @@ import {LoginComponent} from './login/login.component';
 import {LoansModule} from './loans/loans.module';
 import {SharedModule} from './shared/shared.module';
 import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.component";
+import {DepotsComponent} from './depots/depots.component';
+import {HomeComponent} from "./home/home.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    PagenotfoundComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([
-      {path: 'login', component: LoginComponent},
-      {path: '404', component: PagenotfoundComponent},
-      {path: '', redirectTo: 'login', pathMatch: 'full'},
-      {path: '**', redirectTo: '/404', pathMatch: 'full'}
-    ]),
-    LoansModule,
-    SharedModule
-  ],
-  providers: [CookieService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        PagenotfoundComponent,
+        DepotsComponent,
+        HomeComponent
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot([
+            {path: 'login', component: LoginComponent},
+            {path: '404', component: PagenotfoundComponent},
+            {path: '', redirectTo: 'login', pathMatch: 'full'},
+            {path: '**', redirectTo: '/404', pathMatch: 'full'}
+        ]),
+        LoansModule,
+        SharedModule
+    ],
+    providers: [CookieService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
