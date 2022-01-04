@@ -9,16 +9,14 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {SharedModule} from './shared/shared.module';
 import {PagenotfoundComponent} from "./shared/pagenotfound/pagenotfound.component";
-import {HomeComponent} from "./home/home.component";
-import {DepotsComponent} from "./depots/depots.component";
-import {LoansModule} from "./loans/loans.module";
+import {HomeModule} from "./home/home.module";
+
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         PagenotfoundComponent,
-        HomeComponent,
     ],
     imports: [
         BrowserModule,
@@ -31,8 +29,7 @@ import {LoansModule} from "./loans/loans.module";
             {path: '**', redirectTo: '/404', pathMatch: 'full'}
         ]),
         SharedModule,
-        DepotsComponent,
-        LoansModule,
+        HomeModule,
     ],
     providers: [CookieService],
     bootstrap: [AppComponent]
