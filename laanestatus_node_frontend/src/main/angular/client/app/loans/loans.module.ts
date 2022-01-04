@@ -15,6 +15,9 @@ import {RemoveFirstPartPipe} from "../shared/filters/danbib.filter";
   providers: [
     RemoveFirstPartPipe
   ],
+    exports:[
+        LoansComponent
+    ],
   imports: [
     RouterModule.forChild([
       {

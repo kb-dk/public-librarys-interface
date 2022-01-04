@@ -10,6 +10,7 @@ import {LoansModule} from '../loans/loans.module';
 @NgModule({
     declarations: [
         HomeComponent,
+        DepotsComponent
     ],
     providers: [],
     imports: [
@@ -20,7 +21,7 @@ import {LoansModule} from '../loans/loans.module';
             },
         ]),
         SharedModule,
-
+        LoansModule
     ]
 })
 export class HomeModule {
