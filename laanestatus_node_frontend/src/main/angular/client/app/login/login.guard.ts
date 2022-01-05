@@ -5,24 +5,24 @@ import {Observable} from 'rxjs';
 import {LoginService} from "./login.service";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class LoginGuard implements CanActivate {
 
-  constructor(private loginService: LoginService) {
-  }
-
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.checkLoggedIn();
-  }
-
-  checkLoggedIn(): boolean {
-    if (this.loginService.isLoggedIn) {
-      return true;
+    constructor(private loginService: LoginService) {
     }
-    this.loginService.logout();
-    return false;
-  }
+
+    canActivate(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        return this.checkLoggedIn();
+    }
+
+    checkLoggedIn(): boolean {
+        if (this.loginService.isLoggedIn) {
+            return true;
+        }
+        this.loginService.logout();
+        return false;
+    }
 }

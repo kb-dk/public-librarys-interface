@@ -4,13 +4,13 @@ import {Observable, throwError} from "rxjs";
 import {catchError, tap} from 'rxjs/operators';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoginService {
-    private CHECK_CREDS_URL= environment.CHECK_CREDS_URL;
+    private CHECK_CREDS_URL = environment.API_HOST_URL + environment.CHECK_CREDS_URL;
     libraryName: string = '';
     libraryNumber: string = '';
     isLoggedOut: boolean | null = null;
