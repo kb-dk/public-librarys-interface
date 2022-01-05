@@ -45,6 +45,37 @@
 
     <profiles>
         <profile>
+            <id>sbprojects-nexus</id>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>sbprojects-nexus</id>
+                    <url>https://sbprojects.statsbiblioteket.dk/nexus/content/groups/public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>sbprojects-nexus</id>
+                    <url>https://sbprojects.statsbiblioteket.dk/nexus/content/groups/public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+        <profile>
             <id>compileNode</id>
             <build>
                 <plugins>
