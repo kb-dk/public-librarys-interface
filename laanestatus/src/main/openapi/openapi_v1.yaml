@@ -1,276 +1,603 @@
 openapi: 3.0.2
 info:
-  version: 'v1'
-  title: '${project.name}'
-  description: |
-    ${project.description}
-  contact:
-    email: '${user.name}@kb.dk'
-  license:
-    name: '${license.name}'
-    url: '${license.url}'
+    version: 'v1'
+    title: '${project.name}'
+    description: |
+        ${project.description}
+    contact:
+        email: '${user.name}@kb.dk'
+    license:
+        name: '${license.name}'
+        url: '${license.url}'
 servers:
-  #  /api must match servlet-mapping in web.xml
-  - url: '/${project.artifactId}/v1'
-    description: 'Version 1'
+    #  /api must match servlet-mapping in web.xml
+    -   url: '/${project.artifactId}/v1'
+        description: 'Version 1'
 
 paths:
-  /checkCreds:
-    post:
-      tags:
-        - '${project.name}'
-      summary: 'Check the given credentials to see if they are valid'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CheckCreds'
-      operationId: checkCreds
-      x-useGenericResponse: false # If enabled the method will return Response
-      x-streamingOutput: false # If enabled the method will return StreamingOutput.
-      responses:
-        '200':
-          description: 'OK'
-          headers:
-            Set-Cookie:
-              schema:
-                type: string
-                example: JSESSIONID=abcde12345; Path=/; HttpOnly
-          content:
-            text/plain:
-              schema:
-                type: string
-                description: "The public name of the library"
-        '404':
-          description: 'Library is not found'
-          content:
-            text/plain:
-              schema:
-                type: string
-        '400':
-          description: 'Postcode is not of valid format'
-          content:
-            text/plain:
-              schema:
-                type: string
-        '401':
-          description: 'Postcode is not the postcode of the library'
-          content:
-            text/plain:
-              schema:
-                type: string
-        '500':
-          description: 'Internal Error'
-          content:
-            text/plain:
-              schema:
-                type: string
+    /checkCreds:
+        post:
+            tags:
+                - '${project.name}'
+            summary: 'Check the given credentials to see if they are valid'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CheckCreds'
+            operationId: checkCreds
+            x-useGenericResponse: false # If enabled the method will return Response
+            x-streamingOutput: false # If enabled the method will return StreamingOutput.
+            responses:
+                '200':
+                    description: 'OK'
+                    headers:
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: JSESSIONID=abcde12345; Path=/; HttpOnly
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                                description: "The public name of the library"
+                '404':
+                    description: 'Library is not found'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '400':
+                    description: 'Postcode is not of valid format'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: 'Postcode is not the postcode of the library'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: 'Internal Error'
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
 
-  /partnerLoans/{partnerID}:
-    get:
-      tags:
-        - '${project.name}'
-      summary: 'Summary TODO'
-      operationId: getPartnerLoans
-      security:
-        - cookieAuth: []
-      parameters:
-        - name: partnerID
-          in: path
-          description: 'The partner id'
-          required: true
-          schema:
-            type: string
-            example: '775100'
-        - name: lendingRequestState
-          in: query
-          description: 'Only find loans in the given state'
-          required: false
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/LendingRequestState'
-        - name: modifiedAfter
-          in: query
-          description: 'Only return loans modified after this timestamp'
-          required: false
-          schema:
-            type: string
-            format: date-time
+    /depots/{partnerID}:
+        get:
+            tags:
+                - '${project.name}'
+            summary: 'Summary TODO'
+            operationId: getPartnerDepots
+            security:
+                -   cookieAuth: [ ]
+            parameters:
+                -   name: partnerID
+                    in: path
+                    description: 'The partner id'
+                    required: true
+                    schema:
+                        type: string
+                        example: '775100'
+            responses:
+                '200':
+                    description: 'The list of depots by the partner'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BciLibrarySummary'
 
-      responses:
-        '200':
-          description: 'The list of loans by the partner, subject to the filters given'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LibraryLoan'
+
+
+
+    /depot/{partnerID}/{depotID}:
+        get:
+            tags:
+                - '${project.name}'
+            summary: 'Summary TODO'
+            operationId: getPartnerDepot
+            security:
+                -   cookieAuth: [ ]
+            parameters:
+                -   name: partnerID
+                    in: path
+                    description: 'The partner id'
+                    required: true
+                    schema:
+                        type: string
+                        example: '775100'
+                -   name: depotID
+                    in: path
+                    description: 'The depot id'
+                    required: true
+                    schema:
+                        type: string
+                        example: '775100'
+
+            responses:
+                '200':
+                    description: 'The list of depots by the partner'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BciDepot'
+
+    /depot/pdf/{partnerID}/{depotID}/{type}:
+        get:
+            tags:
+                - '${project.name}'
+            summary: 'Summary TODO'
+            operationId: getPartnerDepotPdf
+            x-useGenericResponse: true # If enabled the method will return Response
+            x-streamingOutput: true # If enabled the method will return StreamingOutput.
+            security:
+                -   cookieAuth: [ ]
+            parameters:
+                -   name: partnerID
+                    in: path
+                    description: 'The partner id'
+                    required: true
+                    schema:
+                        type: string
+                        example: '775100'
+                -   name: depotID
+                    in: path
+                    description: 'The depot id'
+                    required: true
+                    schema:
+                        type: string
+                        example: '775100'
+                -   name: type
+                    in: path
+                    description: 'use RETRY to show original and REMAINING to show remaning'
+                    required: true
+                    schema:
+                        type: string
+                        enum:
+                            - REMAINING
+                            - RETRY
+                            #- FIRST_RECALL
+                            #- SECOND_RECALL
+                            #- ACTIVATION
+
+            responses:
+                '200':
+                    description: A pdf with attached page
+                    content:
+                        application/pdf:
+                            schema:
+                                type: string
+                                format: binary
+    /partnerLoans/{partnerID}:
+        get:
+            tags:
+                - '${project.name}'
+            summary: 'Summary TODO'
+            operationId: getPartnerLoans
+            security:
+                -   cookieAuth: [ ]
+            parameters:
+                -   name: partnerID
+                    in: path
+                    description: 'The partner id'
+                    required: true
+                    schema:
+                        type: string
+                        example: '775100'
+                -   name: lendingRequestState
+                    in: query
+                    description: 'Only find loans in the given state'
+                    required: false
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/components/schemas/LendingRequestState'
+                -   name: modifiedAfter
+                    in: query
+                    description: 'Only return loans modified after this timestamp'
+                    required: false
+                    schema:
+                        type: string
+                        format: date-time
+
+            responses:
+                '200':
+                    description: 'The list of loans by the partner, subject to the filters given'
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/LibraryLoan'
 
 
 components:
-  securitySchemes:
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: JSESSIONID
+    securitySchemes:
+        cookieAuth:
+            type: apiKey
+            in: cookie
+            name: JSESSIONID
 
-  schemas:
-    CheckCreds:
-      type: object
-      properties:
-        username:
-          type: string
-          description: 'The Library number'
-          example: "775100"
-        password:
-          description: 'The Library Postcode'
-          example: "8000"
-          type: string
+    schemas:
 
-    LendingRequestState:
-      type: string
-      nullable: true
-      enum:
-        - "Being Processed"
-        - "Cancelled"
-        - "Created lending request"
-        - "Damaged"
-        - "Deleted"
-        - "Expired"
-        - "Locate failed"
-        - "Lost"
-        - "Lost and fee communicated"
-        - "Non expiring"
-        - "None"
-        - "Overdue request"
-        - "Pending Auto Reject"
-        - "Recalled item"
-        - "Received by partner"
-        - "Rejected the borrower request"
-        - "Renew requested"
-        - "Request Completed"
-        - "Returned by partner"
-        - "Shipped Digitally"
-        - "Shipped Physically"
-        - "Will Supply"
+        # CheckCreds
+        CheckCreds:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: 'The Library number'
+                    example: "775100"
+                password:
+                    description: 'The Library Postcode'
+                    example: "8000"
+                    type: string
 
-    LocateState:
-      type: string
-      nullable: true
-      enum:
-        - "Information Incomplete"
-        - "Locate Failed"
-        - "Locate Not Run"
-        - "Multiple Resources Located"
-        - "No Resources Located"
-        - "Resource Located"
+######################## Begin BCI ####################################
 
-    LibraryLoan:
-      type: object
-      required:
-        - ExternalRequestId
-        - LibraryCode
-      properties:
-        LibraryCode:
-          type: string
+        # Utility classes
+        BciDepotState:
+            type: string
+            nullable: true
+            enum:
+                - "CREATED"
+                - "DISPATCHED"
+                - "FIRST_RECALL"
+                - "SECOND_RECALL"
+                - "MANUAL"
+                - "CLOSED"
 
-        ExternalRequestId:
-          type: string
+        BciDepotLanguage:
+            type: object
+            properties:
+                id:
+                    type: number
+                description:
+                    type: string
+                ord:
+                    type: number
+                active:
+                    type: boolean
 
-        Author:
-          type: string
-          nullable: true
+        BciDepotType:
+            type: object
+            properties:
+                id:
+                    type: number
+                description:
+                    type: string
+                ord:
+                    type: number
 
-        Title:
-          type: string
-          nullable: true
-
-        MaterialType:
-          type: string
-
-        ISBN:
-          type: string
-          nullable: true
-
-        ItemBarcode:
-          type: string
-          nullable: true
-
-        MmsID:
-          type: string
-          nullable: true
-
-        LendingRequestStatus:
-          $ref: '#/components/schemas/LendingRequestState'
-
-        LocateStatus:
-          $ref: '#/components/schemas/LocateState'
-
-        Overdue:
-          type: boolean
-          nullable: true
-          description: "If true, the item is overdue to be returned"
-
-        LendingCreationDate:
-          type: string
-          format: date
-          description: "When the lending request was made"
-
-        ModificationDate:
-          type: string
-          format: date-time
-          nullable: false
-          description: "Last time this lending was updated or changed status"
-
-        NeededByDate:
-          type: string
-          format: date-time
-          description: "When the library needs the item"
-
-        DueDate:
-          type: string
-          format: date
-          nullable: true
-          description: "When we need the item back"
-
-        ItemSentDate:
-          type: string
-          format: date-time
-          nullable: true
-          description: "When the item was shipped"
-
-        OverdueSentDate:
-          type: string
-          format: date-time
-          nullable: true
-          description: "When the item was recalled"
-
-        ItemReturnDate:
-          type: string
-          format: date-time
-          nullable: true
-          description: "When the item was returned"
-
-        Note:
-          type: string
-          nullable: true
-
-        ItemPolicy:
-          type: string
-          nullable: true
+        BciLibrary:
+            type: object
+            properties:
+                libraryNumber:
+                    type: string
+                name:
+                    type: string
+                borrowerID:
+                    type: string
+                addressFields:
+                    type: string
+                knownLibrary:
+                    type: boolean
 
 
-    Error:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
+        # Bigger Return values
+        BciLibrarySummary:
+            type: object
+            properties:
+                libraryNumber:
+                    type: string
+                name:
+                    type: string
+                emails:
+                    type: array
+                    items:
+                        type: string
+                borrowerID:
+                    type: string
+                addressFields:
+                    type: string
+                knownLibrary:
+                    type: boolean
+                depotSetSummaries:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/BciDepotSummary'
+
+        BciDepotSummary:
+            type: object
+            properties:
+                id:
+                    type: number
+                library_number:
+                    type: string
+                type:
+                    type: string
+                language:
+                    type: string
+                orderNo:
+                    type: number
+                description:
+                    type: string
+                checkedOut:
+                    type: string
+                due:
+                    type: string
+                lastStateChange:
+                    type: string
+                currentCheckedOut:
+                    type: integer
+                totalEntries:
+                    type: integer
+                created:
+                    type: string
+                dispatched:
+                    type: string
+                firstRecall:
+                    type: string
+                secondRecall:
+                    type: string
+                manual:
+                    type: string
+                closed:
+                    type: string
+                state:
+                    $ref: '#/components/schemas/BciDepotState'
+
+
+        BciDepot:
+            type: object
+            properties:
+                id:
+                    type: number
+                orderNo:
+                    type: number
+                dueDate:
+                    type: string
+                description:
+                    type: string
+                created:
+                    type: string
+                dispatched:
+                    type: string
+                firstRecall:
+                    type: string
+                secondRecall:
+                    type: string
+                manual:
+                    type: string
+                depotLanguage:
+                    $ref: '#/components/schemas/BciDepotLanguage'
+                depotType:
+                    $ref: '#/components/schemas/BciDepotType'
+                closed:
+                    type: string
+                entries:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/BciEntry'
+                library_number:
+                    type: string
+                library:
+                    $ref: '#/components/schemas/BciLibrary'
+                state:
+                    $ref: '#/components/schemas/BciDepotState'
+                currentCheckedOut:
+                    type: integer
+                totalEntries:
+                    type: integer
+
+        BciEntry:
+            type: object
+            properties:
+                id:
+                    type: number
+                checkedIn:
+                    type: string
+                barcode:
+                    type: string
+                generalMaterialType:
+                    type: string
+                specificMaterialType:
+                    type: string
+                author:
+                    type: string
+                title:
+                    type: string
+                volume:
+                    type: string
+                faustNo:
+                    type: string
+                dk5:
+                    type: string
+                collection:
+                    type: string
+                language:
+                    type: string
+                pages:
+                    type: string
+                topics:
+                    type: string
+                contentDescribingNote:
+                    type: string
+                languageNote:
+                    type: string
+                demographicNote:
+                    type: string
+                relatedMaterialNote:
+                    type: string
+                circulationNote:
+                    type: string
+                mmsId:
+                    type: number
+                holdingId:
+                    type: number
+                itemId:
+                    type: number
+                loanId:
+                    type: number
+                libraryNumber:
+                    type: string
+                materialType:
+                    type: string
+                demographic:
+                    type: string
+                depotSetId:
+                    type: number
+
+################## END BCI ##############################
+
+################## BEGIN LIBRARY LOANS ########################
+
+        LendingRequestState:
+            type: string
+            nullable: true
+            enum:
+                - "Being Processed"
+                - "Cancelled"
+                - "Created lending request"
+                - "Damaged"
+                - "Deleted"
+                - "Expired"
+                - "Locate failed"
+                - "Lost"
+                - "Lost and fee communicated"
+                - "Non expiring"
+                - "None"
+                - "Overdue request"
+                - "Pending Auto Reject"
+                - "Recalled item"
+                - "Received by partner"
+                - "Rejected the borrower request"
+                - "Renew requested"
+                - "Request Completed"
+                - "Returned by partner"
+                - "Shipped Digitally"
+                - "Shipped Physically"
+                - "Will Supply"
+
+        LocateState:
+            type: string
+            nullable: true
+            enum:
+                - "Information Incomplete"
+                - "Locate Failed"
+                - "Locate Not Run"
+                - "Multiple Resources Located"
+                - "No Resources Located"
+                - "Resource Located"
+
+        LibraryLoan:
+            type: object
+            required:
+                - ExternalRequestId
+                - LibraryCode
+            properties:
+                LibraryCode:
+                    type: string
+
+                ExternalRequestId:
+                    type: string
+
+                Author:
+                    type: string
+                    nullable: true
+
+                Title:
+                    type: string
+                    nullable: true
+
+                MaterialType:
+                    type: string
+
+                ISBN:
+                    type: string
+                    nullable: true
+
+                ItemBarcode:
+                    type: string
+                    nullable: true
+
+                MmsID:
+                    type: string
+                    nullable: true
+
+                LendingRequestStatus:
+                    $ref: '#/components/schemas/LendingRequestState'
+
+                LocateStatus:
+                    $ref: '#/components/schemas/LocateState'
+
+                Overdue:
+                    type: boolean
+                    nullable: true
+                    description: "If true, the item is overdue to be returned"
+
+                LendingCreationDate:
+                    type: string
+                    format: date
+                    description: "When the lending request was made"
+
+                ModificationDate:
+                    type: string
+                    format: date-time
+                    nullable: false
+                    description: "Last time this lending was updated or changed status"
+
+                NeededByDate:
+                    type: string
+                    format: date-time
+                    description: "When the library needs the item"
+
+                DueDate:
+                    type: string
+                    format: date
+                    nullable: true
+                    description: "When we need the item back"
+
+                ItemSentDate:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: "When the item was shipped"
+
+                OverdueSentDate:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: "When the item was recalled"
+
+                ItemReturnDate:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: "When the item was returned"
+
+                Note:
+                    type: string
+                    nullable: true
+
+                ItemPolicy:
+                    type: string
+                    nullable: true
+
+#################### END LIBRARY LOANS #################################
+
+        Error:
+            type: object
+            required:
+                - code
+                - message
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                message:
+                    type: string
