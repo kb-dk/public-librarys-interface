@@ -286,6 +286,10 @@ components:
                     type: string
                 knownLibrary:
                     type: boolean
+                emails:
+                    type: array
+                    items:
+                        type: string
 
 
         # Bigger Return values
