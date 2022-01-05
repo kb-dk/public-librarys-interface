@@ -7,9 +7,9 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import dk.kb.interlibraryloans.api.v1.LaanestatusApi;
 import dk.kb.interlibraryloans.config.ServiceConfig;
-import dk.kb.interlibraryloans.model.v1.BciLibrary;
+import dk.kb.interlibraryloans.model.v1.BciDepot;
+import dk.kb.interlibraryloans.model.v1.BciLibrarySummary;
 import dk.kb.interlibraryloans.model.v1.CheckCreds;
-import dk.kb.interlibraryloans.model.v1.Depot;
 import dk.kb.interlibraryloans.model.v1.LendingRequestState;
 import dk.kb.interlibraryloans.model.v1.LibraryLoan;
 import dk.kb.interlibraryloans.webservice.exception.InternalServiceException;
@@ -30,6 +30,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ContextResolver;
@@ -145,20 +146,29 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
         }
     }
 
-    @Override
-    public Depot getPartnerDepot(String partnerID, String depotID) {
-        checkSession(partnerID);
-        WebClient client = getBCIDepotsWebClient();
-        return client.path("library").path(partnerID).path(depotID).get(Depot.class);
-    }
 
     @Override
-    public BciLibrary getPartnerDepots(String partnerID) {
+    public BciLibrarySummary getPartnerDepots(String partnerID) {
         checkSession(partnerID);
         WebClient client = getBCIDepotsWebClient();
         WebClient library = client.path("library").path(partnerID);
-        return library.get(BciLibrary.class);
+        return library.get(BciLibrarySummary.class);
     }
+
+    @Override
+    public BciDepot getPartnerDepot(String partnerID, String depotID) {
+        checkSession(partnerID);
+        WebClient client = getBCIDepotsWebClient();
+        return client.path("library").path(partnerID).path(depotID).get(BciDepot.class);
+    }
+
+    @Override
+    public Response getPartnerDepotPdf(String partnerID, String depotID, String type) {
+        checkSession(partnerID);
+        WebClient client = getBCIDepotsWebClient();
+        return client.path("library").path(partnerID).path(depotID).path(type).path("pdf").get();
+    }
+
 
     /**
      * Summary TODO

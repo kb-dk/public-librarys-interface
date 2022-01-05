@@ -6,7 +6,7 @@ export const environment = {
     GET_LOANS_URL: 'http://localhost:4220/laanestatus/api/partnerLoans/',
 
     //BCI DEPOTS
-    GET_DEPOTS_URL: 'http://localhost:4220/laanestatus/api/depots',
-    GET_DEPOT_URL: 'http://localhost:4220/laanestatus/api/depot/',
-    GET_DEPOT_PDF_URL: 'http://localhost:4220/laanestatus/api/depot/pdf/',
+    GET_DEPOTS_URL: 'http://localhost:4220/laanestatus/api/depots', //{partnerID}
+    GET_DEPOT_URL: 'http://localhost:4220/laanestatus/api/depot/', //{partnerID}/{depotID}
+    GET_DEPOT_PDF_URL: 'http://localhost:4220/laanestatus/api/depot/pdf/', //{partnerID}/{depotID}/{type}
 };
