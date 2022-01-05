@@ -5,6 +5,7 @@ import {SharedModule} from '../shared/shared.module';
 import {HomeComponent} from "./home.component";
 import {DepotsComponent} from '../depots/depots.component';
 import {LoansModule} from '../loans/loans.module';
+import {LoginGuard} from "../login/login.guard";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {LoansModule} from '../loans/loans.module';
             {
                 path: 'home',
                 component: HomeComponent,
+                canActivate: [LoginGuard]
             },
         ]),
         SharedModule,
