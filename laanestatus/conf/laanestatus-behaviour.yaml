@@ -9,6 +9,8 @@
 #
 #
 
+bcidepots:
+    address: http://devel12.statsbiblioteket.dk:9891/bciws/
 
 libraryloans:
   address: http://devel12.statsbiblioteket.dk:9011/librarylending/v1/

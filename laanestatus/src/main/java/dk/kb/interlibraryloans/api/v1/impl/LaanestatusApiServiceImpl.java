@@ -7,7 +7,9 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import dk.kb.interlibraryloans.api.v1.LaanestatusApi;
 import dk.kb.interlibraryloans.config.ServiceConfig;
+import dk.kb.interlibraryloans.model.v1.BciLibrary;
 import dk.kb.interlibraryloans.model.v1.CheckCreds;
+import dk.kb.interlibraryloans.model.v1.Depot;
 import dk.kb.interlibraryloans.model.v1.LendingRequestState;
 import dk.kb.interlibraryloans.model.v1.LibraryLoan;
 import dk.kb.interlibraryloans.webservice.exception.InternalServiceException;
@@ -85,9 +87,26 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
     private transient MessageContext messageContext;
 
 
-    private static WebClient getWebClient() {
+    private static WebClient getLibraryLoansWebClient() {
         String libraryLoansAddress = ServiceConfig.getConfig()
                                                   .getString("libraryloans.address");
+
+        JacksonJsonProvider jacksonJaxbJsonProvider = new JacksonJaxbJsonProvider();
+        jacksonJaxbJsonProvider.disable(DeserializationFeature.UNWRAP_ROOT_VALUE);
+        jacksonJaxbJsonProvider.disable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        jacksonJaxbJsonProvider.enable(DeserializationFeature.WRAP_EXCEPTIONS);
+
+        jacksonJaxbJsonProvider.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
+        jacksonJaxbJsonProvider.enable(JsonParser.Feature.IGNORE_UNDEFINED);
+
+        final List<?> providers = Arrays.asList(jacksonJaxbJsonProvider);
+        WebClient client = WebClient.create(libraryLoansAddress, providers);
+        return client;
+    }
+
+    private static WebClient getBCIDepotsWebClient() {
+        String libraryLoansAddress = ServiceConfig.getConfig()
+                                                  .getString("bcidepots.address");
 
         JacksonJsonProvider jacksonJaxbJsonProvider = new JacksonJaxbJsonProvider();
         jacksonJaxbJsonProvider.disable(DeserializationFeature.UNWRAP_ROOT_VALUE);
@@ -105,7 +124,7 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
 
     @Override
     public String checkCreds(CheckCreds params) throws ServiceException {
-        WebClient client = getWebClient();
+        WebClient client = getLibraryLoansWebClient();
         final String result = client.path("checkCreds")
                                     .type(MediaType.APPLICATION_JSON_TYPE)
                                     .post(JSON.toJson(params), String.class);
@@ -115,6 +134,30 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
         HttpSession session = httpServletRequest.getSession(true);
         session.setAttribute("libraryNumber", params.getUsername());
         return result;
+    }
+
+    private void checkSession(String partnerID) {
+        //Get the http session, if any
+        HttpSession session = httpServletRequest.getSession(false);
+        if (session == null || !Objects.equals(session.getAttribute("libraryNumber"), partnerID)) {
+            //If no session or not a correct session, fail
+            throw new UnauthorizedServiceException("You are not authorized to view the loans of " + partnerID);
+        }
+    }
+
+    @Override
+    public Depot getPartnerDepot(String partnerID, String depotID) {
+        checkSession(partnerID);
+        WebClient client = getBCIDepotsWebClient();
+        return client.path("library").path(partnerID).path(depotID).get(Depot.class);
+    }
+
+    @Override
+    public BciLibrary getPartnerDepots(String partnerID) {
+        checkSession(partnerID);
+        WebClient client = getBCIDepotsWebClient();
+        WebClient library = client.path("library").path(partnerID);
+        return library.get(BciLibrary.class);
     }
 
     /**
@@ -135,13 +178,9 @@ public class LaanestatusApiServiceImpl implements LaanestatusApi {
                                              List<LendingRequestState> lendingRequestState,
                                              OffsetDateTime modifiedAfter) throws ServiceException {
         //Get the http session, if any
-        HttpSession session = httpServletRequest.getSession(false);
-        if (session == null || !Objects.equals(session.getAttribute("libraryNumber"), partnerID)) {
-            //If no session or not a correct session, fail
-            throw new UnauthorizedServiceException("You are not authorized to view the loans of " + partnerID);
-        }
+        checkSession(partnerID);
 
-        WebClient client = getWebClient();
+        WebClient client = getLibraryLoansWebClient();
 
         final WebClient webClient = client.path("partnerLoans")
                                           .path(partnerID);
