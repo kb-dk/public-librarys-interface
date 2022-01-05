@@ -2,6 +2,26 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
 
+# How to run locally
+
+run `mvn install` to generate all the things
+
+go to `laanestatus/`
+
+run `./installLocally.sh`. This starts the system on localhost:4220/laanestatus
+
+New terminal
+
+go to `laanestatus_node_frontend`
+
+change `environment.development.ts` to prefix `http://localhost:4220/laanestatus/` before urls
+
+run `npm run-script start -- --configuration=development`
+
+this will run a local angular instance at `http://localhost:4200/`
+
+
+
 ## Node version
 Node v14.17.6 is used
 
