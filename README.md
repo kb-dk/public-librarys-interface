@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # How to run locally
 
-run `mvn install` to generate all the things
+run `mvn install` or if you don't have sbprojects-nexus profile run `mvn install -Psbprojects-nexus` to generate all the things
 
 go to `laanestatus/`
 
