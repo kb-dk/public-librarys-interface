@@ -229,6 +229,17 @@ components:
                 - "No Resources Located"
                 - "Resource Located"
 
+        DepotState:
+            type: string
+            nullable: true
+            enum:
+                - "CREATED"
+                - "DISPATCHED"
+                - "FIRST_RECALL"
+                - "SECOND_RECALL"
+                - "MANUAL"
+                - "CLOSED"
+
         bciLibrary:
             type: object
             properties:
@@ -249,9 +260,9 @@ components:
                 depotSetSummaries:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Depot'
+                        $ref: '#/components/schemas/DepotSummary'
 
-        Depot:
+        DepotSummary:
             type: object
             properties:
                 id:
@@ -301,6 +312,142 @@ components:
 
                 closed:
                     type: string
+
+                state:
+                    $ref: '#/components/schemas/DepotState'
+
+        Depot:
+            type: object
+            properties:
+                id:
+                    type: number
+                orderNo:
+                    type: number
+                dueDate:
+                    type: string
+                description:
+                    type: string
+                created:
+                    type: string
+                dispatched:
+                    type: string
+                firstRecall:
+                    type: string
+                secondRecall:
+                    type: string
+                manual:
+                    type: string
+
+                depotLanguage:
+                    type: object
+                    properties:
+                        id:
+                            type: number
+                        description:
+                            type: string
+                        ord:
+                            type: number
+                        active:
+                            type: boolean
+                depotType:
+                    type: object
+                    properties:
+                        id:
+                            type: number
+                        description:
+                            type: string
+                        ord:
+                            type: number
+
+                closed:
+                    type: string
+
+                entries:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/bciEntry'
+
+                library_number:
+                    type: string
+                library:
+                    type: object
+                    properties:
+                        libraryNumber:
+                            type: string
+                        name:
+                            type: string
+                        borrowerID:
+                            type: string
+                        addressFields:
+                            type: string
+                        knownLibrary:
+                            type: boolean
+                state:
+                    $ref: '#/components/schemas/DepotState'
+
+                currentCheckedOut:
+                    type: integer
+
+                totalEntries:
+                    type: integer
+
+        bciEntry:
+            type: object
+            properties:
+                id:
+                    type: number
+                checkedIn:
+                    type: string
+                barcode:
+                    type: string
+                generalMaterialType:
+                    type: string
+                specificMaterialType:
+                    type: string
+                author:
+                    type: string
+                title:
+                    type: string
+                volume:
+                    type: string
+                faustNo:
+                    type: string
+                dk5:
+                    type: string
+                collection:
+                    type: string
+                language:
+                    type: string
+                pages:
+                    type: string
+                topics:
+                    type: string
+                contentDescribingNote:
+                    type: string
+                languageNote:
+                    type: string
+                demographicNote:
+                    type: string
+                relatedMaterialNote:
+                    type: string
+                circulationNote:
+                    type: string
+                mmsId:
+                    type: number
+                holdingId:
+                    type: number
+                itemId:
+                    type: number
+                loanId:
+                    type: number
+                libraryNumber:
+                    type: string
+                materialType:
+                    type: string
+                demographic:
+                    type: string
+                depotSetId:
+                    type: number
 
         LibraryLoan:
             type: object
