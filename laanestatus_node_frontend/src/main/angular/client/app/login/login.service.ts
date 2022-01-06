@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
     providedIn: 'root'
 })
 export class LoginService {
-    private CHECK_CREDS_URL= environment.API_HOST_URL + environment.CHECK_CREDS_URL;
+    private CHECK_CREDS_URL= environment.CHECK_CREDS_URL;
     libraryName: string = '';
     libraryNumber: string = '';
     isLoggedOut: boolean | null = null;
