@@ -16,11 +16,24 @@ projectBaseUrl=laanestatus
 projectName=$(basename "$SCRIPT_DIR")
 tomcatHttpPort=9011
 tomcatDebugPort=9019
-
+build=fast
 version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version -Psbprojects-nexus | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }')
 
 #Build
-(cd "$SCRIPT_DIR/"..; pwd; mvn $1 package -Psbprojects-nexus -DskipTests=true --also-make --projects "$(basename "$SCRIPT_DIR")") || exit 1
+
+if [ $build == "fast" ]; then
+    #Fast
+    (
+        mvn $1 package -Psbprojects-nexus -DskipTests=true
+    ) || exit 1
+else
+    # Extensive
+    (
+        cd "$SCRIPT_DIR/"..
+        pwd
+        mvn $1 package -Psbprojects-nexus -DskipTests=true --also-make --projects "$(basename "$SCRIPT_DIR")"
+    ) || exit 1
+fi
 
 set -x
 #install
