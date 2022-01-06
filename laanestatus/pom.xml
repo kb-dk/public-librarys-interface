@@ -106,7 +106,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <inputSpec>${project.build.outputDirectory}/openapi_v1.yaml</inputSpec>
+                            <inputSpec>${project.build.outputDirectory}/openapi_api.yaml</inputSpec>
                             <ignoreFileOverride>
                                 ${project.basedir}/.openapi-codegen-ignore-api
                             </ignoreFileOverride>
@@ -131,7 +131,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <inputSpec>${project.build.outputDirectory}/openapi_v1.yaml</inputSpec>
+                            <inputSpec>${project.build.outputDirectory}/openapi_api.yaml</inputSpec>
                             <ignoreFileOverride>
                                 ${project.basedir}/.openapi-codegen-ignore-impl
                             </ignoreFileOverride>
@@ -180,6 +180,19 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
+                    <!--Enable maven filtering for the web.xml-->
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <webResources>
+                        <resource>
+                            <!--Include the openapi spec files so we can serve them-->
+                            <directory>${project.build.outputDirectory}</directory>
+                            <targetPath>.</targetPath>
+                            <includes>
+                                <include>openapi_api.json</include>
+                                <include>openapi_api.yaml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
