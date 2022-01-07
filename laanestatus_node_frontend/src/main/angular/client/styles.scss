@@ -19,3 +19,10 @@ body{
   color: $primary;
   font-size: 1rem;
 }
+
+@media print {
+
+    button, .btn,  div.tab-pane:not(.active){
+        display: none;
+    }
+}
