@@ -1,38 +1,7 @@
 <div class="toolbox">
-    <!--<div class='row'>-->
-        <!--<div class="col-md-6"></div>-->
-        <!--<div class="col-md-3 text-end">-->
-            <!--<label for="status">Filtering efter bestillingens status:</label>-->
-        <!--</div>-->
-        <!--<div class="col-md-3">-->
-            <!--<select name="status" [(ngModel)]="status" id="status">-->
-                <!--<option value="All" selected="selected">Alle aktive bestillinger</option>-->
-                <!--<option *ngFor="let option of distinctStatusesTranslation" [value]=option>{{ option }}</option>-->
-            <!--</select>-->
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row mt-3">-->
-        <!--<div class="col-md-2 results">-->
-            <!--{{ depots.length }} Resultater-->
-        <!--</div>-->
-        <!--<div class="col-md-4"></div>-->
-        <!--<div class='col-md-3 text-end'><label for="searchTerm">Søg:</label></div>-->
-        <!--<div class='col-md-3'>-->
-            <!--<input id="searchTerm" class="searchTerm" type='text'-->
-                   <!--[(ngModel)]='searchTerm'/>-->
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class='row'>-->
-        <!--<div class="col-md-11"></div>-->
-        <!--<div class="col-md-1">-->
-            <!--<button type="button" class="print btn btn-primary mt-3" (click)="print()">Print</button>-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
-<div id="Depots" class='table-responsive mt-5'>
-    <table class='table'>
+<div id="depotsList" class='mt-5'>
+    <table class='table table-responsive'>
         <thead>
         <tr>
             <th>Type</th>
@@ -46,10 +15,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor='let depot of depots'>
+        <tr *ngFor='let depot of $depots | async'>
             <td>{{ depot.type }}</td>
             <td>{{ depot.language }}</td>
-            <td>{{ depot.id }}</td>
+            <td><a data-bs-toggle="modal" data-bs-target="#depotInfo" href=""
+                   (click)="getDepotInfo(depot.id)">{{ depot.id }}</a></td>
             <td>{{ depot.currentCheckedOut }} / {{ depot.totalEntries }}</td>
             <td>{{ depot.checkedOut }}</td>
             <td>{{ depot.due }}</td>
@@ -58,4 +28,46 @@
         </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="depotInfo" tabindex="-1" aria-labelledby="depotInfoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100 text-primary" id="depotInfoLabel">Depot {{depotEntryNr}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="printDepot">
+                <table class='table table-responsive'>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Titel</th>
+                        <th>Forfatter</th>
+                        <th>Sprog</th>
+                        <th>Stregkode</th>
+                        <th>Faustnummer</th>
+                        <th>DK5</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor='let entry of $depotEntries | async; index as i'>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ entry.title }}</td>
+                        <td>{{ entry.author }}</td>
+                        <td>{{ entry.language }}</td>
+                        <td>{{ entry.barcode }}</td>
+                        <td>{{ entry.faustNo }}</td>
+                        <td>{{ entry.dk5 }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="printDepot()">print</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
