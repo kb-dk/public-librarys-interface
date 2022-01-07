@@ -4,6 +4,7 @@ import {DepotService} from "./depots.service";
 import {catchError, map} from "rxjs/operators";
 import {LoginService} from "../login/login.service";
 import {Observable} from "rxjs";
+import {environment} from '../../environments/environment';
 
 @Component({
     selector: 'depots',
@@ -14,8 +15,9 @@ export class DepotsComponent implements OnInit {
     $depots!: Observable<IDepot[]>;
     $depotEntries!: Observable<IDepotEntry[]>;
     depotEntryNr!: number;
-
     partnerCode = this.loginService.libraryNumber;
+
+    depotPdfUrl: string = environment.API_HOST_URL + environment.GET_DEPOT_PDF_URL + this.partnerCode;
 
     constructor(private depotService: DepotService,
                 private loginService: LoginService) {

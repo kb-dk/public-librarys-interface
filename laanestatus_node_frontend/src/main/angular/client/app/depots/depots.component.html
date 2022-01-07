@@ -65,6 +65,8 @@
                 </table>
             </div>
             <div class="modal-footer">
+                <a class="btn btn-primary" href='{{depotPdfUrl}}/{{depotEntryNr}}/RETRY' target="_blank">Original</a>
+                <a class="btn btn-primary" href='{{depotPdfUrl}}/{{depotEntryNr}}/REMAINING' target="_blank">Tilbageværende</a>
                 <button type="button" class="btn btn-primary" (click)="printDepot()">print</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
