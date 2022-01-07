@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {depots} from "./depots";
-import {IDepot} from "./depot.interface";
+import {IDepot, IDepotEntry} from "./depot.interface";
 import {DepotService} from "./depots.service";
-import {map, tap} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
+import {LoginService} from "../login/login.service";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'depots',
@@ -10,26 +11,35 @@ import {map, tap} from "rxjs/operators";
     styleUrls: ['./depots.component.scss']
 })
 export class DepotsComponent implements OnInit {
-    depots!: IDepot[];
+    $depots!: Observable<IDepot[]>;
+    $depotEntries!: Observable<IDepotEntry[]>;
+    depotEntryNr!: number;
 
-    constructor(private depotService: DepotService) {
+    partnerCode = this.loginService.libraryNumber;
+
+    constructor(private depotService: DepotService,
+                private loginService: LoginService) {
     }
 
     ngOnInit(): void {
-        let _depots: IDepot[] = depots;
-        this.depotService.getDepots('1640185471443').pipe(
-            tap(depots => this.depots = depots),
-        ).subscribe(
-            (depots) => {
-                console.log(depots);
-
-            },
-            () => {
-                console.error('Error fetching data, using hardcoded data instead.');
-                this.depots = _depots;
-            }
+        this.$depots = this.depotService.getDepots(this.partnerCode).pipe(
+            map(depots => depots.depotSetSummaries),
+            catchError(this.depotService.handleError)
         );
 
     }
 
+    getDepotInfo(depotId: number) {
+        this.depotEntryNr = depotId;
+        this.$depotEntries = this.depotService.getDepotInfo(this.partnerCode, depotId.toString()).pipe(
+            map(depotInfo => depotInfo.entries),
+        );
+
+        this.$depotEntries.subscribe();
+        return false; // Return false to anchor tag to prevent default (href)
+    }
+
+    printDepot() {
+        window.print();
+    }
 }
