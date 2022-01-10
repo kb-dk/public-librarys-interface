@@ -1,8 +1,6 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute} from '@angular/router';
-import {Subscription} from "rxjs";
-
-import {LoginService} from "../login/login.service";
+import {IHome} from "./home.interface";
 
 @Component({
     selector: 'home',
@@ -10,9 +8,9 @@ import {LoginService} from "../login/login.service";
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+    home!: IHome;
 
-    constructor(private route: ActivatedRoute,
-                private loginService: LoginService) {
+    constructor(private route: ActivatedRoute){
     }
 
     activateTab(e: any) {
@@ -36,6 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.home = this.route.snapshot.data['home'];
     }
 
     ngOnDestroy(): void {
