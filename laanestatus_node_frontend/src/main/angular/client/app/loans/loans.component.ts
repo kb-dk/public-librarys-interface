@@ -1,21 +1,18 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnInit, Input} from "@angular/core";
 import {ActivatedRoute} from '@angular/router';
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 
 import {ILoan} from "./loan.interface";
 import {LoginService} from "../login/login.service";
-import {LoanService} from "./loans.service";
-
-import {tap} from "rxjs/operators";
 
 @Component({
     selector: 'loans',
     templateUrl: './loans.component.html',
     styleUrls: ['./loans.component.scss']
 })
-export class LoansComponent implements OnInit, OnDestroy {
+export class LoansComponent implements OnInit {
 
-    $loans!: Observable<ILoan[]>;
+    @Input() loans!:ILoan[];
 
     statuses: string[] = ['Being Processed', 'Created lending request', 'Overdue request', 'Recalled item', 'Received by partner', 'Renew requested', 'Shipped Physically', 'Will Supply', 'Shipped Digitally'];
     statusesTranslation: string[] = ['Bestilling modtaget eller reserveret', 'Bestilling oprettet', 'Hjemkaldt', 'Materialet er hjemkaldt', 'Udlånt til biblioteket', 'Forespørgsel om fornyelse', 'Udlånt til biblioteket', 'Materialet er reserveret', 'Materialet er leveret elektronisk'];
@@ -23,7 +20,6 @@ export class LoansComponent implements OnInit, OnDestroy {
     filteredLoans: ILoan[] = [];
     searchedLoans: ILoan[] = [];
     filteredAndSearchedLoans: ILoan[] = [];
-    loans: ILoan[] = [];
     subscription!: Subscription;
 
     get distinctStatusesTranslation(): string[] {
@@ -54,8 +50,7 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute,
-                private loginService: LoginService,
-                private loanService: LoanService) {
+                private loginService: LoginService) {
     }
 
     performFilter(values: string[]): ILoan[] {
@@ -87,12 +82,7 @@ export class LoansComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.$loans = this.loanService.getLoans(this.partnerCode).pipe(
-            tap(loans => console.log('loans:',loans)),
-            tap(loans => this.onLoansRetrieved(loans)),
-        );
-
-        this.$loans.subscribe();
+        this.onLoansRetrieved(this.loans);
     }
 
     translateStatus(loans: ILoan[]) {
@@ -137,11 +127,5 @@ export class LoansComponent implements OnInit, OnDestroy {
 
     print() {
         window.print();
-    }
-
-    ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
     }
 }

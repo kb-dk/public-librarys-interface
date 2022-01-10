@@ -25,8 +25,7 @@
         </div>
         <div class="tab-pane" [ngClass]="{ 'active': !home.depots.depotSetSummaries.length && home.loans.length }"
              id="loansPanel" role="tabpanel" aria-labelledby="loans-tab">
-            <loans></loans>
-            <!-- [loans]="home.loans"-->
+            <loans [loans]="home.loans"></loans>
         </div>
     </div>
 </div>

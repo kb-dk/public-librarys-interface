@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from '@angular/router';
 import {IHome} from "./home.interface";
 
@@ -7,7 +7,7 @@ import {IHome} from "./home.interface";
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
     home!: IHome;
 
     constructor(private route: ActivatedRoute){
@@ -35,8 +35,5 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.home = this.route.snapshot.data['home'];
-    }
-
-    ngOnDestroy(): void {
     }
 }
