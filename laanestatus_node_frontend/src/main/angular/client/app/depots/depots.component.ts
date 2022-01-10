@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {IDepot, IDepotEntry} from "./depot.interface";
+import {Component, Input, OnInit} from '@angular/core';
+import {IDepot, IDepotEntry, IDepotsAndLibraryInfo} from "./depot.interface";
 import {DepotService} from "./depots.service";
 import {catchError, map} from "rxjs/operators";
 import {LoginService} from "../login/login.service";
@@ -12,7 +12,8 @@ import {environment} from '../../environments/environment';
     styleUrls: ['./depots.component.scss']
 })
 export class DepotsComponent implements OnInit {
-    $depots!: Observable<IDepot[]>;
+    @Input() depotsInfo!:IDepotsAndLibraryInfo;
+    depots!: IDepot[];
     $depotEntries!: Observable<IDepotEntry[]>;
     depotEntryNr!: number;
     partnerCode = this.loginService.libraryNumber;
@@ -24,11 +25,7 @@ export class DepotsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.$depots = this.depotService.getDepots(this.partnerCode).pipe(
-            map(depots => depots.depotSetSummaries),
-            catchError(this.depotService.handleError)
-        );
-
+        this.depots = this.depotsInfo.depotSetSummaries;
     }
 
     getDepotInfo(depotId: number) {

@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor='let depot of $depots | async'>
+        <tr *ngFor='let depot of depots'>
             <td>{{ depot.type }}</td>
             <td>{{ depot.language }}</td>
             <td><a data-bs-toggle="modal" data-bs-target="#depotInfo" href=""
