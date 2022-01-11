@@ -1,0 +1,25 @@
+.modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal-body {
+    height: 70vh;
+    overflow-y: auto;
+}
+
+@media print {
+
+    .modal-body {
+        height: auto;
+    }
+
+   #depotsList{
+        display: none;
+    }
+
+    h5{
+        color: #002E70;
+        font-size: 1.25rem;
+        text-align: center;
+    }
+}

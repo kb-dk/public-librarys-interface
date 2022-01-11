@@ -4,23 +4,32 @@ import {Observable, throwError} from "rxjs";
 import {catchError, tap} from 'rxjs/operators';
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoginService {
-    private CHECK_CREDS_URL= environment.CHECK_CREDS_URL;
-    libraryName: string = '';
-    libraryNumber: string = '';
+    private CHECK_CREDS_URL = environment.API_HOST_URL + environment.CHECK_CREDS_URL;
+
+    private _libraryName: string = '';
+    get libraryName() {
+        return this._libraryName ? this._libraryName : this.cookieService.get('libraryName');
+    }
+
+    private _libraryNumber: string = '';
+    get libraryNumber() {
+        return this._libraryNumber ? this._libraryNumber : this.cookieService.get('libraryNumber');
+    }
+
     isLoggedOut: boolean | null = null;
 
     get isLoggedIn(): boolean {
-        if (!this.libraryName && this.cookieService.check('libraryName') && !this.isLoggedOut) {
-            this.libraryName = this.cookieService.get('libraryName');
-            this.libraryNumber = this.cookieService.get('libraryNumber');
+        if (!this._libraryName && this.cookieService.check('libraryName') && !this.isLoggedOut) {
+            this._libraryName = this.cookieService.get('libraryName');
+            this._libraryNumber = this.cookieService.get('libraryNumber');
         }
-        return !!this.libraryName;
+        return !!this._libraryName;
     }
 
     constructor(private http: HttpClient,
@@ -41,8 +50,8 @@ export class LoginService {
                 responseType: 'text',
                 withCredentials: true
             }).pipe(
-            tap(() => this.libraryNumber = libraryNumber),
-            tap(data => this.libraryName = data),
+            tap(() => this._libraryNumber = libraryNumber),
+            tap(data => this._libraryName = data),
             tap(() => this.cookieService.set('libraryNumber', libraryNumber, {expires: 0.1})),
             tap(data => this.cookieService.set('libraryName', data, {expires: 0.1})),
             tap(() => this.isLoggedOut = false),
@@ -54,8 +63,8 @@ export class LoginService {
         this.isLoggedOut = true;
         this.cookieService.delete('libraryName');
         this.cookieService.delete('libraryNumber');
-        this.libraryName = '';
-        this.libraryNumber = '';
+        this._libraryName = '';
+        this._libraryNumber = '';
         this.router.navigate(['/login']);
     }
 

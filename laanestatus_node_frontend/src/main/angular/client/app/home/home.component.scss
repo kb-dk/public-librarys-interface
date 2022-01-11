@@ -1,0 +1,9 @@
+h2{
+    font-size: 1em;
+}
+
+@media print {
+    #KBTabs{
+        display: none;
+    }
+}

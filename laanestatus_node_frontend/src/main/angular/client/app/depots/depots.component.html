@@ -1,0 +1,75 @@
+<div class="toolbox">
+</div>
+<div id="depotsList" class='mt-5'>
+    <table class='table table-responsive'>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Sprog</th>
+            <th>Depotnummer</th>
+            <th>Udlånte / Total</th>
+            <th>Udlånsdato</th>
+            <th>Afleveringsdato</th>
+            <th>Status</th>
+            <th>Note</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let depot of depots'>
+            <td>{{ depot.type }}</td>
+            <td>{{ depot.language }}</td>
+            <td><a data-bs-toggle="modal" data-bs-target="#depotInfo" href=""
+                   (click)="getDepotInfo(depot.id)">{{ depot.id }}</a></td>
+            <td>{{ depot.currentCheckedOut }} / {{ depot.totalEntries }}</td>
+            <td>{{ depot.checkedOut }}</td>
+            <td>{{ depot.due }}</td>
+            <td>{{ depot.state }}</td>
+            <td>{{ depot.description }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="depotInfo" tabindex="-1" aria-labelledby="depotInfoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100 text-primary" id="depotInfoLabel">Depot {{depotEntryNr}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="printDepot">
+                <table class='table table-responsive'>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Titel</th>
+                        <th>Forfatter</th>
+                        <th>Sprog</th>
+                        <th>Stregkode</th>
+                        <th>Faustnummer</th>
+                        <th>DK5</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor='let entry of $depotEntries | async; index as i'>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ entry.title }}</td>
+                        <td>{{ entry.author }}</td>
+                        <td>{{ entry.language }}</td>
+                        <td>{{ entry.barcode }}</td>
+                        <td>{{ entry.faustNo }}</td>
+                        <td>{{ entry.dk5 }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" href='{{depotPdfUrl}}/{{depotEntryNr}}/RETRY' target="_blank">Original</a>
+                <a class="btn btn-primary" href='{{depotPdfUrl}}/{{depotEntryNr}}/REMAINING' target="_blank">Tilbageværende</a>
+                <button type="button" class="btn btn-primary" (click)="printDepot()">print</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

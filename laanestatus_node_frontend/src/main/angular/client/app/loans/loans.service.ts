@@ -9,18 +9,18 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class LoanService {
-  private GET_LOANS_URL= environment.GET_LOANS_URL;
+  private GET_LOANS_URL= environment.API_HOST_URL + environment.GET_LOANS_URL;
   constructor(private http: HttpClient) {
   }
 
   getLoans(partnerCode: string): Observable<ILoan[]> {
     let loanUrl = this.GET_LOANS_URL + partnerCode;
     return this.http.get<ILoan[]>(loanUrl,{withCredentials: true}).pipe(
-      catchError(LoanService.handleError)
+        catchError(this.handleError)
     );
   }
 
-  static handleError(err: HttpErrorResponse): Observable<never> {
+  handleError(err: HttpErrorResponse): Observable<never> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
     let errorMessage = '';
