@@ -64,8 +64,6 @@ export class LoginComponent implements OnInit {
     }
 
     checkValidity(partnerCode: string, password: string) {
-        this.loginService.libraryNumber = partnerCode;
-
         this.loginService.validate(partnerCode, password).subscribe({
             next: libraryName => {
                 this.libraryName = libraryName;
