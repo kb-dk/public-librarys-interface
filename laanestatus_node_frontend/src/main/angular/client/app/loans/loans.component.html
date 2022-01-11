@@ -1,66 +1,68 @@
 <div class="toolbox mt-5">
-  <div class='row'>
-    <div class="col-md-9 text-md-end">
-      <label for="status">Filtering efter bestillingens status:</label>
+    <div class='row'>
+        <div class="col-md-9 text-md-end">
+            <label for="status">Filtering efter bestillingens status:</label>
+        </div>
+        <div class="col-md-3">
+            <select name="status" [(ngModel)]="status" id="status">
+                <option value="All" selected="selected">Alle aktive bestillinger</option>
+                <option *ngFor="let option of distinctStatusesTranslation" [value]=option>{{ option }}</option>
+            </select>
+        </div>
     </div>
-    <div class="col-md-3">
-      <select name="status" [(ngModel)]="status" id="status">
-        <option value="All" selected="selected">Alle aktive bestillinger</option>
-        <option *ngFor="let option of distinctStatusesTranslation" [value]=option>{{ option }}</option>
-      </select>
-    </div>
-  </div>
 
-  <div class="row mt-3">
-    <div class='col-md-9 text-md-end'><label for="searchTerm">Søg:</label></div>
-    <div class='col-md-3'>
-      <input id="searchTerm" class="searchTerm" type='text'
-             [(ngModel)]='searchTerm'/>
+    <div class="row mt-3">
+        <div class='col-md-9 text-md-end'><label for="searchTerm">Søg:</label></div>
+        <div class='col-md-3'>
+            <input id="searchTerm" class="searchTerm" type='text'
+                   [(ngModel)]='searchTerm'/>
+        </div>
     </div>
-  </div>
 
-  <div class='row'>
-      <div class="col-6 results">{{ filteredAndSearchedLoans.length }} Resultater</div>
-    <div class="col-6 d-grid gap-2 d-md-flex justify-content-md-end">
-      <button type="button" class="print btn btn-primary mt-3" (click)="print()">Print</button>
+    <div class='row mt-3'>
+        <div class="col-6 pt-2 results">{{ filteredAndSearchedLoans.length }} Resultater</div>
+        <div class="col-6 d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="print btn btn-primary" (click)="print()">Print</button>
+        </div>
     </div>
-  </div>
 </div>
+
 <div id="LibraryLending" class='mt-5'>
-  <table class='table table-responsive'>
-    <thead>
-    <tr>
-      <th>Bestillings-<br/>nummer</th>
-      <th>Bestillingens<br/>status</th>
-      <th id="LendingCreationDate" class="sortable desc" (click)="sortArrays('LendingCreationDate', true)">
-        Bestillings-<br/>dato
-      </th>
-      <th id="ItemSentDate" class="sortable" (click)="sortArrays('ItemSentDate', true)">Udlåns-<br/>dato</th>
-      <th id="DueDate" class="sortable" (click)="sortArrays('DueDate', true)">Afleverings-<br/>dato</th>
-      <th id="OverdueSentDate" class="sortable" (click)="sortArrays('OverdueSentDate', true)">Hjemkaldelses-<br/>dato</th>
-      <th>Titel på<br/>materialet</th>
-      <th>Stregkode på<br/>materialet</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor='let loan of filteredAndSearchedLoans'>
-      <td>{{ loan.ExternalRequestId | removeFirstPart }}</td>
-      <td>{{ loan.LendingRequestStatus }}</td>
-      <td>{{ loan.LendingCreationDate | date:'dd/MM/yyyy' }}</td>
-      <td>{{ loan.ItemSentDate | date:'dd/MM/yyyy' }}</td>
-      <td>{{ loan.DueDate | date:'dd/MM/yyyy'}}</td>
-      <td>{{ loan.OverdueSentDate | date:'dd/MM/yyyy' }}</td>
-      <td>
-        <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
-           href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
-          {{ loan.Title }}
-        </a>
-        <ng-template #elseBlock>
-          {{ loan.Title }}
-        </ng-template>
-      </td>
-      <td>{{ loan.ItemBarcode }}</td>
-    </tr>
-    </tbody>
-  </table>
+    <table class='table table-responsive'>
+        <thead>
+        <tr>
+            <th>Bestillings-<br/>nummer</th>
+            <th>Bestillingens<br/>status</th>
+            <th id="LendingCreationDate" class="sortable desc" (click)="sortArrays('LendingCreationDate', true)">
+                Bestillings-<br/>dato
+            </th>
+            <th id="ItemSentDate" class="sortable" (click)="sortArrays('ItemSentDate', true)">Udlåns-<br/>dato</th>
+            <th id="DueDate" class="sortable" (click)="sortArrays('DueDate', true)">Afleverings-<br/>dato</th>
+            <th id="OverdueSentDate" class="sortable" (click)="sortArrays('OverdueSentDate', true)">Hjemkaldelses-<br/>dato
+            </th>
+            <th>Titel på<br/>materialet</th>
+            <th>Stregkode på<br/>materialet</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let loan of filteredAndSearchedLoans'>
+            <td>{{ loan.ExternalRequestId | removeFirstPart }}</td>
+            <td>{{ loan.LendingRequestStatus }}</td>
+            <td>{{ loan.LendingCreationDate | date:'dd/MM/yyyy' }}</td>
+            <td>{{ loan.ItemSentDate | date:'dd/MM/yyyy' }}</td>
+            <td>{{ loan.DueDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{ loan.OverdueSentDate | date:'dd/MM/yyyy' }}</td>
+            <td>
+                <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
+                   href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
+                    {{ loan.Title }}
+                </a>
+                <ng-template #elseBlock>
+                    {{ loan.Title }}
+                </ng-template>
+            </td>
+            <td>{{ loan.ItemBarcode }}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
