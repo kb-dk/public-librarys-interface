@@ -26,8 +26,8 @@
             <td><a data-bs-toggle="modal" data-bs-target="#depotInfo" href=""
                    (click)="getDepotInfo(depot.id)">{{ depot.id }}</a></td>
             <td>{{ depot.currentCheckedOut }} / {{ depot.totalEntries }}</td>
-            <td>{{ depot.checkedOut }}</td>
-            <td>{{ depot.due }}</td>
+            <td>{{ depot.checkedOut | date:'dd/MM/yyyy'}}</td>
+            <td>{{ depot.due | date:'dd/MM/yyyy' }}</td>
             <td>{{ depot.state }}</td>
             <td>{{ depot.description }}</td>
         </tr>
