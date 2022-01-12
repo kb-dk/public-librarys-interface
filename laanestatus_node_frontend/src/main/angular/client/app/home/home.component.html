@@ -5,14 +5,14 @@
             <a class="nav-link active" id="depots-tab" data-toggle="tab" href="#depotsPanel" role="tab"
                aria-controls="depots"
                aria-selected="false" (click)=activateTab($event)>
-                Depots
+                Depotudlån
             </a>
         </li>
         <li *ngIf="home.loans.length" class="nav-item">
             <a [ngClass]="{ 'active': !home.depots.depotSetSummaries.length }" class="nav-link" id="laanstatus-tab"
                data-toggle="tab" href="#loansPanel" role="tab"
                aria-controls="lånestatus" aria-selected="true" (click)=activateTab($event)>
-                Lånes
+                Fjernlån fra KB
             </a>
         </li>
     </ul>
