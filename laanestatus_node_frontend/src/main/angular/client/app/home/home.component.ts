@@ -35,8 +35,6 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
         this.home = this.route.snapshot.data['home'];
-        this.home.loans = [];
-        this.home.depots.depotSetSummaries = [];
 
     }
 }
