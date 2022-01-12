@@ -10,7 +10,7 @@ import {IHome} from "./home.interface";
 export class HomeComponent implements OnInit {
     home!: IHome;
 
-    constructor(private route: ActivatedRoute){
+    constructor(private route: ActivatedRoute) {
     }
 
     activateTab(e: any) {
@@ -35,6 +35,5 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
         this.home = this.route.snapshot.data['home'];
-
     }
 }
