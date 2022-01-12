@@ -1,4 +1,4 @@
-<div class="container py-3">
+<div class="container py-3 home" *ngIf = "home.loans.length || home.depots.depotSetSummaries.length">
     <!-- Tabs -->
     <ul class="nav nav-tabs" id="KBTabs" role="tablist">
         <li *ngIf="home.loans.length" class="nav-item">
@@ -30,3 +30,9 @@
         </div>
     </div>
 </div>
+
+<!-- Nothing to show -->
+<div class="container py-3 home" *ngIf = "!home.loans.length && !home.depots.depotSetSummaries.length">
+    Der er ikke nogen lån til at vise.
+</div>
+
