@@ -31,6 +31,7 @@
     <table class='table table-responsive'>
         <thead>
         <tr>
+            <th></th>
             <th>Bestillings-<br/>nummer</th>
             <th>Bestillingens<br/>status</th>
             <th id="LendingCreationDate" class="sortable desc" (click)="sortArrays('LendingCreationDate', true)">
@@ -45,7 +46,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor='let loan of filteredAndSearchedLoans'>
+        <tr *ngFor='let loan of filteredAndSearchedLoans; index as i'>
+            <td>{{ i + 1 }}</td>
             <td>{{ loan.ExternalRequestId | removeFirstPart }}</td>
             <td>{{ loan.LendingRequestStatus }}</td>
             <td>{{ loan.LendingCreationDate | date:'dd/MM/yyyy' }}</td>
