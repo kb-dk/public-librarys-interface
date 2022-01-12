@@ -1,31 +1,32 @@
 <div class="container py-3">
     <!-- Tabs -->
     <ul class="nav nav-tabs" id="KBTabs" role="tablist">
-        <li *ngIf="home.depots.depotSetSummaries.length" class="nav-item">
-            <a class="nav-link active" id="depots-tab" data-toggle="tab" href="#depotsPanel" role="tab"
-               aria-controls="depots"
-               aria-selected="false" (click)=activateTab($event)>
-                Depotudlån
-            </a>
-        </li>
         <li *ngIf="home.loans.length" class="nav-item">
-            <a [ngClass]="{ 'active': !home.depots.depotSetSummaries.length }" class="nav-link" id="laanstatus-tab"
+            <a class="nav-link active" id="laanstatus-tab"
                data-toggle="tab" href="#loansPanel" role="tab"
                aria-controls="lånestatus" aria-selected="true" (click)=activateTab($event)>
                 Fjernlån fra KB
+            </a>
+        </li>
+        <li *ngIf="home.depots.depotSetSummaries.length" class="nav-item">
+            <a class="nav-link" id="depots-tab" data-toggle="tab" href="#depotsPanel" role="tab"
+               [ngClass]="{ 'active': !home.loans.length }"
+               aria-controls="depots"
+               aria-selected="false" (click)=activateTab($event)>
+                Depotudlån
             </a>
         </li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane" [ngClass]="{ 'active': home.depots.depotSetSummaries.length }" id="depotsPanel"
-             role="tabpanel" aria-labelledby="depots-tab">
-            <depots [depotsInfo] = "home.depots"></depots>
-        </div>
-        <div class="tab-pane" [ngClass]="{ 'active': !home.depots.depotSetSummaries.length && home.loans.length }"
+        <div class="tab-pane" [ngClass]="{ 'active': home.loans.length }"
              id="loansPanel" role="tabpanel" aria-labelledby="loans-tab">
             <loans [loans]="home.loans"></loans>
+        </div>
+        <div class="tab-pane" [ngClass]="{ 'active': home.depots.depotSetSummaries.length && !home.loans.length }" id="depotsPanel"
+             role="tabpanel" aria-labelledby="depots-tab">
+            <depots [depotsInfo] = "home.depots"></depots>
         </div>
     </div>
 </div>
