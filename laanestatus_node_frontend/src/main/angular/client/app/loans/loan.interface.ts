@@ -21,8 +21,3 @@ export interface ILoan {
   Overdue: boolean | null,
   ItemPolicy: string | null
 }
-
-export interface LoansResolved {
-  loans: ILoan[] | null;
-  error?: any;
-}
