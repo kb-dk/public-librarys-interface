@@ -1,5 +1,5 @@
 export interface IDepot {
-    id?: number,
+    id: number,
     library_number?: string,
     type?: string | null,
     language?: string | null,

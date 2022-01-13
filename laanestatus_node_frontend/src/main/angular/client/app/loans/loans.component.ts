@@ -4,6 +4,7 @@ import {Subscription} from "rxjs";
 
 import {ILoan} from "./loan.interface";
 import {LoginService} from "../login/login.service";
+import {SortService} from "../shared/sort/sort.service";
 
 @Component({
     selector: 'loans',
@@ -12,7 +13,7 @@ import {LoginService} from "../login/login.service";
 })
 export class LoansComponent implements OnInit {
 
-    @Input() loans!:ILoan[];
+    @Input() loans!: ILoan[];
 
     statuses: string[] = ['Being Processed', 'Created lending request', 'Overdue request', 'Recalled item', 'Received by partner', 'Renew requested', 'Shipped Physically', 'Will Supply', 'Shipped Digitally'];
     statusesTranslation: string[] = ['Bestilling modtaget eller reserveret', 'Bestilling oprettet', 'Hjemkaldt', 'Materialet er hjemkaldt', 'Udlånt til biblioteket', 'Forespørgsel om fornyelse', 'Udlånt til biblioteket', 'Materialet er reserveret', 'Materialet er leveret elektronisk'];
@@ -50,11 +51,12 @@ export class LoansComponent implements OnInit {
     }
 
     constructor(private route: ActivatedRoute,
-                private loginService: LoginService) {
+                private loginService: LoginService,
+                private sortService: SortService) {
     }
 
     performFilter(values: string[]): ILoan[] {
-        return values.includes('All') ? this.loans : this.loans.filter((loan: ILoan) => loan['LendingRequestStatus'] === null ? false : values.includes(loan['LendingRequestStatus']));
+        return values.includes('All') ? this.loans : this.loans.filter((loan: ILoan) => loan['LendingRequestStatus'] === null || loan['LendingRequestStatus'] === undefined ? false : values.includes(loan['LendingRequestStatus']));
     }
 
     performSearch(searchTerm: string): ILoan[] {
@@ -69,7 +71,7 @@ export class LoansComponent implements OnInit {
         if (loans === null) {
             this.loans = [];
         } else {
-            this.loans = this.sort(loans, 'LendingCreationDate', true, 'desc');
+            this.loans = this.sortService.sort(loans, 'LendingCreationDate', true, 'desc');
         }
         this.filteredLoans = this.loans;
         this.searchedLoans = this.loans;
@@ -93,36 +95,8 @@ export class LoansComponent implements OnInit {
         }
     }
 
-    sortArrays(field: keyof ILoan, isDate: boolean) {
-        let sortingOrder: string = LoansComponent.getCurrentSortingOrder(field) === 'desc' ? 'asc' : 'desc';
-        LoansComponent.addAndRemoveSortClasses(field, sortingOrder);
-
-        [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans] =
-            [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans]
-                .map(array => this.sort(array.slice(0), field, isDate, sortingOrder));
-    }
-
-    static getCurrentSortingOrder(field: keyof ILoan): string {
-        return document.getElementById(field)!.classList.contains('desc') ? 'desc' : 'asc';
-    }
-
-    static addAndRemoveSortClasses(field: keyof ILoan, className: string): void {
-        document.querySelectorAll('.sortable').forEach((el) => el.classList.remove('desc', 'asc'));
-        document.getElementById(field)!.classList.add(className);
-    }
-
-    sort(array: any[], field: keyof ILoan, isDate: boolean, sortingOrder: string) {
-        if (sortingOrder === 'desc') {
-            array.sort(function (a, b) {
-                return +new Date(b[field]) - +new Date(a[field]);
-            });
-        } else {
-            array.sort(function (a, b) {
-                return +new Date(a[field]) - +new Date(b[field]);
-            });
-        }
-
-        return array;
+    sortArrays(field: string, isDate: boolean) {
+        [this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans] = this.sortService.sortArrays([this.filteredAndSearchedLoans, this.loans, this.filteredLoans, this.searchedLoans], field, isDate);
     }
 
     print() {

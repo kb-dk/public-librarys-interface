@@ -27,13 +27,14 @@ export class DepotsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.depots = this.depotsInfo.depotSetSummaries;
+        this.depots = this.depotsInfo.depotSetSummaries ? this.depotsInfo.depotSetSummaries : [];
     }
 
     getDepotInfo(depotId: number) {
         this.depotEntryNr = depotId;
         this.$depotEntries = this.depotService.getDepotInfo(this.partnerCode, depotId.toString()).pipe(
             map(depotInfo => depotInfo.entries),
+            map(depotInfo => depotInfo ? depotInfo : []) // Return an empty array in case entries is undefined
         );
 
         this.$depotEntries.subscribe();
