@@ -8,14 +8,14 @@
         <thead>
         <tr>
             <th></th>
-            <th>Type</th>
-            <th>Sprog</th>
+            <th class="sortable" (click)="sortArrays('type', false)" id="type">Type<i></i></th>
+            <th class="sortable" (click)="sortArrays('language', false)" id="language">Sprog<i></i></th>
             <th>Depotnummer</th>
             <th>Udlånte / Total</th>
-            <th class="sortable">Udlånsdato<i></i></th>
-            <th class="sortable">Afleveringsdato<i></i></th>
-            <th>Status</th>
-            <th>Note</th>
+            <th class="sortable" (click)="sortArrays('checkedOut', true)" id="checkedOut">Udlånsdato<i></i></th>
+            <th class="sortable" (click)="sortArrays('due', true)" id="due">Afleveringsdato<i></i></th>
+            <th class="sortable" (click)="sortArrays('state', false)" id="state">Status<i></i></th>
+            <th class="sortable" (click)="sortArrays('description', false)" id="description">Note<i></i></th>
         </tr>
         </thead>
         <tbody>
@@ -78,3 +78,4 @@
         </div>
     </div>
 </div>
+
