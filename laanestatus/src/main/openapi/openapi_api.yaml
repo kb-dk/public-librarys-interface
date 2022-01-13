@@ -172,6 +172,8 @@ paths:
               schema:
                 type: string
                 format: binary
+
+
   /partnerLoans/{partnerID}:
     get:
       tags:
