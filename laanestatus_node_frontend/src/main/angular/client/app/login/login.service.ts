@@ -69,16 +69,7 @@ export class LoginService {
     }
 
     static handleError(err: HttpErrorResponse): Observable<never> {
-        let errorMessage = '';
-        if (err.error instanceof ErrorEvent) {
-            // A client-side or network error occurred.
-            errorMessage = `An error occurred: ${err.error.message}`;
-        } else {
-            // The backend returned an unsuccessful response code.
-            errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-        }
-        console.error(errorMessage);
-        return throwError(errorMessage);
+        return throwError(err);
     }
 
 }

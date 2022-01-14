@@ -33,10 +33,10 @@
                        class="form-control"
                        formControlName="partnerCode"
                        spellcheck="false"
-                       [ngClass]="{'is-invalid': errorMessage.partnerCode }"
+                       [ngClass]="{'is-invalid': validationError.partnerCode }"
                 />
                 <span class="invalid-feedback">
-                  {{errorMessage.partnerCode}}
+                  {{validationError.partnerCode}}
                 </span>
               </div>
 
@@ -49,15 +49,15 @@
                        class="form-control"
                        formControlName="password"
                        spellcheck="false"
-                       [ngClass]="{'is-invalid': errorMessage.password }"
+                       [ngClass]="{'is-invalid': validationError.password }"
                 />
                 <span class="invalid-feedback">
-                  {{errorMessage.password}}
+                  {{validationError.password}}
                 </span>
               </div>
 
               <div *ngIf="loginError" class="alert alert-danger" role="alert">
-                {{errorMessage.doesntExist}}
+                {{serverError}}
               </div>
 
               <button type="submit"

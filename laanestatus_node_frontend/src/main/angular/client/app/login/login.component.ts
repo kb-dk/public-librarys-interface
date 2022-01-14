@@ -5,21 +5,25 @@ import {debounceTime} from "rxjs/operators";
 
 import {LoginService} from "./login.service";
 
-interface ErrorMessages {
-    partnerCode: string,
-    password: string,
-    doesntExist: string
-}
-
-interface ErrorCodes {
+interface ValidationErrorCodes {
     required: string,
     range: string
 }
 
-interface ValidationMessages {
-    partnerCode: ErrorCodes,
-    password: ErrorCodes,
-    doesntExist: string
+interface ValidationErrors {
+    partnerCode: ValidationErrorCodes,
+    password: ValidationErrorCodes,
+}
+
+interface ValidationErrorMessages {
+    partnerCode: string,
+    password: string,
+}
+
+interface ServerErrors {
+    partnerDosntExit: string,
+    passwordDosntMatch: string,
+    internalServerError: string
 }
 
 function inputRange(min: number, max: number): ValidatorFn {
@@ -39,14 +43,14 @@ function inputRange(min: number, max: number): ValidatorFn {
 export class LoginComponent implements OnInit {
 
 
-    errorMessage: ErrorMessages = {partnerCode: '', password: '', doesntExist: ''};
-
     loginForm!: FormGroup;
     spin: boolean = false;
     libraryName: string = '';
     loginError: boolean = false;
 
-    validationMessages: ValidationMessages = {
+    emptyValidationError: ValidationErrorMessages = {partnerCode: '', password: ''};
+    validationError: ValidationErrorMessages = this.emptyValidationError;
+    validationErrors: ValidationErrors = {
         partnerCode: {
             required: 'Indtast venligst dit biblioteksnummer',
             range: 'Biblioteksnummer skal være 6 cifre'
@@ -54,9 +58,16 @@ export class LoginComponent implements OnInit {
         password: {
             required: 'Indtast venligst dit adgangskode',
             range: 'Adgangskode skal være 4 cifre'
-        },
-        doesntExist: 'Biblioteksnummer eller adgangskode er forkert'
+        }
     };
+
+    serverError: string = '';
+    serverErrors: ServerErrors = {
+        partnerDosntExit: 'Biblioteksnummer er forkert',
+        passwordDosntMatch: 'Adgangskode er forkert',
+        internalServerError: 'Der er problem med serveren. Kontatk venligst biblioteket.'
+    };
+
 
     constructor(private loginService: LoginService,
                 private router: Router,
@@ -71,9 +82,22 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['home']);
             },
             error: err => {
-                this.errorMessage.doesntExist = this.validationMessages.doesntExist;
+                switch (err.status) {
+                    case 404: {
+                        this.serverError = this.serverErrors.partnerDosntExit;
+                        break;
+                    }
+                    case 400:
+                    case 401: {
+                        this.serverError = this.serverErrors.passwordDosntMatch;
+                        break;
+                    }
+                    default: {
+                        this.serverError = this.serverErrors.internalServerError;
+                        break;
+                    }
+                }
                 this.loginError = true;
-                console.error(err);
             }
         });
     }
@@ -81,14 +105,7 @@ export class LoginComponent implements OnInit {
     submit() {
         let partnerCode = this.loginForm.controls.partnerCode.value;
         let password = this.loginForm.controls.password.value;
-
-        if (parseInt(partnerCode) >= 100000 && parseInt(partnerCode) <= 999999 && parseInt(password) >= 1000 && parseInt(password) <= 9999) {
-            this.checkValidity(partnerCode, password);
-        } else {
-            this.errorMessage.doesntExist = this.validationMessages.doesntExist;
-            console.error('Error:', this.errorMessage.doesntExist);
-            this.loginError = true;
-        }
+        this.checkValidity(partnerCode, password);
     }
 
     ngOnInit(): void {
@@ -120,13 +137,13 @@ export class LoginComponent implements OnInit {
         this.loginService.logout();
     }
 
-    setMessage(controlName: keyof ErrorMessages, c: AbstractControl): void {
-        this.errorMessage[controlName] = '';
+    setMessage(controlName: keyof ValidationErrors, c: AbstractControl): void {
+        this.validationError = this.emptyValidationError;
         if ((c.touched || c.dirty) && c.errors) {
-            this.errorMessage[controlName] = Object.keys(c.errors).map(
+            this.validationError[controlName] = Object.keys(c.errors).map(
                 key => {
                     // @ts-ignore
-                    return this.validationMessages[controlName][key]
+                    return this.validationErrors[controlName][key]
                 }).join(' ');
         }
     }
