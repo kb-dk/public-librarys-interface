@@ -1,4 +1,4 @@
-<div class="container py-3 home" *ngIf = "home.loans.length || home.depots.depotSetSummaries.length">
+<div class="container py-3 home" *ngIf = "home.loans.length || home.depots.depotSetSummaries?.length">
     <!-- Tabs -->
     <ul class="nav nav-tabs" id="KBTabs" role="tablist">
         <li *ngIf="home.loans.length" class="nav-item">
@@ -8,7 +8,7 @@
                 Fjernlån fra KB
             </a>
         </li>
-        <li *ngIf="home.depots.depotSetSummaries.length" class="nav-item">
+        <li *ngIf="home.depots.depotSetSummaries?.length" class="nav-item">
             <a class="nav-link" id="depots-tab" data-toggle="tab" href="#depotsPanel" role="tab"
                [ngClass]="{ 'active': !home.loans.length }"
                aria-controls="depots"
@@ -24,7 +24,7 @@
              id="loansPanel" role="tabpanel" aria-labelledby="loans-tab">
             <loans [loans]="home.loans"></loans>
         </div>
-        <div class="tab-pane" [ngClass]="{ 'active': home.depots.depotSetSummaries.length && !home.loans.length }" id="depotsPanel"
+        <div class="tab-pane" [ngClass]="{ 'active': home.depots.depotSetSummaries?.length && !home.loans.length }" id="depotsPanel"
              role="tabpanel" aria-labelledby="depots-tab">
             <depots [depotsInfo] = "home.depots"></depots>
         </div>
@@ -32,7 +32,7 @@
 </div>
 
 <!-- Nothing to show -->
-<div class="container py-3 home" *ngIf = "!home.loans.length && !home.depots.depotSetSummaries.length">
+<div class="container py-3 home" *ngIf = "!home.loans.length && !home.depots.depotSetSummaries?.length">
     Der er ikke nogen lån til at vise.
 </div>
 
