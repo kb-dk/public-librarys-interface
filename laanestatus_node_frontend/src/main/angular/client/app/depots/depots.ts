@@ -1,6 +1,6 @@
 import {IDepot} from "./depot.interface";
 
-export let depots : IDepot[] = [{
+export let sampleDepots : IDepot[] = [{
     "id": 22954,
     "library_number": "731600",
     "type": "Special",
