@@ -4,27 +4,7 @@ import {FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn} from "
 import {debounceTime} from "rxjs/operators";
 
 import {LoginService} from "./login.service";
-
-interface ValidationErrorCodes {
-    required: string,
-    range: string
-}
-
-interface ValidationErrors {
-    partnerCode: ValidationErrorCodes,
-    password: ValidationErrorCodes,
-}
-
-interface ValidationErrorMessages {
-    partnerCode: string,
-    password: string,
-}
-
-interface ServerErrors {
-    partnerDosntExit: string,
-    passwordDosntMatch: string,
-    internalServerError: string
-}
+import * as Error from "./error.interface"
 
 function inputRange(min: number, max: number): ValidatorFn {
     return (c: AbstractControl): { [key: string]: boolean } | null => {
@@ -48,9 +28,9 @@ export class LoginComponent implements OnInit {
     libraryName: string = '';
     loginError: boolean = false;
 
-    emptyValidationError: ValidationErrorMessages = {partnerCode: '', password: ''};
-    validationError: ValidationErrorMessages = this.emptyValidationError;
-    validationErrors: ValidationErrors = {
+    emptyValidationError: Error.IValidationErrorMessages = {partnerCode: '', password: ''};
+    validationError: Error.IValidationErrorMessages = this.emptyValidationError;
+    validationErrors: Error.IValidationErrors = {
         partnerCode: {
             required: 'Indtast venligst dit biblioteksnummer',
             range: 'Biblioteksnummer skal være 6 cifre'
@@ -62,7 +42,7 @@ export class LoginComponent implements OnInit {
     };
 
     serverError: string = '';
-    serverErrors: ServerErrors = {
+    serverErrors: Error.IServerErrors = {
         partnerDosntExit: 'Biblioteksnummer er forkert',
         passwordDosntMatch: 'Adgangskode er forkert',
         internalServerError: 'Der er problem med serveren. Kontatk venligst biblioteket.'
@@ -137,7 +117,7 @@ export class LoginComponent implements OnInit {
         this.loginService.logout();
     }
 
-    setMessage(controlName: keyof ValidationErrors, c: AbstractControl): void {
+    setMessage(controlName: keyof Error.IValidationErrors, c: AbstractControl): void {
         this.validationError = this.emptyValidationError;
         if ((c.touched || c.dirty) && c.errors) {
             this.validationError[controlName] = Object.keys(c.errors).map(
