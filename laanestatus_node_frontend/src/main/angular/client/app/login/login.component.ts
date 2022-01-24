@@ -19,8 +19,7 @@ export class LoginComponent implements OnInit {
     libraryName: string = '';
     loginError: boolean = false;
 
-    emptyValidationError: Error.IValidationErrorMessages = {partnerCode: '', password: ''};
-    validationError: Error.IValidationErrorMessages = this.emptyValidationError;
+    validationError: Error.IValidationErrorMessages = {partnerCode: '', password: ''};
     validationErrors: Error.IValidationErrors = {
         partnerCode: {
             required: 'Indtast venligst dit biblioteksnummer',
@@ -107,7 +106,7 @@ export class LoginComponent implements OnInit {
     }
 
     setMessage(controlName: keyof Error.IValidationErrors, c: AbstractControl): void {
-        this.validationError = this.emptyValidationError;
+        this.validationError = {partnerCode: '', password: ''};
         if ((c.touched || c.dirty) && c.errors) {
             this.validationError[controlName] = Object.keys(c.errors).map(
                 key => {
