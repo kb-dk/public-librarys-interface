@@ -1,6 +1,5 @@
 export interface IValidationErrorCodes {
     required: string,
-    range: string
 }
 
 export interface IValidationErrors {
