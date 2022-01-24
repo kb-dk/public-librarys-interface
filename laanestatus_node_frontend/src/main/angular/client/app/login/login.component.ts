@@ -1,19 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, AbstractControl} from "@angular/forms";
 import {debounceTime} from "rxjs/operators";
 
 import {LoginService} from "./login.service";
 import * as Error from "./error.interface"
-
-function inputRange(min: number, max: number): ValidatorFn {
-    return (c: AbstractControl): { [key: string]: boolean } | null => {
-        if ((c.value !== null && c.value !== '') && (isNaN(c.value) || c.value < min || c.value > max)) {
-            return {range: true};
-        }
-        return null;
-    };
-}
 
 @Component({
     selector: 'login',
@@ -33,11 +24,9 @@ export class LoginComponent implements OnInit {
     validationErrors: Error.IValidationErrors = {
         partnerCode: {
             required: 'Indtast venligst dit biblioteksnummer',
-            range: 'Biblioteksnummer skal være 6 cifre'
         },
         password: {
             required: 'Indtast venligst dit adgangskode',
-            range: 'Adgangskode skal være 4 cifre'
         }
     };
 
@@ -91,8 +80,8 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
 
         this.loginForm = this.formBuilder.group({
-            partnerCode: ['', [Validators.required, inputRange(100000, 999999)]],
-            password: ['', [Validators.required, inputRange(1000, 9999)]]
+            partnerCode: ['', [Validators.required]],
+            password: ['', [Validators.required]]
         });
 
         const partnerCodeControl = this.loginForm.controls.partnerCode;
