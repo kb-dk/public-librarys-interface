@@ -55,8 +55,11 @@
             <td>{{ loan.DueDate | date:'dd/MM/yyyy'}}</td>
             <td>{{ loan.OverdueSentDate | date:'dd/MM/yyyy' }}</td>
             <td>
+                <!--href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>-->
+
                 <a *ngIf="loan.hasOwnProperty('MmsID') else elseBlock" target="_blank"
-                   href='{{"https://soeg.kb.dk/discovery/fulldisplay?docid=alma" + loan.MmsID + "&context=U&vid=45KBDK_KGL:KGL&lang=da"}}'>
+                    href='{{environment.PRIMO_URL_BEFORE + loan.MmsID + environment.PRIMO_URL_AFTER}}'>
+
                     {{ loan.Title }}
                 </a>
                 <ng-template #elseBlock>

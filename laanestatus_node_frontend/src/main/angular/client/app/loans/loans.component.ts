@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {ILoan} from "./loan.interface";
 import {LoginService} from "../login/login.service";
 import {SortService} from "../shared/sort/sort.service";
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'loans',
@@ -14,6 +15,7 @@ import {SortService} from "../shared/sort/sort.service";
 export class LoansComponent implements OnInit {
 
     @Input() loans!: ILoan[];
+    environment: any =  environment; // Expose environment variables to the template
 
     statuses: string[] = ['Being Processed', 'Created lending request', 'Overdue request', 'Recalled item', 'Received by partner', 'Renew requested', 'Shipped Physically', 'Will Supply', 'Shipped Digitally'];
     statusesTranslation: string[] = ['Bestilling modtaget eller reserveret', 'Bestilling oprettet', 'Hjemkaldt', 'Materialet er hjemkaldt', 'Udlånt til biblioteket', 'Forespørgsel om fornyelse', 'Udlånt til biblioteket', 'Materialet er reserveret', 'Materialet er leveret elektronisk'];
