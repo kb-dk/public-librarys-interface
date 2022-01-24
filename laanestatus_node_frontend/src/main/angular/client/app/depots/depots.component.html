@@ -14,8 +14,6 @@
             <th>Udlånte / Total</th>
             <th class="sortable" (click)="sortArrays('checkedOut', true)" id="checkedOut">Udlånsdato<i></i></th>
             <th class="sortable" (click)="sortArrays('due', true)" id="due">Afleveringsdato<i></i></th>
-            <th class="sortable" (click)="sortArrays('state', false)" id="state">Status<i></i></th>
-            <th class="sortable" (click)="sortArrays('description', false)" id="description">Note<i></i></th>
         </tr>
         </thead>
         <tbody>
@@ -28,8 +26,6 @@
             <td>{{ depot.currentCheckedOut }} / {{ depot.totalEntries }}</td>
             <td>{{ depot.checkedOut | date:'dd/MM/yyyy'}}</td>
             <td>{{ depot.due | date:'dd/MM/yyyy' }}</td>
-            <td>{{ depot.state }}</td>
-            <td>{{ depot.description }}</td>
         </tr>
         </tbody>
     </table>
