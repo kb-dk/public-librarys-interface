@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     serverErrors: Error.IServerErrors = {
         partnerDosntExit: 'Biblioteksnummer er forkert',
         passwordDosntMatch: 'Adgangskode er forkert',
-        internalServerError: 'Der er problem med serveren. Kontatk venligst biblioteket.'
+        internalServerError: 'Noget fejlede. Prøv igen senere eller kontakt servicedesk@kb.dk med detaljer om, hvad der gik galt'
     };
 
 
