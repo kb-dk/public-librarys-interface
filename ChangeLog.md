@@ -4,6 +4,42 @@ All notable changes to librarylending will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.6 - 2022-02-24
+
+
+### Majors
+
+Added Depots functionality, so this service can replace BCI Loans. Libraries can now log in one place to see both
+    their BCI Depots and normal fjernlaan
+
+This does NOT deprecate the BCIWS backend. In fact, this project now depends on BCIWS.
+
+The config file `laanestatus-behaviour.yaml` now looks like this
+```yaml
+bcidepots:
+address: http://devel12.statsbiblioteket.dk:9891/bciws/
+
+libraryloans:
+address: http://devel12.statsbiblioteket.dk:9011/librarylending/v1/
+```
+
+
+### Minors
+
+* Added a message for IE (which is not supported)
+* Added a config option for trancing resolution
+* Removed status and note columns
+* Removed validation rules for length of the username and password
+* Changed error messages
+* Added sorting to depots
+* Restyled the sorting icon
+* Formatted the dates in depots
+* Added message when no loans or depots to show
+* Set fjernlaan tab as default
+* Added column nr. to loans and depots
+* Styled loans
+
+
 ## 1.5 - 2021-12-16
 
 * Restored java middleware layer in interlibraryloans
