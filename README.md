@@ -12,7 +12,7 @@ run `./installLocally.sh`. This starts the system on localhost:4220/laanestatus
 
 New terminal
 
-go to `laanestatus_node_frontend`
+go to `laanestatus_node_frontend/conf/`
 
 change `environment.development.ts` to prefix `http://localhost:4220/laanestatus/` before urls
 
