@@ -1,10 +1,10 @@
-# public-librarys-interface
+mvn # public-librarys-interface
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
 
 # How to run locally
 
-run `mvn install` or if you don't have sbprojects-nexus profile run `mvn install -Psbprojects-nexus` to generate all the things
+run or if you don't have sbprojects-nexus profile run `mvn install -Psbprojects-nexus` to generate all the things
 
 go to `laanestatus/`
 
@@ -23,7 +23,7 @@ this will run a local angular instance at `http://localhost:4200/`
 
 
 ## Node version
-Node v14.17.6 is used
+Node v19.0.0 is used
 
 ## Development server
 

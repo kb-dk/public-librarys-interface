@@ -106,8 +106,8 @@
                         <groupId>com.github.eirslett</groupId>
                         <artifactId>frontend-maven-plugin</artifactId>
                         <configuration>
-                            <nodeVersion>v14.17.6</nodeVersion>
-                            <npmVersion>6.14.15</npmVersion>
+                            <nodeVersion>v18.13.0</nodeVersion>
+                            <npmVersion>8.19.3</npmVersion>
                             <installDirectory>${project.build.directory}</installDirectory>
                             <npmInheritsProxyConfigFromMaven>true</npmInheritsProxyConfigFromMaven>
                         </configuration>
